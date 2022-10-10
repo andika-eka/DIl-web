@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Helper\Tokenable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+     use HasApiTokens, HasFactory, Notifiable, Tokenable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'tipe_pengguna',
+        'status_pengguna',
     ];
 
     /**
@@ -41,4 +45,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function saveUser($request): self
+    {
+        $this->name = $request->name;
+        $this->email = $request->email;
+        $this->password = bcrypt($request->password);
+        $this->tipe_pengguna = $request->tipe_pengguna;
+        $this->status_pengguna = $request->status_pengguna;
+        $this->save();
+        return $this;
+    }
 }
