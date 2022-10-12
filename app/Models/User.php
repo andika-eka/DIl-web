@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Siswa;
+use App\Models\Pengajar;
+
 class User extends Authenticatable
 {
      use HasApiTokens, HasFactory, Notifiable, Tokenable;
@@ -47,12 +50,34 @@ class User extends Authenticatable
     ];
     public function saveUser($request): self
     {
+        /*
+        tipe pengguna:
+        1 = admin
+        2 = pengajar
+        3 = siswa
+        */
         $this->name = $request->name;
         $this->email = $request->email;
         $this->password = bcrypt($request->password);
         $this->tipe_pengguna = $request->tipe_pengguna;
         $this->status_pengguna = $request->status_pengguna;
         $this->save();
+
+        if($this->tipe_pengguna == 2) 
+        {
+              $pengajar  = new Pengajar;
+              $pengajar->id_pengajar = $this->id;
+              $pengajar->email_pengajar = $this->email;
+              $pengajar->save();
+        } 
+        else if($this->tipe_pengguna == 3)
+        {
+            $siswa = new Siswa;
+            $siswa->id_siswa = $this->id;
+            $siswa->email_siswa = $this->email;
+            $siswa->save();
+        }
+
         return $this;
     }
 }
