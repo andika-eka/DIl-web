@@ -22,14 +22,21 @@ use App\Http\Controllers\API\UserController;
 // });
 
 
-Route::post('register',[AuthController::class,'register']);
+
 Route::post('login',[AuthController::class,'login']);
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::get('user', [UserController::class, 'index']);
-Route::get('user/admin', [UserController::class, 'indexAdmin']);
-Route::get('user/pengajar', [UserController::class, 'indexPengajar']);
-Route::get('user/siswa', [UserController::class, 'indexSiswa']);
+Route::group(['middleware' => ['admin:api']], function () {
+    Route::post('register',[AuthController::class,'register']);
+    Route::get('user', [UserController::class, 'index']);
+    Route::get('user/admin', [UserController::class, 'indexAdmin']);
+    Route::get('user/pengajar', [UserController::class, 'indexPengajar']);
+    Route::get('user/siswa', [UserController::class, 'indexSiswa']);
+});
+
+
+
+
