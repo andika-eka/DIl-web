@@ -66,10 +66,10 @@ class User extends Authenticatable
 
         if($this->tipe_pengguna == 2) 
         {
-              $pengajar  = new Pengajar;
-              $pengajar->id_pengajar = $this->id;
-              $pengajar->email_pengajar = $this->email;
-              $pengajar->save();
+            $pengajar  = new Pengajar;
+            $pengajar->id_pengajar = $this->id;
+            $pengajar->email_pengajar = $this->email;
+            $pengajar->save();
         } 
         else if($this->tipe_pengguna == 3)
         {
