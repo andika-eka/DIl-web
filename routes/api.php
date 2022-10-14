@@ -35,6 +35,8 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::get('user/admin', [UserController::class, 'indexAdmin']);
     Route::get('user/pengajar', [UserController::class, 'indexPengajar']);
     Route::get('user/siswa', [UserController::class, 'indexSiswa']);
+    Route::get('user/{id}', [UserController::class, 'show']);
+
 });
 
 

@@ -48,6 +48,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
     public function saveUser($request): self
     {
         /*
@@ -79,5 +80,18 @@ class User extends Authenticatable
         }
 
         return $this;
+    }
+
+    public function detail()
+    {
+        if($this->tipe_pengguna == 3)
+        {
+            return $this->hasOne(Siswa::class, "id_siswa", "id");    
+        } 
+        else if ($this->tipe_pengguna == 2)
+        {
+            return $this->hasOne(Pengajar::class, "id_pengajar", "id");
+        }
+        
     }
 }

@@ -33,4 +33,31 @@ class UserController extends Controller
         $users = User::all()->where("tipe_pengguna",3);
         return response()->json($users);
     }
+
+    public function show($id)
+    {
+        try
+        {
+            $user = User::find($id);
+        }
+        
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'user not found',               
+            ], 422);
+        }
+
+        if($user->tipe_pengguna == 1)
+        {
+            return Response()->json($user);
+        }
+        else
+        {
+            $detail = $user->detail;
+            return Response()->json($user);
+        }
+    }
 }
