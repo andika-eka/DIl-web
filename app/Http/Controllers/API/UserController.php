@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
+use App\Models\Siswa;
+use App\Models\Pengajar;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -39,6 +41,15 @@ class UserController extends Controller
         try
         {
             $user = User::find($id);
+            if($user->tipe_pengguna == 1)
+            {
+                return Response()->json($user);
+            }
+            else
+            {
+                $detail = $user->detail;
+                return Response()->json($user);
+            }
         }
         
         catch (\Exception $e)
@@ -50,15 +61,7 @@ class UserController extends Controller
             ], 422);
         }
 
-        if($user->tipe_pengguna == 1)
-        {
-            return Response()->json($user);
-        }
-        else
-        {
-            $detail = $user->detail;
-            return Response()->json($user);
-        }
+        
     }
     
     public function newPassword(Request $request, $id)
@@ -82,5 +85,36 @@ class UserController extends Controller
                 'notif'=>'Error',               
             ], 422);
         }
+    }
+    
+    public function destroy($id)
+    {
+        try
+        {
+            $user = User::find($id);
+            if ($user->tipe_pengguna == 2)
+            {
+                $pengajar = Pengajar::find($id);
+                $pengajar->delete();
+            }
+            else if ($user->tipe_pengguna == 3)
+            {
+                $siswa = Siswa::find($id);
+                $siswa->delete();
+            }
+            $user->delete();
+            
+            return response()->json([
+                'success' => true,
+                'notif'=>'user has been deleted',
+            ],200);
+            
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
     }
 }
