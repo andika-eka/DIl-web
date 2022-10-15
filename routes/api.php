@@ -36,7 +36,7 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::get('user/pengajar', [UserController::class, 'indexPengajar']);
     Route::get('user/siswa', [UserController::class, 'indexSiswa']);
     Route::get('user/{id}', [UserController::class, 'show']);
-
+    Route::post('user/{id}/newPassword', [UserController::class, 'newPassword']);
 });
 
 

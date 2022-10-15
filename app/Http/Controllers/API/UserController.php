@@ -60,4 +60,27 @@ class UserController extends Controller
             return Response()->json($user);
         }
     }
+    
+    public function newPassword(Request $request, $id)
+    {
+        try
+        {
+            $user = User::find($id);
+            $user->newPassword($request->newPassword);
+            
+            return response()->json([
+                'data' => $user,
+                'success' => true,
+                'notif'=>'password has been changed',     
+            ],200);
+            
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'Error',               
+            ], 422);
+        }
+    }
 }

@@ -94,4 +94,10 @@ class User extends Authenticatable
         }
         
     }
+    
+    public function newPassword($password)
+    {
+        $this->password = bcrypt($password);
+        $this->save();
+    }
 }
