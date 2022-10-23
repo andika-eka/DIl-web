@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\SiswaController;
+use App\Http\Controllers\API\PengajarController;
 use App\Http\Controllers\API\UserController;
 
 /*
@@ -27,6 +29,8 @@ Route::post('login',[AuthController::class,'login']);
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('user/siswa/update',[SiswaController::class, 'update']);
+    Route::post('user/pengajar/update',[PengajarController::class, 'update']);
 });
 
 Route::group(['middleware' => ['admin:api']], function () {
