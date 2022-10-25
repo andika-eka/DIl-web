@@ -7,6 +7,9 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\SiswaController;
 use App\Http\Controllers\API\PengajarController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\MataKuliahController;
+use App\Http\Controllers\API\kelasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +34,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/siswa/update',[SiswaController::class, 'update']);
     Route::post('user/pengajar/update',[PengajarController::class, 'update']);
+    Route::resources([
+        'Matakuliah' => MataKuliahController::class,
+    ],['only' => ['index', 'show',]]);
+    Route::resources([
+        'Kelas' => KelasController::class,
+    ],['only' => ['index', 'show',]]);
 });
 
 Route::group(['middleware' => ['admin:api']], function () {
@@ -42,7 +51,20 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::get('user/{id}', [UserController::class, 'show']);
     Route::post('user/{id}/newPassword', [UserController::class, 'newPassword']);
     Route::delete('user/{id}', [UserController::class, 'destroy']);
+
+    Route::resources([
+        'Matakuliah' => MataKuliahController::class,
+    ],['only' => ['store', 'destroy']]);
+    Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
+    Route::resources([
+        'Kelas' => KelasController::class,
+    ],['only' => ['store', 'destroy']]);
+    Route::post('Kelas/{id}',[KelasController::class, 'update']);
+
 });
+//Update route using post methods
+//patch or put won't take request
+//better solution maybe needed
 
 
 

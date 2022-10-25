@@ -8,13 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Kelas extends Model
 {
     use HasFactory;
-    protected $table = 'matakuliah';
-    protected $primaryKey = 'id_matakuliah';
+    use HasFactory;
+    protected $table = 'kelas';
+    protected $primaryKey = 'id_kelas';
     protected $fillable = [
+        "id_kelas",
         "id_matakuliah",
-        "kode_mataKuliah",
-        "nama_mataKuliah",
-        "cpmk",
+        "tahun_kelas",
+        "semester_kelas",
+        "nama_kelas",
+        "tanggalBuat_kelas",
+        "tanggalMulai_kelas",
+        "tanggalSelesai_kelas",
+        "status_kelas",
+        "jenis_kelas",
     ];
     public $timestamps = false;
 

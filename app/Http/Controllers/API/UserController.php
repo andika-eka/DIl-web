@@ -60,8 +60,6 @@ class UserController extends Controller
                 'notif'=>'user not found',               
             ], 422);
         }
-
-        
     }
     
     public function newPassword(Request $request, $id)
