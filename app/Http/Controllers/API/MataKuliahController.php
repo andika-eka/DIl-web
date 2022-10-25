@@ -64,6 +64,7 @@ class MataKuliahController extends Controller
         try
         {
             $mataKuliah = MataKuliah::find($id);
+            $mataKuliah->kelas;
             return Response()->json($mataKuliah);
         }
         

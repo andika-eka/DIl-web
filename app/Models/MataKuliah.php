@@ -17,4 +17,8 @@ class MataKuliah extends Model
         "cpmk",
     ];
     public $timestamps = false;
+
+    public function kelas(){
+        return $this->hasMany(Kelas::class, 'id_matakuliah', 'id_matakuliah');
+    }
 }

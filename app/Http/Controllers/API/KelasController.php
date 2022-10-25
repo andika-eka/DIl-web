@@ -65,10 +65,11 @@ class KelasController extends Controller
      */
     public function show($id)
     {
-        //
+        
         try
         {
             $kelas = Kelas::find($id);
+            $kelas->matakuliah;
             return response()->json($kelas);
         }
         catch (\Exception $e)

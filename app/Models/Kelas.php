@@ -24,5 +24,9 @@ class Kelas extends Model
         "jenis_kelas",
     ];
     public $timestamps = false;
+    
+    public function matakuliah(){
+        return $this->belongsTo(MataKuliah::class,'id_matakuliah', 'id_matakuliah');
+    }
 
 }
