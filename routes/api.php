@@ -60,6 +60,9 @@ Route::group(['middleware' => ['admin:api']], function () {
         'Kelas' => KelasController::class,
     ],['only' => ['store', 'destroy']]);
     Route::post('Kelas/{id}',[KelasController::class, 'update']);
+    Route::post('Kelas/{id}/addpengajar',[KelasController::class, 'addPengajar']);
+    Route::post('Kelas/{id}/addsiswa',[KelasController::class, 'addSiswa']);
+    
 
 });
 //Update route using post methods

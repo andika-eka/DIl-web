@@ -23,8 +23,13 @@ class Pengajar extends Model
 
     public $timestamps = false;
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, "id_pengajar", "id");
+    }
+    public function kelas()
+    {
+        return $this->belongsToMany(kelas::class, "pengampuan", "id_pengajar", "id_kelas");
     }
 
 }

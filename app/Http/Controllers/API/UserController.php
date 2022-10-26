@@ -47,7 +47,7 @@ class UserController extends Controller
             }
             else
             {
-                $user->detail;
+                $user->detail->kelas;
                 return Response()->json($user);
             }
         }

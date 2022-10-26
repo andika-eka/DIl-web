@@ -13,8 +13,8 @@ class Pengampuan extends Model
     protected $primaryKey = 'id_pengampuan';
     protected $fillable = [
         "id_pengampuan",
-        "id_siswa",
         "id_kelas",
+        "id_pengajar",
         "status_pengampuan",
     ];
     public $timestamps = false;
