@@ -40,6 +40,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resources([
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
+    Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
+    Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
+
 });
 
 Route::group(['middleware' => ['admin:api']], function () {
@@ -62,8 +65,9 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::post('Kelas/{id}',[KelasController::class, 'update']);
     Route::post('Kelas/{id}/addpengajar',[KelasController::class, 'addPengajar']);
     Route::post('Kelas/{id}/addsiswa',[KelasController::class, 'addSiswa']);
+    Route::delete('Kelas/removesiswa/{id}/{id_siswa}', [KelasController::class, 'removeSiswa']);
+    Route::delete('Kelas/removepengajar/{id}/{id_pengajar}', [KelasController::class, 'removePengajar']);
     
-
 });
 //Update route using post methods
 //patch or put won't take request

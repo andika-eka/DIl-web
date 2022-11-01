@@ -196,5 +196,53 @@ class KelasController extends Controller
             ], 422);
         }
     }
-    
+    public function removePengajar($id, $id_pengajar)
+    {
+        try
+        {
+            $pengampuan = Pengampuan::where("id_pengajar", '=', $id_pengajar)
+                                                ->where("id_kelas", "=", $id)
+                                                ->first();
+            $pengampuan->delete();
+            return response()->json([
+                'success' => true,
+                'notif'=>' pengajar removed',
+            ],200);
+        }
+        
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'error',               
+            ], 422);
+        }
+        
+    }
+    public function removeSiswa($id, $id_siswa)
+    {
+        try
+        {
+            $pKelas = PengambilanKelas::where("id_siswa", '=', $id_siswa)
+                                                ->where("id_kelas", "=", $id)
+                                                ->first();
+            $pKelas->delete();
+            return response()->json([
+                'success' => true,
+                'notif'=>' siswa removed',
+            ],200);
+        }
+        
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'error',               
+            ], 422);
+        }
+        
+    }
+        
 }
