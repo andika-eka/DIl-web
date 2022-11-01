@@ -19,5 +19,17 @@ class Pengajar extends Model
         "account_active",
     ];
     protected $table = 'pengajar';
+    protected $primaryKey = 'id_pengajar';
+
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "id_pengajar", "id");
+    }
+    public function kelas()
+    {
+        return $this->belongsToMany(kelas::class, "pengampuan", "id_pengajar", "id_kelas");
+    }
+
 }

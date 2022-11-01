@@ -48,6 +48,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
     public function saveUser($request): self
     {
         /*
@@ -65,10 +66,10 @@ class User extends Authenticatable
 
         if($this->tipe_pengguna == 2) 
         {
-              $pengajar  = new Pengajar;
-              $pengajar->id_pengajar = $this->id;
-              $pengajar->email_pengajar = $this->email;
-              $pengajar->save();
+            $pengajar  = new Pengajar;
+            $pengajar->id_pengajar = $this->id;
+            $pengajar->email_pengajar = $this->email;
+            $pengajar->save();
         } 
         else if($this->tipe_pengguna == 3)
         {
@@ -79,5 +80,24 @@ class User extends Authenticatable
         }
 
         return $this;
+    }
+
+    public function detail()
+    {
+        if($this->tipe_pengguna == 3)
+        {
+            return $this->hasOne(Siswa::class, "id_siswa", "id");    
+        } 
+        else if ($this->tipe_pengguna == 2)
+        {
+            return $this->hasOne(Pengajar::class, "id_pengajar", "id");
+        }
+        
+    }
+    
+    public function newPassword($password)
+    {
+        $this->password = bcrypt($password);
+        $this->save();
     }
 }
