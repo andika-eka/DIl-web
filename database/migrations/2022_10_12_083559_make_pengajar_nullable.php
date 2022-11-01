@@ -40,7 +40,7 @@ return new class extends Migration
             $table->string("nama_pengajar",50)->change();
             $table->smallInteger("jenisKelamin_Pengajar")->lenght(1)->change();
             $table->date("tanggalLahir_Pengajar")->change();
-            $table->dropcColumn('account_active');
+            $table->dropColumn('account_active');
         });
     }
 };

@@ -30,7 +30,7 @@ return new class extends Migration
         Schema::table('siswa', function (Blueprint $table) {
             //
             $table->bigInteger('id_siswa')->lenght(20)->unsigned()->autoIncrement()->change();
-            $table->dropForegn("id_siswa");
+            $table->dropForeign("id_siswa");
         });
     }
 };

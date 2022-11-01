@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string("nama_siswa",50)->change();
             $table->smallInteger("jenisKelamin_siswa")->lenght(1)->change();
             $table->date("tanggalLahir_siswa")->change();
-            $table->dropcColumn('account_active');
+            $table->dropColumn('account_active');
 
         });
     }

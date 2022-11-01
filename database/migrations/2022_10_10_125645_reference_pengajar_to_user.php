@@ -30,7 +30,7 @@ return new class extends Migration
         Schema::table('pengajar', function (Blueprint $table) {
             //
             $table->bigInteger('id_pengajar')->length(20)->unsigned()->autoIncrement()->change();
-            $table->dropForegn("id_pengajar");
+            $table->dropForeign("id_pengajar");
         });
     }
 };
