@@ -26,13 +26,13 @@ class UserController extends Controller
 
     public function indexPengajar()
     {
-        $users = User::all()->where("tipe_pengguna",2);
+        $users = User::all()->where('tipe_pengguna',2);
         return response()->json($users);
     }
 
     public function indexSiswa()
     {
-        $users = User::all()->where("tipe_pengguna",3);
+        $users = User::all()->where('tipe_pengguna',3);
         return response()->json($users);
     }
 

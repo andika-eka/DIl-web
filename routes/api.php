@@ -8,7 +8,10 @@ use App\Http\Controllers\API\SiswaController;
 use App\Http\Controllers\API\PengajarController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\MataKuliahController;
-use App\Http\Controllers\API\kelasController;
+use App\Http\Controllers\API\KelasController;
+use App\Http\Controllers\API\SubCpmkController;
+use App\Http\Controllers\API\IndikatorController;
+use App\Http\Controllers\API\MateriController;
 
 
 /*
@@ -34,6 +37,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/siswa/update',[SiswaController::class, 'update']);
     Route::post('user/pengajar/update',[PengajarController::class, 'update']);
+    
     Route::resources([
         'Matakuliah' => MataKuliahController::class,
     ],['only' => ['index', 'show',]]);
@@ -42,7 +46,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     ],['only' => ['index', 'show',]]);
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
-
+    
+    // Route::apiResource('SubCpmk', 'SubCpmkController');
+    // Route::apiResource('Indikator', 'IndikatorController');
+    // Route::apiResource('Materi', 'MateriController');
+    Route::post('Matakuliah/{mkid}/subcpmk', [SubCpmkController::class, 'store']);
+    Route::get('subcpmk/{id}', [SubCpmkController::class, 'show']);
+    Route::post('subcpmk/{id}', [SubCpmkController::class, 'update']);
+    Route::post('subcpmk/{id}/file', [SubCpmkController::class, 'updateFile']);
+    Route::delete('subcpmk/{id}', [SubCpmkController::class, 'destroy']);
+    
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

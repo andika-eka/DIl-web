@@ -65,6 +65,7 @@ class MataKuliahController extends Controller
         {
             $mataKuliah = MataKuliah::find($id);
             $mataKuliah->kelas;
+            $mataKuliah->subCpmk;
             return Response()->json($mataKuliah);
         }
         

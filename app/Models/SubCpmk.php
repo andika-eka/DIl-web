@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SubCpmk extends Model
 {
     use HasFactory;
-    use HasFactory;
     protected $table = 'subcpmk';
     protected $primaryKey = 'id_subCpmk';
     protected $fillable = [
@@ -19,4 +18,9 @@ class SubCpmk extends Model
         "pathFile_materiTeks",
     ];
     public $timestamps = false;
+    
+    public function mataKuliah(){
+       return $this->belongsTo(MataKuliah::class,'id_mataKuliah', 'id_matakuliah');
+        
+    }
 }

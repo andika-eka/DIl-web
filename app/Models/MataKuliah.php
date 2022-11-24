@@ -21,4 +21,8 @@ class MataKuliah extends Model
     public function kelas(){
         return $this->hasMany(Kelas::class, 'id_matakuliah', 'id_matakuliah');
     }
+    public function subCpmk()
+    {
+        return $this->hasMany(SubCpmk::class,'id_mataKuliah', 'id_matakuliah' );
+    }
 }

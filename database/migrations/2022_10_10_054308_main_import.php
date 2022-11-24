@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         //
-        DB::unprepared( file_get_contents( "devOnly/SQLfile/mt_26082022.sql" ) );
+        DB::unprepared( file_get_contents( "devOnly/SQLfile/to_migrate.sql" ) );
     }
 
     /**
