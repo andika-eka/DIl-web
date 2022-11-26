@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\materi;
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class MateriController extends Controller
@@ -14,10 +14,6 @@ class MateriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -25,9 +21,29 @@ class MateriController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $inid)
     {
         //
+        try
+        {
+        $materi = new Materi;
+        $materi->id_indikator = $inid;
+        $materi->nomorUrut_materi = $request->nomorUrut_materi;
+        $materi->nama_materi = $request->nama_materi;
+        $materi->pathFile_materi = $request->pathFile_materi;
+        $materi->save();
+        return response()->json([
+            'subcpmk' =>$materi,
+            'success' => true,
+            'notif'=>'SubCpmk has `been created',
+        ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
     }
 
     /**
@@ -36,9 +52,22 @@ class MateriController extends Controller
      * @param  \App\Models\materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function show(materi $materi)
+    public function show($id)
     {
-        //
+        
+        try
+        {
+            $materi = Materi::find($id);
+            $materi->indikator;
+            return response()->json($materi);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 
     /**
@@ -48,9 +77,29 @@ class MateriController extends Controller
      * @param  \App\Models\materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, materi $materi)
+    public function update(Request $request, $id)
     {
         //
+        try
+        {
+            $materi = Materi::find($id);
+            $materi->nomorUrut_materi = $request->nomorUrut_materi;
+            $materi->nama_materi = $request->nama_materi;
+            $materi->pathFile_materi = $request->pathFile_materi;
+            $materi->save();
+            return response()->json([
+                'subcpmk' =>$materi,
+                'success' => true,
+                'notif'=>'materi has been updated',
+            ],200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 
     /**
@@ -59,8 +108,24 @@ class MateriController extends Controller
      * @param  \App\Models\materi  $materi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(materi $materi)
+    public function destroy($id)
     {
         //
+        try
+        {
+            $materi = Materi::find($id);
+            $materi->delete();
+            return response()->json([
+                'success' => true,
+                'notif'=>'indikator has been deleted',
+            ],200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 }

@@ -61,6 +61,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('indikator/{id}', [IndikatorController::class, 'show']);
     Route::post('indikator/{id}', [IndikatorController::class, 'update']);
     Route::delete('indikator/{id}', [IndikatorController::class, 'destroy']);
+
+    Route::post('indikator/{inid}/materi', [MateriController::class, 'store']);
+    Route::get('materi/{id}', [MateriController::class, 'show']);
+    Route::post('materi/{id}', [MateriController::class, 'update']);
+    Route::delete('materi/{id}', [MateriController::class, 'destroy']);
     
 });
 

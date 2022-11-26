@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class materi extends Model
+class Materi extends Model
 {
     use HasFactory;
     protected $table = 'materi';
@@ -18,4 +18,8 @@ class materi extends Model
         "pathFile_materi",
     ];
     public $timestamps = false;
+
+    public function indikator(){
+        return $this->belongsTo(Indikator::class, 'id_indikator', 'id_indikator');
+    }
 }

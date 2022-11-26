@@ -19,7 +19,12 @@ class Indikator extends Model
         "level_indikator",
     ];
     public $timestamps = false;
+    
     public function subcpmk(){
         return $this->belongsTo(SubCpmk::class,'id_subCpmk', 'id_subCpmk');
     }
+    public function materi(){
+        return $this->hasMany(Materi::class, 'id_indikator', 'id_indikator');
+    }
+
 }

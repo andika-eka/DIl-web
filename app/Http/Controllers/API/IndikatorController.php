@@ -64,6 +64,7 @@ class IndikatorController extends Controller
         {
             $indikator = Indikator::find($id);
             $indikator->subcmpk;
+            $indikator->materi;
             return response()->json($indikator);
         }
         catch (\Exception $e)
