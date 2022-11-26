@@ -20,7 +20,10 @@ class SubCpmk extends Model
     public $timestamps = false;
     
     public function mataKuliah(){
-       return $this->belongsTo(MataKuliah::class,'id_mataKuliah', 'id_matakuliah');
+        return $this->belongsTo(MataKuliah::class,'id_mataKuliah', 'id_matakuliah');
         
+    }
+    public function indikator(){
+        return $this->hasMany(Indikator::class,'id_subCpmk', 'id_subCpmk');
     }
 }

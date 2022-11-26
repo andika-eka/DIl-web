@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 10.4.24-MariaDB : Database - dil_temp
+MySQL - 10.4.25-MariaDB : Database - dil_backup
 *********************************************************************
 */
 
@@ -267,6 +267,7 @@ CREATE TABLE `subcpmk` (
   `id_subCpmk` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_mataKuliah` bigint(20) unsigned NOT NULL,
   `nomorUrut_subCpmk` tinyint(3) unsigned NOT NULL,
+  `taksnomi_bloom` tinyint(3) unsigned NOT NULL,
   `narasi_subCpmk` text NOT NULL,
   `pathFile_materiTeks` varchar(50) NOT NULL,
   PRIMARY KEY (`id_subCpmk`),

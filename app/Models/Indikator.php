@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class indikator extends Model
+class Indikator extends Model
 {
     use HasFactory;
     protected $table = 'indikator';
@@ -19,3 +19,7 @@ class indikator extends Model
         "level_indikator",
     ];
     public $timestamps = false;
+    public function subcpmk(){
+        return $this->belongsTo(SubCpmk::class,'id_subCpmk', 'id_subCpmk');
+    }
+}

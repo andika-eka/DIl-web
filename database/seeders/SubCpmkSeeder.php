@@ -28,6 +28,7 @@ class SubCpmkSeeder extends Seeder
                 $subCpmk->id_mataKuliah = $matkul->id_matakuliah;
                 $subCpmk->nomorUrut_subCpmk = $j+1;
                 $subCpmk->narasi_subCpmk = $faker->text(rand(150,300));
+                $subCpmk->taksnomi_bloom =  rand(1,6);
                 $subCpmk->pathFile_materiTeks ="D:\\PHP\\DIL\\public\\files\\1668355102.pdf";
                 $subCpmk->save();
             }

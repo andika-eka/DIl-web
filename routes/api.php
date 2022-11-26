@@ -55,6 +55,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('subcpmk/{id}', [SubCpmkController::class, 'update']);
     Route::post('subcpmk/{id}/file', [SubCpmkController::class, 'updateFile']);
     Route::delete('subcpmk/{id}', [SubCpmkController::class, 'destroy']);
+
+
+    Route::post('subcpmk/{mkid}/indikator', [IndikatorController::class, 'store']);
+    Route::get('indikator/{id}', [IndikatorController::class, 'show']);
+    Route::post('indikator/{id}', [IndikatorController::class, 'update']);
+    Route::delete('indikator/{id}', [IndikatorController::class, 'destroy']);
     
 });
 

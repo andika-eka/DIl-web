@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\indikator;
+use App\Models\Indikator;
 use Illuminate\Http\Request;
 
 class IndikatorController extends Controller
@@ -14,10 +14,10 @@ class IndikatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+    // public function index()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -25,9 +25,30 @@ class IndikatorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $scid)
     {
         //
+        try
+        {
+            $indikator = new Indikator;
+            $indikator->id_subCpmk = $scid;
+            $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
+            $indikator->narasi_indikator = $request->narasi_indikator;
+            $indikator->pertemuanKe = $request->pertemuanKe;
+            $indikator->level_indikator = $request->level_indikator;
+            $indikator->save();
+        return response()->json([
+                'subcpmk' =>$indikator,
+                'success' => true,
+                'notif'=>'indikator has `been created',
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
     }
 
     /**
@@ -36,9 +57,22 @@ class IndikatorController extends Controller
      * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
-    public function show(indikator $indikator)
+    public function show($id)
     {
         //
+        try
+        {
+            $indikator = Indikator::find($id);
+            $indikator->subcmpk;
+            return response()->json($indikator);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 
     /**
@@ -48,9 +82,30 @@ class IndikatorController extends Controller
      * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, indikator $indikator)
+    public function update(Request $request, $id)
     {
         //
+        try
+        {
+            $indikator = Indikator::find($id);
+            $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
+            $indikator->narasi_indikator = $request->narasi_indikator;
+            $indikator->pertemuanKe = $request->pertemuanKe;
+            $indikator->level_indikator = $request->level_indikator;
+            $indikator->save();
+            return response()->json([
+                'subcpmk' =>$indikator,
+                'success' => true,
+                'notif'=>'indikator has been updated',
+            ],200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 
     /**
@@ -59,8 +114,24 @@ class IndikatorController extends Controller
      * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(indikator $indikator)
+    public function destroy($id)
     {
         //
+        try
+        {
+            $indikator = Indikator::find($id);
+            $indikator->delete();
+            return response()->json([
+                'success' => true,
+                'notif'=>'indikator has been deleted',
+            ],200);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+            ], 422);
+        }
     }
 }

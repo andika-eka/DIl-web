@@ -35,6 +35,7 @@ class SubCpmkController extends Controller
             $subcpmk = new SubCpmk;
             $subcpmk->id_mataKuliah = $mkid;
             $subcpmk->nomorUrut_subCpmk = $request->nomorUrut_subCpmk;
+            $subcpmk->taksnomi_bloom = $request->taksnomi_bloom;
             $subcpmk->narasi_subCpmk = $request->narasi_subCpmk;
             
             $file = $request->file('materiTeks');
@@ -45,7 +46,7 @@ class SubCpmkController extends Controller
             
             $subcpmk->pathFile_materiTeks = $filePath.$fileName;
             $subcpmk->save();
-          return response()->json([
+        return response()->json([
                 'subcpmk' =>$subcpmk,
                 'success' => true,
                 'notif'=>'SubCpmk has `been created',
@@ -74,6 +75,7 @@ class SubCpmkController extends Controller
         {
             $subcpmk = SubCpmk::find($id);
             $subcpmk->mataKuliah;
+            $subcpmk->indikator;
             return response()->json($subcpmk);
         }
         catch (\Exception $e)
@@ -95,19 +97,21 @@ class SubCpmkController extends Controller
     public function update(Request $request, $id)
     {
         
-         try
+        try
         {
             $subcpmk = SubCpmk::find($id);
+            // dd($subcpmk);
             $subcpmk->nomorUrut_subCpmk = $request->nomorUrut_subCpmk;
+            $subcpmk->taksnomi_bloom = $request->taksnomi_bloom;
             $subcpmk->narasi_subCpmk = $request->narasi_subCpmk;
             $subcpmk->save();
             return response()->json([
                 'subcpmk' =>$subcpmk,
                 'success' => true,
-                'notif'=>'SubCpmk has `been created',
+                'notif'=>'SubCpmk has been updated',
             ],200);
         }
-         catch (\Exception $e)
+        catch (\Exception $e)
         {
             return response()->json([
                 'message' => $e,
@@ -117,7 +121,7 @@ class SubCpmkController extends Controller
     }
     
     public function updateFile(Request $request, $id)
-     {
+    {
         try
         {
             
@@ -139,7 +143,7 @@ class SubCpmkController extends Controller
                 'notif'=>'SubCpmk has `been created',
             ],200);
         }
-         catch (\Exception $e)
+        catch (\Exception $e)
         {
             return response()->json([
                 'message' => $e,
