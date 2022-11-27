@@ -26,5 +26,8 @@ class Indikator extends Model
     public function materi(){
         return $this->hasMany(Materi::class, 'id_indikator', 'id_indikator');
     }
+    public function soal(){
+        return $this->hasMany(Soalpilihanganda::class, 'id_indikator', 'id_indikator');
+    }
 
 }

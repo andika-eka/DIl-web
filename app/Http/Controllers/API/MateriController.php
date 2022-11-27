@@ -26,17 +26,17 @@ class MateriController extends Controller
         //
         try
         {
-        $materi = new Materi;
-        $materi->id_indikator = $inid;
-        $materi->nomorUrut_materi = $request->nomorUrut_materi;
-        $materi->nama_materi = $request->nama_materi;
-        $materi->pathFile_materi = $request->pathFile_materi;
-        $materi->save();
-        return response()->json([
-            'subcpmk' =>$materi,
-            'success' => true,
-            'notif'=>'SubCpmk has `been created',
-        ],200);
+            $materi = new Materi;
+            $materi->id_indikator = $inid;
+            $materi->nomorUrut_materi = $request->nomorUrut_materi;
+            $materi->nama_materi = $request->nama_materi;
+            $materi->pathFile_materi = $request->pathFile_materi;
+            $materi->save();
+            return response()->json([
+                'subcpmk' =>$materi,
+                'success' => true,
+                'notif'=>'SubCpmk has `been created',
+            ],200);
         }
         catch (\Exception $e) {
             return response()->json([

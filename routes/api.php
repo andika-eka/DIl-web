@@ -12,6 +12,8 @@ use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\API\SubCpmkController;
 use App\Http\Controllers\API\IndikatorController;
 use App\Http\Controllers\API\MateriController;
+use App\Http\Controllers\API\SoalpilihangandaController;
+use App\Http\Controllers\API\PilihanjawabanController;
 
 
 /*
@@ -47,9 +49,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     
-    // Route::apiResource('SubCpmk', 'SubCpmkController');
-    // Route::apiResource('Indikator', 'IndikatorController');
-    // Route::apiResource('Materi', 'MateriController');
     Route::post('Matakuliah/{mkid}/subcpmk', [SubCpmkController::class, 'store']);
     Route::get('subcpmk/{id}', [SubCpmkController::class, 'show']);
     Route::post('subcpmk/{id}', [SubCpmkController::class, 'update']);
@@ -66,6 +65,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('materi/{id}', [MateriController::class, 'show']);
     Route::post('materi/{id}', [MateriController::class, 'update']);
     Route::delete('materi/{id}', [MateriController::class, 'destroy']);
+
+    Route::post('indikator/{inid}/soal', [SoalpilihangandaController::class, 'store']);
+    Route::get('soal/{id}', [SoalpilihangandaController::class, 'show']);
+    Route::post('soal/{id}', [SoalpilihangandaController::class, 'update']);
+    Route::patch('soal/{id}/removepic', [SoalpilihangandaController::class, 'removePic']);
+    Route::delete('soal/{id}', [SoalpilihangandaController::class, 'destroy']);
+    
+    Route::post('soal/{soal_id}/jawaban', [PilihanjawabanController::class, 'store']);
+    Route::get('jawaban/{id}', [PilihanjawabanController::class, 'show']);
+    Route::post('jawaban/{id}', [PilihanjawabanController::class, 'update']);
+    Route::patch('jawaban/{id}/removepic', [PilihanjawabanController::class, 'removePic']);
+    Route::delete('jawaban/{id}', [PilihanjawabanController::class, 'destroy']);
     
 });
 
