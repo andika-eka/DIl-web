@@ -15,11 +15,12 @@ class TestSeeder extends Seeder
     public function run()
     {
         //
-         $this->call([
+        $this->call([
             FakeAdminSeeder::class,
             FakePengajarSeeder::class,
             FakeSiswaSeeder::class,
             MatkulWithKelasSeeder::class,
+            KelasSettingSeeder::class,
             PengambilanKelasSeeder::class,
             PengampuanSeeder::class,
             SubCpmkSeeder::class,

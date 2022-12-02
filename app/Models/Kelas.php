@@ -24,17 +24,17 @@ class Kelas extends Model
     ];
     public $timestamps = false;
     
-    public function matakuliah()
-    {
+    public function matakuliah(){
         return $this->belongsTo(MataKuliah::class,'id_matakuliah', 'id_matakuliah');
     }
-    public function siswa()
-    {
+    public function siswa(){
         return $this->belongsToMany(Siswa::class, "pengambilankelas", "id_kelas", "id_siswa");
     }
-    public function pengajar()
-    {
+    public function pengajar(){
         return $this->belongsToMany(Pengajar::class, "pengampuan", "id_kelas", "id_pengajar");
+    }
+    public function settings(){
+        return $this->hasOne(SettingKelas::class, "id_settting_kelas", "id_kelas");
     }
 
 }

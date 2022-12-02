@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
+use App\Models\SettingKelas;
 
 class KelasController extends Controller
 {
@@ -44,6 +45,9 @@ class KelasController extends Controller
             $kelas->status_kelas = $request->status_kelas;
             $kelas->jenis_kelas = $request->jenis_kelas;
             $kelas->save();
+            $setting = new SettingKelas;
+            $setting->id_settting_kelas = $kelas->id_kelas;
+            $setting->save();
             return response()->json([
                 'kelas' =>$kelas,
                 'success' => true,
@@ -72,6 +76,7 @@ class KelasController extends Controller
         {
             $kelas = Kelas::find($id);
             $kelas->matakuliah;
+            $kelas->settings;
             $kelas->pengajar;
             $kelas->siswa;
             return response()->json($kelas);
