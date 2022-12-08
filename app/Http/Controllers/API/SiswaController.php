@@ -8,6 +8,8 @@ use App\Models\Siswa;
 use App\Models\kelas;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PengambilanKelas;
+use App\Models\User;
+
 
 
 class SiswaController extends Controller
@@ -24,15 +26,16 @@ class SiswaController extends Controller
                 throw new \Exception("wrong user type");
             }
             $siswa = Siswa::find($user->id);
+            $account = User::find($user->id);
             $siswa->identitas_siswa  = $request->identitas_siswa;
             $siswa->email_siswa = $request-> email_siswa;
             $siswa->nama_siswa = $request->nama_siswa;
             $siswa->jenisKelamin_siswa = $request->jenisKelamin_siswa;
             $siswa->tanggalLahir_siswa = $request->tanggalLahir_siswa;
             $siswa->pathFileFoto_siswa = $request->pathFileFoto_siswa;
-            $user->email = $request->email_siswa;
+            $account->email = $request->email_siswa;
             
-            $user->save();
+            $account->save();
             $siswa->save();
             $this->accountActivation($siswa);
             return response()->json([
@@ -65,6 +68,21 @@ class SiswaController extends Controller
         $siswa->save();
     }
 
+    public function kelas(){
+        try{
+            $user = Auth::user();
+            $kelas = $user->detail->kelas;
+            return response()->json([
+                'kelas' =>$kelas,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
+    }
     private function checkNotNull(Siswa $siswa)
     {
         if (is_null($siswa->identitas_siswa))

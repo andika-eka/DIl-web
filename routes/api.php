@@ -16,6 +16,11 @@ use App\Http\Controllers\API\SoalpilihangandaController;
 use App\Http\Controllers\API\PilihanjawabanController;
 
 
+use App\Http\Controllers\API\LearningController;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -77,7 +82,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('jawaban/{id}', [PilihanjawabanController::class, 'update']);
     Route::patch('jawaban/{id}/removepic', [PilihanjawabanController::class, 'removePic']);
     Route::delete('jawaban/{id}', [PilihanjawabanController::class, 'destroy']);
+
     
+    Route::get("getKelas",[KelasController::class, 'getKelas']);
+    Route::get("currentUnit/{id_kelas}", [LearningController::class, 'currentUnit']);
+    Route::get("allUnit/{id_kelas}", [LearningController::class, 'allUnit']);
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

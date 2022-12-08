@@ -8,6 +8,8 @@ use App\Models\Kelas;
 use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
+use Illuminate\Support\Facades\Auth;
+
 
 class KelasController extends Controller
 {
@@ -16,8 +18,24 @@ class KelasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getKelas(){
+        try{
+            $user = Auth::user();
+            $kelas = $user->detail->kelas;
+            return response()->json([
+                'kelas' =>$kelas,
+            ]);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
+    }
     public function index()
-{
+    {
         //
         $kelas = Kelas::all();
         return response()->json($kelas);

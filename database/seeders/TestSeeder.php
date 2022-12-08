@@ -24,6 +24,7 @@ class TestSeeder extends Seeder
             PengambilanKelasSeeder::class,
             PengampuanSeeder::class,
             SubCpmkSeeder::class,
+            SubcpmkPengamBilanSeeder::class,
             
         ]);
     }
