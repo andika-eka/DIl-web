@@ -9,12 +9,11 @@ use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Stmt\TryCatch;
 
 class KelasController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource by user
      *
      * @return \Illuminate\Http\Response
      */
@@ -96,8 +95,21 @@ class KelasController extends Controller
             $kelas->matakuliah;
             $kelas->settings;
             $kelas->pengajar;
-            $kelas->siswa;
-            return response()->json($kelas);
+
+            $user = Auth()->user();
+            if($user->tipe_pengguna == 2){
+                return response()->json([
+                    'kelas' => $kelas,
+                    'enrolled' => $kelas->enrolled(),
+                    'applying' => $kelas->applying(),
+                ]);
+            }
+            else {
+                return response()->json([
+                    'kelas' => $kelas,
+                    'enrolled' => $kelas->enrolled(),
+                ]);
+            }
         }
         catch (\Exception $e)
         {
@@ -267,6 +279,25 @@ class KelasController extends Controller
         }
         
     }
+
+    public function approveSiswa($id, $id_siswa){
+        try {
+            $kelas = Kelas::find($id);
+            $kelas->approveSiswa($id_siswa);
+            return response()->json([
+                'success' => true,
+                'notif'=>' siswa approved',
+            ],200);
+            
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'error',               
+            ], 422);
+        }
+    }
+
     public function applySettings(Request $request, $id){
         try {
             $setting = SettingKelas::find($id);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Kelas extends Model
 {
@@ -35,6 +36,39 @@ class Kelas extends Model
     }
     public function settings(){
         return $this->hasOne(SettingKelas::class, "id_settting_kelas", "id_kelas");
+    }
+    public function enrolled(){
+        $siswa = DB::table("siswa")
+                    ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+                    ->join('kelas', 'pengambilankelas.id_kelas', '=', 'kelas.id_kelas')
+                    ->select('siswa.*', 'pengambilankelas.status_pengambilanKelas', 'kelas.*')
+                    ->where([
+                        ['pengambilankelas.id_kelas', '=', $this->id_kelas],
+                        ['pengambilankelas.status_pengambilanKelas', '=', 1],
+                    ])
+                    ->get();
+        return $siswa;
+    }
+
+    public function applying(){
+        $siswa = DB::table("siswa")
+                    ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+                    ->join('kelas', 'pengambilankelas.id_kelas', '=', 'kelas.id_kelas')
+                    ->select('siswa.*', 'pengambilankelas.status_pengambilanKelas', 'kelas.*')
+                    ->where([
+                        ['pengambilankelas.id_kelas', '=', $this->id_kelas],
+                        ['pengambilankelas.status_pengambilanKelas', '=', 2],
+                    ])
+                    ->get();
+        return $siswa;
+    }
+
+    public function approveSiswa($id_siswa){
+        $pengambilankelas = PengambilanKelas::where("id_siswa", "=", $id_siswa)
+                            ->where('id_kelas', '=', $this->id_kelas)
+                            ->first();
+        $pengambilankelas->status_pengambilanKelas = 1;
+        $pengambilankelas->save();
     }
 
 }

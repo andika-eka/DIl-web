@@ -51,6 +51,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resources([
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
+    
+    Route::patch('Kelas/{id_kelas}/approveSiswa/{id_siswa}', [KelasController::class, 'approveSiswa']);
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     

@@ -53,7 +53,7 @@ class Siswa extends Model
             $subcpmk = DB::table('subcpmk')
                         ->join('subcpmkpengambilan', 'subcpmk.id_subCpmk', '=', 'subcpmkpengambilan.id_subCPMK')
                         ->join('pengambilankelas', 'subcpmkpengambilan.id_pengambilanKelas', '=', 'pengambilankelas.id_pengambilanKelas')
-                        ->select('subcpmk.*', 'subcpmkpengambilan.*', 'subcpmkpengambilan.*')
+                        ->select('subcpmk.*', 'pengambilankelas.*', 'subcpmkpengambilan.*')
                         ->where([
                             ['pengambilankelas.id_siswa', '=', $this->id_siswa],
                             ['pengambilankelas.id_kelas', '=',  $id_kelas],
@@ -72,7 +72,7 @@ class Siswa extends Model
             $subcpmk = DB::table('subcpmk')
                         ->join('subcpmkpengambilan', 'subcpmk.id_subCpmk', '=', 'subcpmkpengambilan.id_subCPMK')
                         ->join('pengambilankelas', 'subcpmkpengambilan.id_pengambilanKelas', '=', 'pengambilankelas.id_pengambilanKelas')
-                        ->select('subcpmk.*', 'subcpmkpengambilan.*', 'subcpmkpengambilan.*')
+                        ->select('subcpmk.*', 'pengambilankelas.*', 'subcpmkpengambilan.*')
                         ->where([
                             ['pengambilankelas.id_siswa', '=', $this->id_siswa],
                             ['pengambilankelas.id_kelas', '=',  $id_kelas],
