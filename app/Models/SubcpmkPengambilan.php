@@ -17,6 +17,8 @@ class SubcpmkPengambilan extends Model
         'waktuMulai_Pengambilan',
         'waktuSelesai_Pengambilan',
         'status_subcpmkpengambilan',
+        'current_materi_id',
+        'current_materi_start_time',
     ];
     public $timestamps = false;
 

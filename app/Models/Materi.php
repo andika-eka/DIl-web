@@ -16,6 +16,7 @@ class Materi extends Model
         "nomorUrut_materi",
         "nama_materi",
         "pathFile_materi",
+        "minimum_time",
     ];
     public $timestamps = false;
 

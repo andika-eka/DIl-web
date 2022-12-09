@@ -73,9 +73,7 @@ class SubCpmkController extends Controller
         
         try
         {
-            $subcpmk = SubCpmk::find($id);
-            $subcpmk->mataKuliah;
-            $subcpmk->indikator;
+            $subcpmk = subcpmk::with(['matakuliah','indikator.materi'])->find($id);
             return response()->json($subcpmk);
         }
         catch (\Exception $e)
@@ -100,7 +98,6 @@ class SubCpmkController extends Controller
         try
         {
             $subcpmk = SubCpmk::find($id);
-            // dd($subcpmk);
             $subcpmk->nomorUrut_subCpmk = $request->nomorUrut_subCpmk;
             $subcpmk->taksnomi_bloom = $request->taksnomi_bloom;
             $subcpmk->narasi_subCpmk = $request->narasi_subCpmk;
