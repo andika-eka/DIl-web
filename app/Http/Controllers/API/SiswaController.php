@@ -68,21 +68,6 @@ class SiswaController extends Controller
         $siswa->save();
     }
 
-    public function kelas(){
-        try{
-            $user = Auth::user();
-            $kelas = $user->detail->kelas;
-            return response()->json([
-                'kelas' =>$kelas,
-            ], 200);
-        }
-        catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'notif'=>$e,               
-            ], 422);
-        } 
-    }
     private function checkNotNull(Siswa $siswa)
     {
         if (is_null($siswa->identitas_siswa))

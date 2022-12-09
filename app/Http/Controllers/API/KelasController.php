@@ -9,7 +9,7 @@ use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
 use Illuminate\Support\Facades\Auth;
-
+use PhpParser\Node\Stmt\TryCatch;
 
 class KelasController extends Controller
 {
@@ -266,6 +266,67 @@ class KelasController extends Controller
             ], 422);
         }
         
+    }
+    public function applySettings(Request $request, $id){
+        try {
+            $setting = SettingKelas::find($id);
+            $jsDateTS = strtotime($request->Mulai);
+            $setting->Mulai = date('Y-m-d', $jsDateTS );
+            $jsDateTS = strtotime($request->Berakhir);
+            $setting->Berakhir = date('Y-m-d', $jsDateTS );
+            $setting->bobotC1 = $request->bobotC1;
+            $setting->bobotC2 = $request->bobotC2;
+            $setting->bobotC3 = $request->bobotC3;
+            $setting->bobotC4 = $request->bobotC4;
+            $setting->bobotC5 = $request->bobotC5;
+            $setting->bobotC6 = $request->bobotC6;
+            $setting->KKM = $request->KKM;
+            $setting->waktu_tunggu_formatif = $request->waktu_tunggu_formatif;
+            $jsDateTS = strtotime($request->tgl_sumatif);
+            $setting->tgl_sumatif = date('Y-m-d', $jsDateTS );
+            $setting->save();
+            return response()->json([
+                'kelas' =>$setting,
+                'success' => true,
+                'notif'=>'settings has updated successfully',
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'error',               
+            ], 422);
+        }
+    }
+    public function setDefaultSettings($id){
+        try {
+            $setting = SettingKelas::find($id);
+            $setting->Mulai =  date("Y-m-d");
+            $setting->Berakhir = NULL;
+            $setting->bobotC1 = 15;
+            $setting->bobotC2 = 15;
+            $setting->bobotC3 = 15;
+            $setting->bobotC4 = 15;
+            $setting->bobotC5 = 15;
+            $setting->bobotC6 = 25;
+            $setting->KKM = 80;
+            $setting->waktu_tunggu_formatif = 0;
+            $setting->tgl_sumatif = Null;
+            $setting->save();
+            return response()->json([
+                'kelas' =>$setting,
+                'success' => true,
+                'notif'=>'settings has updated successfully',
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e,
+                'success' => false,
+                'notif'=>'error',               
+            ], 422);
+        }
     }
         
 }

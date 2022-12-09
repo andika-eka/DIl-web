@@ -54,6 +54,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     
+    Route::post('Kelas/{id_kelas}/applySettings', [KelasController::class, 'applySettings']);
+    Route::patch('Kelas/{id_kelas}/setDefaultSettings', [KelasController::class, 'setDefaultSettings']);
+
+    
     Route::post('Matakuliah/{mkid}/subcpmk', [SubCpmkController::class, 'store']);
     Route::get('subcpmk/{id}', [SubCpmkController::class, 'show']);
     Route::post('subcpmk/{id}', [SubCpmkController::class, 'update']);

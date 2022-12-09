@@ -8,6 +8,7 @@ use App\Models\Pengajar;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -60,6 +61,25 @@ class UserController extends Controller
                 'notif'=>'user not found',               
             ], 422);
         }
+    }
+    public function kelas(){
+        try{
+            $user = Auth::user();
+            if($user->tipe_pengguna == 1)
+            {
+                abort(403);
+            }
+            $kelas = $user->detail->kelas;
+            return response()->json([
+                'kelas' =>$kelas,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'notif'=>$e,               
+            ], 422);
+        } 
     }
     
     public function newPassword(Request $request, $id)

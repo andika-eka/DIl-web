@@ -21,7 +21,7 @@ class SettingKelas extends Model
         "bobotC5",
         "bobotC6",
         "KKM",
-        "waktu_tunggu_formatif",
+        "waktu_tunggu_formatif", //jam
         "tgl_sumatif",
     ];
 }
