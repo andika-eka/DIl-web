@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("getKelas",[KelasController::class, 'getKelas']);
     Route::get("currentUnit/{id_kelas}", [LearningController::class, 'currentUnit']);
     Route::get("allUnit/{id_kelas}", [LearningController::class, 'allUnit']);
+    Route::get("currenMateri/{id_kelas}", [LearningController::class,'currentMateri']);
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

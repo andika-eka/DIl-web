@@ -31,6 +31,7 @@ class MateriController extends Controller
             $materi->nomorUrut_materi = $request->nomorUrut_materi;
             $materi->nama_materi = $request->nama_materi;
             $materi->pathFile_materi = $request->pathFile_materi;
+            $materi->minimum_time = $request->minimum_time;
             $materi->save();
             return response()->json([
                 'subcpmk' =>$materi,
@@ -86,6 +87,7 @@ class MateriController extends Controller
             $materi->nomorUrut_materi = $request->nomorUrut_materi;
             $materi->nama_materi = $request->nama_materi;
             $materi->pathFile_materi = $request->pathFile_materi;
+            $materi->minimum_time = $request->minimum_time;
             $materi->save();
             return response()->json([
                 'subcpmk' =>$materi,

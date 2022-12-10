@@ -78,7 +78,7 @@ class Siswa extends Model
                             ['pengambilankelas.id_kelas', '=',  $id_kelas],
                             ['subcpmkpengambilan.status_subcpmkpengambilan', '=', 1],
                         ])
-                        ->get();
+                        ->first();
             return $subcpmk;
         }
         else{
@@ -86,6 +86,42 @@ class Siswa extends Model
         }
     }
     
+    public function getCurrentMateriList($id_kelas){
+        $subcpmk_id = $this->getCurrentSubCpmk($id_kelas)->id_subCpmk;
+        if($subcpmk_id){
+            $subcpmk = SubCpmk::with('indikator.materi')->find($subcpmk_id);
+            return  $subcpmk;
+        }
+        else{
+            return false;
+        }
+    }
+    private function startMateri($id_kelas){
+        $materiList = $this->GetCurrentMateriList($id_kelas)->indikator;
+        $indikatorfirst = $materiList->sortBy('nomorUrut_indikator')->first();
+        $materifirst = $indikatorfirst->materi->sortBy('nomorUrut_materi')->first();
+        $materiId = $materifirst->id_materi;
+        $subcpmkPengambilan_id = $this->getCurrentSubCpmk($id_kelas)->id_subcpmkpengambilan;
+        $subcpmkPengambilan = SubcpmkPengambilan::find($subcpmkPengambilan_id);
+        $subcpmkPengambilan->current_materi_id = $materiId;
+        $subcpmkPengambilan->current_materi_start_time = date("Y-m-d H:i:s");
+        $subcpmkPengambilan->save();
+    }
 
-
+    public function getCurrentMateri($id_kelas){
+        $subcpmk = $this->getCurrentSubCpmk($id_kelas);
+        // dd($subcpmk);
+        if($subcpmk){
+            if (is_null($subcpmk->current_materi_id)){
+                $this-> startMateri($id_kelas);
+            }
+            $materi = Materi::find($subcpmk->current_materi_id);
+            $materi->current_materi_start_time = $subcpmk->current_materi_start_time;
+            return $materi;
+        }
+        else{
+            return false;
+        }
+        
+    }
 }

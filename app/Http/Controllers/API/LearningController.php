@@ -10,7 +10,6 @@ use App\Models\SubcpmkPengambilan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
-use SebastianBergmann\Type\NullType;
 
 class LearningController extends Controller
 {
@@ -41,7 +40,7 @@ class LearningController extends Controller
             if ($subcpmk  === false){
                 throw new Exception("Siswa not enrolled");
             }
-            if((!count($subcpmk))and (!count($currentSubcpmk))){
+            if((!count($subcpmk))and (!$currentSubcpmk)){
                 $this->startKelas($id_kelas);
                 $subcpmk = $user->detail->getProgressSubCpmk($id_kelas);
                 $currentSubcpmk = $user->detail->getCurrentSubCpmk($id_kelas);
@@ -59,6 +58,8 @@ class LearningController extends Controller
             ], 422);
         }
     }
+
+
     public function allUnit($id_kelas){
         try
         {
@@ -80,5 +81,30 @@ class LearningController extends Controller
                 'success' => false,
             ], 422);
         }
+    }
+    
+    public function currentMateri($id_kelas){
+        // try
+        // {
+            $user = Auth::user();  
+            if($user->tipe_pengguna != 3){
+                
+                abort(403);
+            }  
+            $currentMateri = $user->detail->getCurrentMateri($id_kelas);
+            $materiList = $user->detail->getCurrentMateriList($id_kelas);
+            return response()->json([
+                'currentMateri' => $currentMateri,
+                'materiList' => $materiList,
+            ]);
+
+        // }
+        // catch (\Exception $e)
+        // {
+        //     return response()->json([
+        //         'message' => $e,
+        //         'success' => false,
+        //     ], 422);
+        // }
     }
 }
