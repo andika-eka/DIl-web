@@ -56,9 +56,8 @@ class UserController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'user not found',               
             ], 422);
         }
     }
@@ -98,9 +97,8 @@ class UserController extends Controller
         }
         catch (\Exception $e){
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'Error',               
             ], 422);
         }
     }
@@ -130,8 +128,8 @@ class UserController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }

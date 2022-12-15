@@ -46,8 +46,8 @@ class MataKuliahController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -72,9 +72,8 @@ class MataKuliahController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'matakuliah not found',               
             ], 422);
         }
     }
@@ -105,9 +104,8 @@ class MataKuliahController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
     }
@@ -134,10 +132,8 @@ class MataKuliahController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'matakuliah not found',               
             ], 422);
-        }
     }
 }

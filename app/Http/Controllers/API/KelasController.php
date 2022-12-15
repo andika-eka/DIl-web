@@ -28,8 +28,8 @@ class KelasController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -73,8 +73,8 @@ class KelasController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
         
@@ -114,7 +114,7 @@ class KelasController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -151,8 +151,8 @@ class KelasController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -178,7 +178,7 @@ class KelasController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -202,7 +202,7 @@ class KelasController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -226,7 +226,7 @@ class KelasController extends Controller
         catch (\Exception $e)
         { 
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -272,9 +272,8 @@ class KelasController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
         
@@ -289,11 +288,10 @@ class KelasController extends Controller
                 'notif'=>' siswa approved',
             ],200);
             
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
     }
@@ -324,9 +322,8 @@ class KelasController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
     }
@@ -353,9 +350,8 @@ class KelasController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
     }

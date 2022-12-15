@@ -41,9 +41,8 @@ class PengajarController extends Controller
         }
         catch (\Exception $e){
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'Error',               
             ], 422);
         }
     }

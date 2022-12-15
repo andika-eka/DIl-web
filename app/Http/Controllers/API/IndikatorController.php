@@ -45,8 +45,8 @@ class IndikatorController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -71,7 +71,7 @@ class IndikatorController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -104,7 +104,7 @@ class IndikatorController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -131,7 +131,7 @@ class IndikatorController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
