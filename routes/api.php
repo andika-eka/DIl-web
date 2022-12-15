@@ -94,6 +94,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("currentUnit/{id_kelas}", [LearningController::class, 'currentUnit']);
     Route::get("allUnit/{id_kelas}", [LearningController::class, 'allUnit']);
     Route::get("currenMateri/{id_kelas}", [LearningController::class,'currentMateri']);
+    Route::patch("nextMateri/{id_kelas}", [LearningController::class,'nextMateri']);
+    
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

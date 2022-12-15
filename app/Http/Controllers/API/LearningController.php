@@ -58,7 +58,7 @@ class LearningController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -77,7 +77,7 @@ class LearningController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -97,7 +97,7 @@ class LearningController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
@@ -105,11 +105,22 @@ class LearningController extends Controller
     public function nextMateri($id_kelas){
         try {
             $nextMateri = $this->getSiswa()->nextMateri($id_kelas);
-            return $nextMateri;
+            if($nextMateri->subcmpkFinished){
+                return response()->json([
+                    'subcpmkPengambilan' => $nextMateri,
+                    'currentMateri' => NULL,
+                ]);
+            }
+            else{
+                return response()->json([
+                    'subcpmkPengambilan' => $nextMateri,
+                    'currentMateri' => $this->getSiswa()->getCurrentMateri($id_kelas),
+                ]);
+            }
         } catch (\Exception $e) {
             
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }
