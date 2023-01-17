@@ -3,22 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\MataKuliah;
+
+use App\Models\Indikator;
 use Illuminate\Http\Request;
 
-class MataKuliahController extends Controller
+class IndikatorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        $mataKuliah = MataKuliah::all();
-        return response()->json($mataKuliah);
-    }
+    // public function index()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -26,23 +25,23 @@ class MataKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $scid)
     {
         //
         try
         {
-            $mataKuliah = new MataKuliah;
-            $mataKuliah->kode_mataKuliah = $request->kode_mataKuliah;
-            $mataKuliah->nama_mataKuliah = $request->nama_mataKuliah;
-            $mataKuliah->cpmk = $request->cpmk;
-            $mataKuliah->save();
-            
-            return response()->json([
-                'mataKuliah' =>$mataKuliah,
+            $indikator = new Indikator;
+            $indikator->id_subCpmk = $scid;
+            $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
+            $indikator->narasi_indikator = $request->narasi_indikator;
+            $indikator->pertemuanKe = $request->pertemuanKe;
+            $indikator->level_indikator = $request->level_indikator;
+            $indikator->save();
+        return response()->json([
+                'subcpmk' =>$indikator,
                 'success' => true,
-                'notif'=>'mataKuliah has been created',
+                'notif'=>'indikator has `been created',
             ],200);
-            
         }
         catch (\Exception $e) {
             return response()->json([
@@ -55,7 +54,7 @@ class MataKuliahController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,18 +62,17 @@ class MataKuliahController extends Controller
         //
         try
         {
-            $mataKuliah = MataKuliah::find($id);
-            $mataKuliah->kelas;
-            $mataKuliah->subCpmk;
-            return Response()->json($mataKuliah);
+            $indikator = Indikator::find($id);
+            $indikator->subcmpk;
+            $indikator->materi;
+            $indikator->soal;
+            return response()->json($indikator);
         }
-        
         catch (\Exception $e)
         {
             return response()->json([
                 'message' => $e,
                 'success' => false,
-                'notif'=>'matakuliah not found',               
             ], 422);
         }
     }
@@ -83,23 +81,24 @@ class MataKuliahController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        
+        //
         try
         {
-            $mataKuliah = MataKuliah::find($id);
-            $mataKuliah->kode_mataKuliah = $request->kode_mataKuliah;
-            $mataKuliah->nama_mataKuliah = $request->nama_mataKuliah;
-            $mataKuliah->cpmk = $request->cpmk;
-            $mataKuliah->save();
+            $indikator = Indikator::find($id);
+            $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
+            $indikator->narasi_indikator = $request->narasi_indikator;
+            $indikator->pertemuanKe = $request->pertemuanKe;
+            $indikator->level_indikator = $request->level_indikator;
+            $indikator->save();
             return response()->json([
-                'mataKuliah' =>$mataKuliah,
+                'subcpmk' =>$indikator,
                 'success' => true,
-                'notif'=>'mataKuliah has been updated',
+                'notif'=>'indikator has been updated',
             ],200);
         }
         catch (\Exception $e)
@@ -107,7 +106,6 @@ class MataKuliahController extends Controller
             return response()->json([
                 'message' => $e,
                 'success' => false,
-                'notif'=>'error',               
             ], 422);
         }
     }
@@ -115,7 +113,7 @@ class MataKuliahController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\indikator  $indikator
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -123,20 +121,18 @@ class MataKuliahController extends Controller
         //
         try
         {
-            $mataKuliah = MataKuliah::find($id);
-            $mataKuliah->delete();
+            $indikator = Indikator::find($id);
+            $indikator->delete();
             return response()->json([
                 'success' => true,
-                'notif'=>'mataKuliah has been deleted',
+                'notif'=>'indikator has been deleted',
             ],200);
         }
-        
         catch (\Exception $e)
         {
             return response()->json([
                 'message' => $e,
                 'success' => false,
-                'notif'=>'matakuliah not found',               
             ], 422);
         }
     }

@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-        DB::unprepared( file_get_contents( "devOnly/SQLfile/to_migrate.sql" ) );
+        Schema::table('materi', function (Blueprint $table) {
+            //
+            $table->integer("minimum_time")->nullable();
+        });
     }
 
     /**
@@ -24,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('materi', function (Blueprint $table) {
+            //
+        });
     }
 };

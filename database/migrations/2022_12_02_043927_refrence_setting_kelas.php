@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        //
-        DB::unprepared( file_get_contents( "devOnly/SQLfile/to_migrate.sql" ) );
+        Schema::table('setting_kelas', function (Blueprint $table) {
+            //
+            $table->foreign("id_settting_kelas")->references("id_kelas")->on("kelas")->onDelete("cascade");
+        });
     }
 
     /**
@@ -24,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('setting_kelas', function (Blueprint $table) {
+            //
+        });
     }
 };
