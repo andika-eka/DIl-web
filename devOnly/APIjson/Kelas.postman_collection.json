@@ -1,0 +1,1409 @@
+{
+	"info": {
+		"_postman_id": "408b8f42-9a20-4127-8448-11b6d5200f10",
+		"name": "Kelas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12081671"
+	},
+	"item": [
+		{
+			"name": "get all kelas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.environment.set(\"kelas_id\",item.id_kelas);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.enrolled.length);\r",
+							"const item = jsonData.enrolled[index];\r",
+							"pm.environment.set(\"siswaApplying\",item.id_siswa);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approve siswa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}/approveSiswa/{{siswaApplying}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}",
+						"approveSiswa",
+						"{{siswaApplying}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all Matakuliah Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.environment.set(\"matkul_id\",item.id_matakuliah);\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Matakuliah",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Matakuliah"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/getKelas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"getKelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get kelas Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/getKelas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"getKelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create kelas",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"random_number\", _.random(1, 999))\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"created_kelas_id\",jsonData.kelas.id_kelas);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id_matakuliah",
+							"value": "{{matkul_id}}",
+							"type": "text"
+						},
+						{
+							"key": "tahun_kelas",
+							"value": "2022",
+							"type": "text"
+						},
+						{
+							"key": "semester_kelas",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "nama_kelas",
+							"value": "X{{random_number}}",
+							"type": "text"
+						},
+						{
+							"key": "tanggalBuat_kelas",
+							"value": "2022-10-25",
+							"type": "text"
+						},
+						{
+							"key": "tanggalMulai_kelas",
+							"value": "2022-10-25",
+							"type": "text"
+						},
+						{
+							"key": "tanggalSelesai_kelas",
+							"value": "2023-10-25",
+							"type": "text"
+						},
+						{
+							"key": "status_kelas",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "jenis_kelas",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{created_kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{created_kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply setting to kelas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var today = new Date();\r",
+							"pm.collectionVariables.set(\"today\",today);\r",
+							"pm.collectionVariables.set(\"todayPlus5\", new Date(today.setMonth(today.getMonth()+5)));\r",
+							"pm.collectionVariables.set(\"todayPlus6\", new Date(today.setMonth(today.getMonth()+6)));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Mulai",
+							"value": "{{today}}",
+							"type": "text"
+						},
+						{
+							"key": "Berakhir",
+							"value": "{{todayPlus6}}",
+							"type": "text"
+						},
+						{
+							"key": "bobotC1",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "bobotC2",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "bobotC3",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "bobotC4",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "bobotC5",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "bobotC6",
+							"value": "50",
+							"type": "text"
+						},
+						{
+							"key": "KKM",
+							"value": "60",
+							"type": "text"
+						},
+						{
+							"key": "waktu_tunggu_formatif",
+							"value": "24",
+							"type": "text"
+						},
+						{
+							"key": "tgl_sumatif",
+							"value": "{{todayPlus5}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{created_kelas_id}}/applySettings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{created_kelas_id}}",
+						"applySettings"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set setting to default",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{created_kelas_id}}/setDefaultSettings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{created_kelas_id}}",
+						"setDefaultSettings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.environment.set(\"kelas_id\",item.id_kelas);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"id_matakuliah\", jsonData.id_matakuliah);\r",
+							"pm.collectionVariables.set(\"tahun_kelas\", jsonData.tahun_kelas);\r",
+							"pm.collectionVariables.set(\"semester_kelas\", jsonData.semester_kelas);\r",
+							"pm.collectionVariables.set(\"nama_kelas\", jsonData.nama_kelas);\r",
+							"pm.collectionVariables.set(\"tanggalBuat_kelas\", jsonData.tanggalBuat_kelas);\r",
+							"pm.collectionVariables.set(\"tanggalMulai_kelas\", jsonData.tanggalMulai_kelas);\r",
+							"pm.collectionVariables.set(\"tanggalSelesai_kelas\", jsonData.tanggalSelesai_kelas);\r",
+							"pm.collectionVariables.set(\"status_kelas\", jsonData.status_kelas);\r",
+							"pm.collectionVariables.set(\"jenis_kelas\", jsonData.jenis_kelas);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update kelas",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"random_number\", _.random(1, 999))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id_matakuliah",
+							"value": "{{id_matakuliah}}",
+							"type": "text"
+						},
+						{
+							"key": "tahun_kelas",
+							"value": "{{tahun_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "semester_kelas",
+							"value": "{{semester_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "nama_kelas",
+							"value": "up{{random_number}}",
+							"type": "text"
+						},
+						{
+							"key": "tanggalBuat_kelas",
+							"value": "{{tanggalBuat_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "tanggalMulai_kelas",
+							"value": "{{tanggalMulai_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "tanggalSelesai_kelas",
+							"value": "{{tanggalSelesai_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "status_kelas",
+							"value": "{{status_kelas}}",
+							"type": "text"
+						},
+						{
+							"key": "jenis_kelas",
+							"value": "{{jenis_kelas}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a kelas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a kelas Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{kelas_id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{kelas_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove siswa from kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "SixmA09XJVFQLRDQ2OeBKvf33Nr131D5zVJ7VhUDwL29ML2IXLK8dU3LH35S",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/removesiswa/33/121",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"removesiswa",
+						"33",
+						"121"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove pengajar from kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "SixmA09XJVFQLRDQ2OeBKvf33Nr131D5zVJ7VhUDwL29ML2IXLK8dU3LH35S",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/removepengajar/33/18",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"removepengajar",
+						"33",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add pengajar to kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id_pengajar",
+							"value": "34",
+							"type": "text"
+						},
+						{
+							"key": "status_pengampuan",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/12/addpengajar",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"12",
+						"addpengajar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add siswa to kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id_siswa",
+							"value": "111",
+							"type": "text"
+						},
+						{
+							"key": "status_pengambilanKelas",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/12/addsiswa",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"12",
+						"addsiswa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "siswa apply Kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cQrndlh9G8OmQbNDr7ylcyG3xNmP8aqrPX4s2pbMaIX6menDfUQek2aV8tnq",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/applykelas/33/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"applykelas",
+						"33",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "siswa leave Kelas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "cQrndlh9G8OmQbNDr7ylcyG3xNmP8aqrPX4s2pbMaIX6menDfUQek2aV8tnq",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/leavekelas/33/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"leavekelas",
+						"33",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all Matakuliah Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.environment.set(\"matkul_id\",item.id_matakuliah);\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Matakuliah",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Matakuliah"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "kelas_data",
+			"value": ""
+		},
+		{
+			"key": "id_matakuliah",
+			"value": ""
+		},
+		{
+			"key": "tahun_kelas",
+			"value": ""
+		},
+		{
+			"key": "semester_kelas",
+			"value": ""
+		},
+		{
+			"key": "nama_kelas",
+			"value": ""
+		},
+		{
+			"key": "tanggalBuat_kelas",
+			"value": ""
+		},
+		{
+			"key": "tanggalMulai_kelas",
+			"value": ""
+		},
+		{
+			"key": "tanggalSelesai_kelas",
+			"value": ""
+		},
+		{
+			"key": "status_kelas",
+			"value": ""
+		},
+		{
+			"key": "jenis_kelas",
+			"value": ""
+		},
+		{
+			"key": "today",
+			"value": ""
+		},
+		{
+			"key": "todayPlus5",
+			"value": ""
+		},
+		{
+			"key": "todayPlus6",
+			"value": ""
+		}
+	]
+}

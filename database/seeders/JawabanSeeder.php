@@ -27,7 +27,7 @@ class JawabanSeeder extends Seeder
         foreach ($soals as $soal)
         {
             $key = rand(1,4);
-            for($j=0; $j<4; $j++)
+            for($j=1; $j<=4; $j++)
             {
                 $jawaban = new Pilihanjawaban();
                 $jawaban->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
@@ -44,7 +44,13 @@ class JawabanSeeder extends Seeder
                 if ($probabilty == 1){
                     $soal->pathFileGambar_soal = "D:\\PHP\\DIL\\public\\files\\soal\\1669480466.jpg";
                 }
-                $jawaban->save();
+                try{
+                    $jawaban->save();
+                }
+                catch (\Exception $e)
+                {
+                    echo $e->getMessage();
+                }
             }
             
         }

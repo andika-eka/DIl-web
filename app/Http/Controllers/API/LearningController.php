@@ -4,16 +4,20 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SubCpmk;
 use App\Models\PengambilanKelas;
 use App\Models\SubcpmkPengambilan;
 use App\Models\Kelas;
-use App\Models\Siswa;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
 {
 
+    /**
+     * 
+     *
+     * get details logged in siswa
+     * @return App\Models\siswa
+     */
     private function getSiswa(){
         $user = Auth::user();  
         if($user->tipe_pengguna != 3){
@@ -23,6 +27,14 @@ class LearningController extends Controller
         return $user->detail;
     }
 
+
+    /**
+     * start a learning session for the given siswa
+     * get the first subcmpk by nomorUrut_subCpmk
+     * create a new SubcpmkPengambilan
+     *
+     * @param integer $id_kelas
+     */
     private function startKelas($id_kelas){
         $kelas = Kelas::find($id_kelas);
         $subcpmk = $kelas->matakuliah->subcpmk->sortBy("nomorUrut_subCpmk")->first();

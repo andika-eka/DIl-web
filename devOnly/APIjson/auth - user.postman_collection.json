@@ -1,11 +1,125 @@
 {
 	"info": {
-		"_postman_id": "df04c1b6-fc13-4296-9186-4b4131a83f73",
+		"_postman_id": "63cf696e-cd30-4fb4-ba60-d674d8448100",
 		"name": "auth / user",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12081671"
 	},
 	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "admin@admin.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login siswa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "josefina38@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login pengajar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "newell.kuhic@weber.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "test",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "Register new admin",
 			"request": {
@@ -60,44 +174,6 @@
 			"response": []
 		},
 		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "email",
-							"value": "admin@admin.com",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "adminpass",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/login",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Logout",
 			"request": {
 				"auth": {
@@ -133,6 +209,16 @@
 		{
 			"name": "Register new pengajar",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -140,12 +226,12 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "pengajar test",
+							"value": "pengajarActivetest",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "pengajartest@example.com",
+							"value": "pengajartest1@example.com",
 							"type": "text"
 						},
 						{
@@ -186,6 +272,16 @@
 		{
 			"name": "Register new siswa",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -193,12 +289,12 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "siswa test 2",
+							"value": "siswaActiveTest",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "siswatest2@example.com",
+							"value": "siswaActiveTest@example.com",
 							"type": "text"
 						},
 						{
@@ -239,10 +335,20 @@
 		{
 			"name": "Get all user",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/user",
+					"raw": "http://127.0.0.1:8000/api/user/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -253,7 +359,218 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"user"
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "SixmA09XJVFQLRDQ2OeBKvf33Nr131D5zVJ7VhUDwL29ML2IXLK8dU3LH35S",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/68",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"68"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update siswa",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "GtO3Zmst0VNRNCFkCm2Xa1VTGbfziyYZ6Si4SVvD6c4tZ3hvmBNET1lww8ju",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "identitas_siswa",
+							"value": "1234567893",
+							"type": "text"
+						},
+						{
+							"key": "email_siswa",
+							"value": "updatedsiswaactive@example.com",
+							"type": "text"
+						},
+						{
+							"key": "nama_siswa",
+							"value": "updatedsiswaactive",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "jenisKelamin_siswa",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "tanggalLahir_siswa",
+							"value": "2001-12-12",
+							"type": "text"
+						},
+						{
+							"key": "pathFileFoto_siswa",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/siswa/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"siswa",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update pengajar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "s2pJmTcQGY9yGZDMLsv7TP5acpl3ECN3bc7JdH0xlJhOiMQDjT7fzI1MzrkZ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "identitas_pengajar",
+							"value": "12345678eeq3q",
+							"type": "text"
+						},
+						{
+							"key": "email_pengajar",
+							"value": "updatepengajaraactive@example.co",
+							"type": "text"
+						},
+						{
+							"key": "nama_pengajar",
+							"value": "andika",
+							"type": "text"
+						},
+						{
+							"key": "jenisKelamin_pengajar",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "tanggalLahir_pengajar",
+							"value": "2001-12-12",
+							"type": "text"
+						},
+						{
+							"key": "pathFileFoto_pengajar",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/pengajar/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"pengajar",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete a user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/36/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"36",
+						""
 					]
 				}
 			},
@@ -262,6 +579,16 @@
 		{
 			"name": "Get all admin",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -286,6 +613,16 @@
 		{
 			"name": "Get all pengajar",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -310,6 +647,16 @@
 		{
 			"name": "Get all siswa",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AdminToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -326,6 +673,58 @@
 						"api",
 						"user",
 						"siswa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ZvQy0jFPAaXsye5b7CIx3FPkUqWcOSaChk0CtXB2fJETafnBAc3ujtuUvwIG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "newPassword",
+							"value": "newpass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/36/newPassword",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"36",
+						"newPassword"
+					],
+					"query": [
+						{
+							"key": "newPassword",
+							"value": "newpass",
+							"disabled": true
+						}
 					]
 				}
 			},

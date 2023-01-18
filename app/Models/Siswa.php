@@ -32,10 +32,26 @@ class Siswa extends Model
     {
         return $this->belongsToMany(kelas::class, "pengambilankelas", "id_siswa", "id_kelas");
     }
+
+    /**
+     *
+     * true if siswa is enrolled in the kelas
+     * 
+     * @param integer $id_kelas
+     * @return boolean 
+     */
     private function isEnrolledInKelas($id_kelas){
         $kelas = Kelas::find($id_kelas);
         return $kelas->siswa->contains($this->id_siswa);
     }
+
+    /**
+     *
+     * get all sub cpmk in kelas
+     * 
+     * @param integer $id_kelas
+     * @return App\Models\Subcpmk;
+     */
     public function subcmpkbyKelas($id_kelas){
         if($this->isEnrolledInKelas($id_kelas)){
             $kelas = Kelas::find($id_kelas);
@@ -48,6 +64,13 @@ class Siswa extends Model
         }
     }
 
+    /**
+     *
+     * get completed subcpmk in kelas
+     * 
+     * @param integer $id_kelas
+     * @return App\Models\Subcpmk;
+     */
     public function getProgressSubCpmk($id_kelas){
         if($this->isEnrolledInKelas($id_kelas)){
             $subcpmk = DB::table('subcpmk')
@@ -67,6 +90,15 @@ class Siswa extends Model
             throw new \Exception('Siswa is not enrolled');
         }
     }
+
+    
+    /**
+     *
+     * get current subcpmk in kelas
+     * 
+     * @param integer $id_kelas
+     * @return App\Models\Subcpmk;
+     */
     public function getCurrentSubCpmk($id_kelas){
         if($this->isEnrolledInKelas($id_kelas)){
             $subcpmk = DB::table('subcpmk')
@@ -86,6 +118,13 @@ class Siswa extends Model
         }
     }
     
+    /**
+     * get all materi
+     * in current subcpmk in kelas
+     * 
+     * @param integer $id_kelas
+     * @return App\Models\Subcpmk;
+     */
     public function getCurrentMateriList($id_kelas){
         $subcpmk_id = $this->getCurrentSubCpmk($id_kelas)->id_subCpmk;
         if($subcpmk_id){
@@ -96,6 +135,16 @@ class Siswa extends Model
             throw new \Exception('Siswa is not enrolled');
         }
     }
+
+    /**
+     *
+     * start materi progress 
+     * in current subcpmk in kelas
+     * 
+     * put materi_id in current_materi_id of current subcpmk
+     * 
+     * @param integer $id_kelas
+     */
     private function startMateri($id_kelas){
         $materiList = $this->GetCurrentMateriList($id_kelas)->indikator;
         $indikatorfirst = $materiList->sortBy('nomorUrut_indikator')->first();
@@ -108,6 +157,15 @@ class Siswa extends Model
         $subcpmkPengambilan->save();
     }
 
+    /**
+     *
+     * get detail from materi_id in current_materi_id of current subcpmk
+     * 
+     * start a new materi if current_materi_id in null
+     * 
+     * @param integer $id_kelas
+     * @return App\Models\Materi;
+     */
     public function getCurrentMateri($id_kelas){
         $subcpmk = $this->getCurrentSubCpmk($id_kelas);
     
@@ -159,9 +217,11 @@ class Siswa extends Model
                     $subcpmkPengambilan->status_subcpmkpengambilan = 2;
                     $subcpmkPengambilan->save();
                     $subcpmkPengambilan->subcmpkFinished = true;
+                    
                 }
                 else{
-                    $nextIndikator = $subCpmkIndikator->where("nomorUrut_indikator", $currentMateri->indikator->nomorUrut_indikator + 1)->first();
+                    $nextIndikator = $subCpmkIndikator->where("nomorUrut_indikator", ">",$currentMateri->indikator->nomorUrut_indikator)->first();
+                    // dd($nextIndikator);
                     $nextMateri = $nextIndikator->materi->sortBy("nomorUrut_materi")->first();
                     $materiId = $nextMateri->id_materi;
                     $subcpmkPengambilan->current_materi_id = $materiId;

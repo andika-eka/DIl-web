@@ -135,5 +135,6 @@ class MataKuliahController extends Controller
                 'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
+        }
     }
 }
