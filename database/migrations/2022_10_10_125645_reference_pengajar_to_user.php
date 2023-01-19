@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
+        // Schema::disableForeignKeyConstraints();
         Schema::table('pengajar', function (Blueprint $table) {
             //
             $table->bigInteger('id_pengajar')->length(20)->unsigned()->autoIncrement(false)->change();
             $table->foreign("id_pengajar")->references('id')->on('users')->onDelete('cascade');
         });
+        // Schema::enableForeignKeyConstraints();
     }
 
     /**

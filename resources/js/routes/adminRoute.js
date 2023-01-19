@@ -1,24 +1,35 @@
+// middleware untuk admin
+const isAdmin = (to, from, next) => {
+    if (auth.user.tipe_pengguna == 1) {
+        next();
+    }
+};
+
 // route untuk admin pages
 const routes = [
     {
-        path: "/admin",
-        redirect: "/admin/dashboard",
+        path: "/a",
+        redirect: "/a/dashboard",
         component: () => import("@/pages/layouts/Admin.vue"),
+        meta: {
+            role: "admin",
+            requireAuth: true,
+        },
         children: [
             {
-                path: "/admin/dashboard",
+                path: "/a/dashboard",
                 component: () => import("@/pages/admin/Dashboard.vue"),
             },
             {
-                path: "/admin/settings",
+                path: "/a/settings",
                 component: () => import("@/pages/admin/Settings.vue"),
             },
             {
-                path: "/admin/tables",
+                path: "/a/tables",
                 component: () => import("@/pages/admin/Tables.vue"),
             },
             {
-                path: "/admin/maps",
+                path: "/a/maps",
                 component: () => import("@/pages/admin/Maps.vue"),
             },
         ],

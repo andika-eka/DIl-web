@@ -24,12 +24,12 @@ import CardBarChart from "@/pages/components/Cards/CardBarChart.vue";
 import CardPageVisits from "@/pages/components/Cards/CardPageVisits.vue";
 import CardSocialTraffic from "@/pages/components/Cards/CardSocialTraffic.vue";
 export default {
-  name: "dashboard-page",
-  components: {
-    CardLineChart,
-    CardBarChart,
-    CardPageVisits,
-    CardSocialTraffic,
-  },
+    name: "dashboard-page",
+    components: {
+        CardLineChart,
+        CardBarChart,
+        CardPageVisits,
+        CardSocialTraffic,
+    },
 };
 </script>

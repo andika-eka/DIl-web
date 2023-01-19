@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('setting_kelas', function (Blueprint $table) {
             $table->unsignedBigInteger('id_settting_kelas');
-            $table->date("Mulai")->default(DB::raw('NOW()'));
-            $table->date("Berakhir")->nullable();
+            $table->dateTime("Mulai")->default(DB::raw('NOW()'));
+            $table->dateTime("Berakhir")->nullable();
             $table->integer("bobotC1")->default(15);
             $table->integer("bobotC2")->default(15);
             $table->integer("bobotC3")->default(15);

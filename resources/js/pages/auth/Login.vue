@@ -1,43 +1,65 @@
 <template>
     <div class="container mx-auto px-4 h-full">
         <div class="flex content-center items-center justify-center h-full">
-            <div class="w-full lg:w-4/12 px-4">
+            <div class="w-full lg:w-5/12 px-4">
+                <alert-error
+                    v-if="valid"
+                    text="Incorect username and password"
+                />
                 <div
-                    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0">
+                    class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0"
+                >
                     <div class="rounded-t mb-0 px-6 py-6">
                         <div class="text-center mb-3">
                             <h6 class="text-slate-500 text-sm font-bold">
-                                LOGIN
+                                LOGIN FORM
                             </h6>
                         </div>
                         <hr class="mt-6 border-b-1 border-slate-300" />
                     </div>
                     <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-                        <form>
+                        <form @submit.prevent="handleLogin">
                             <div class="relative w-full mb-3">
-                                <label class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                                    htmlFor="grid-password">
+                                <label
+                                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                                    htmlFor="grid-password"
+                                >
                                     Email
                                 </label>
-                                <input type="email"
+                                <input
+                                    type="email"
+                                    v-model="form.email"
                                     class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                    placeholder="Email" />
+                                    placeholder="Email"
+                                />
                             </div>
 
                             <div class="relative w-full mb-3">
-                                <label class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                                    htmlFor="grid-password">
+                                <label
+                                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                                    htmlFor="grid-password"
+                                >
                                     Password
                                 </label>
-                                <input type="password"
+                                <input
+                                    type="password"
+                                    v-model="form.password"
                                     class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                    placeholder="Password" />
+                                    placeholder="Password"
+                                />
                             </div>
                             <div>
-                                <label class="inline-flex items-center cursor-pointer">
-                                    <input id="customCheckLogin" type="checkbox"
-                                        class="form-checkbox border-0 rounded text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150" />
-                                    <span class="ml-2 text-sm font-semibold text-slate-600">
+                                <label
+                                    class="inline-flex items-center cursor-pointer"
+                                >
+                                    <input
+                                        id="customCheckLogin"
+                                        type="checkbox"
+                                        class="form-checkbox border-0 rounded text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                                    />
+                                    <span
+                                        class="ml-2 text-sm font-semibold text-slate-600"
+                                    >
                                         Remember me
                                     </span>
                                 </label>
@@ -46,8 +68,9 @@
                             <div class="text-center mt-6">
                                 <button
                                     class="bg-slate-800 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                                    type="button">
-                                    Sign In
+                                    type="submit"
+                                >
+                                    Login
                                 </button>
                             </div>
                         </form>
@@ -59,20 +82,48 @@
                             <small>Forgot password?</small>
                         </a>
                     </div>
-                    <div class="w-1/2 text-right">
-                        <router-link to="/auth/register" class="text-slate-200">
-                            <small>Create new account</small>
-                        </router-link>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-    },
-}
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+// Compoenent
+import AlertError from "@/pages/components/Alerts/AlertError.vue";
+
+const router = useRouter();
+const valid = ref(false);
+const authStore = useAuthStore();
+const form = ref({
+    email: "",
+    password: "",
+});
+
+const handleLogin = async () => {
+    valid.value = false;
+    await axios
+        .post("/api/login", {
+            email: form.value.email,
+            password: form.value.password,
+        })
+        .then((res) => {
+            authStore.authUser = res.data;
+            if (authStore.authUser.tipe_pengguna == 1) {
+                router.push("/a");
+            } else if (authStore.authUser.tipe_pengguna == 2) {
+                router.push("/d");
+            } else {
+                router.push("/u");
+            }
+        })
+        .catch(() => {
+            valid.value = true;
+        });
+};
 </script>

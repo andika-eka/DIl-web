@@ -1,17 +1,25 @@
 // route untuk auth pages
+
 const routes = [
     {
-        path: "/auth",
-        redirect: "/auth/login",
+        path: "/",
+        redirect: "/login",
         component: () => import("@/pages/layouts/Auth.vue"),
         children: [
             {
-                path: "/auth/login",
+                path: "/login",
+                name: "login",
                 component: () => import("@/pages/auth/Login.vue"),
+                meta: {
+                    authRoute: true,
+                },
             },
             {
-                path: "/auth/register",
+                path: "/register",
                 component: () => import("@/pages/auth/Register.vue"),
+                meta: {
+                    authRoute: true,
+                },
             },
         ],
     },
