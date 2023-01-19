@@ -22,9 +22,14 @@ class TestSeeder extends Seeder
             MatkulWithKelasSeeder::class,
             KelasSettingSeeder::class,
             PengambilanKelasSeeder::class,
+            ApplyKelasSeeder::class,
             PengampuanSeeder::class,
             SubCpmkSeeder::class,
+            IndikatorSeeder::class,
+            MateriSeeder::class,
             SubcpmkPengamBilanSeeder::class,
+            SoalSeeder::class,
+            JawabanSeeder::class,
             
         ]);
     }

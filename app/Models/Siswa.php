@@ -171,11 +171,10 @@ class Siswa extends Model
     
         if($subcpmk->status_subcpmkpengambilan == 1){
             if($subcpmk){
-                if (is_null($subcpmk->current_materi_id)){
+                if (!$subcpmk->current_materi_id){
                     $this-> startMateri($id_kelas);
                 }
                 $materi = Materi::find($subcpmk->current_materi_id);
-                $materi->current_materi_start_time = $subcpmk->current_materi_start_time;
                 return $materi;
             }
             else{

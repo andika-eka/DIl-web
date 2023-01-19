@@ -33,7 +33,7 @@ class JawabanSeeder extends Seeder
                 $jawaban->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
                 $jawaban->noUrut_pilihan = $j;
                 $jawaban->teks_pilihan = $faker->bs();
-                if ($key == $j){
+                if ( $j==1 ){
                     $jawaban->status_pilihan = 1;
                 }
                 else{

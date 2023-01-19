@@ -51,6 +51,9 @@ class TesFormatif extends Model
     }
 
     public function startTesFomatif(){
+        if ($this->subcpmkPengambilan->status_subcpmkpengambilan == 1){
+                throw new \Exception('unit/subcpmk has not finished yet');
+        }
         $this->generateSoal();
         $this->waktuMulai_TesFormatif =  date("Y-m-d H:i:s");
         $this->save();
@@ -59,13 +62,23 @@ class TesFormatif extends Model
         $this->waktuSelesai_tesFormatif = date("Y-m-d H:i:s");
         $this->status_TesFormatif = 2;
         
-        $detail = $this->detail();
+        $detail = $this->detail()->get();
+
         $trueAnswer = 0;
         foreach ($detail as $item){
-            if($item->jawaban->status_pilihan == 1){
+            try{
+                //jawaban will return null if its empty and cause error
+                $jawaban = $item->jawaban->status_pilihan;
+            }
+            catch (\Exception $e)
+            {
+                $jawaban = 0;
+            }
+            if($jawaban == 1){
                 $trueAnswer++;
             }
         }
+        // dd($trueAnswer);
         
         $indikator = $this->subcpmkPengambilan->subCmpk->indikator->count();
         $this->nilai_tesFormatif = $trueAnswer *100 / $indikator; 
