@@ -47,9 +47,8 @@ class SiswaController extends Controller
         }
         catch (\Exception $e){
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'Error',               
             ], 422);
         }
     }
@@ -116,9 +115,8 @@ class SiswaController extends Controller
         
         catch (\Exception $e){
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'Error',               
             ], 422);
         }
     }
@@ -144,9 +142,8 @@ class SiswaController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>'kelas not found',               
             ], 422);
         }
         

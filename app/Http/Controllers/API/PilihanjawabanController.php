@@ -56,8 +56,8 @@ class PilihanjawabanController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -71,19 +71,19 @@ class PilihanjawabanController extends Controller
     public function show($id)
     {
         
-        // try
-        // {
+        try
+        {
             $jawaban = Pilihanjawaban::find($id);
             $jawaban->soal;
             return response()->json($jawaban);
-        // }
-        // catch (\Exception $e)
-        // {
-        //     return response()->json([
-        //         'message' => $e,
-        //         'success' => false,
-        //     ], 422);
-        // }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
 
     }
 
@@ -100,7 +100,6 @@ class PilihanjawabanController extends Controller
         try
         {
             $jawaban = Pilihanjawaban::find($id);
-            // dd($jawaban);
             $jawaban->noUrut_pilihan = $request->noUrut_pilihan;
             $jawaban->teks_pilihan = $request->teks_pilihan;
             $jawaban->status_pilihan = $request->status_pilihan;
@@ -123,8 +122,8 @@ class PilihanjawabanController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -146,8 +145,8 @@ class PilihanjawabanController extends Controller
         }
         catch (\Exception $e) {
             return response()->json([
+                'message' => $e->getMessage(),
                 'success' => false,
-                'notif'=>$e,               
             ], 422);
         } 
     }
@@ -172,7 +171,7 @@ class PilihanjawabanController extends Controller
         catch (\Exception $e)
         {
             return response()->json([
-                'message' => $e,
+                'message' => $e->getMessage(),
                 'success' => false,
             ], 422);
         }

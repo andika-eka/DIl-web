@@ -17,6 +17,7 @@ use App\Http\Controllers\API\PilihanjawabanController;
 
 
 use App\Http\Controllers\API\LearningController;
+use App\Http\Controllers\API\TesFormatifController;
 
 
 
@@ -51,6 +52,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resources([
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
+    Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
+    Route::post('Kelas/{id}',[KelasController::class, 'update']);
     
     Route::patch('Kelas/{id_kelas}/approveSiswa/{id_siswa}', [KelasController::class, 'approveSiswa']);
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
@@ -94,6 +97,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("currentUnit/{id_kelas}", [LearningController::class, 'currentUnit']);
     Route::get("allUnit/{id_kelas}", [LearningController::class, 'allUnit']);
     Route::get("currenMateri/{id_kelas}", [LearningController::class,'currentMateri']);
+    Route::patch("nextMateri/{id_kelas}", [LearningController::class,'nextMateri']);
+
+    Route::get("TesFormatif/{id_kelas}", [TesFormatifController::class, 'TesFormatif']);
+    Route::patch("createTestformatif/{id_kelas}", [TesFormatifController::class, 'createTestformatif']);
+    Route::patch("startTesFormatif/{id_kelas}", [TesFormatifController::class, 'startTesFormatif']);
+    Route::get("getSoal/{id_kelas}/{no_soal}", [TesFormatifController::class, 'getSoal']);
+    Route::post("submitJawaban/{id_kelas}/{no_soal}", [TesFormatifController::class, 'submitJawaban']);
+    Route::patch("finishTesFormatif/{id_kelas}", [TesFormatifController::class, 'finishTesFormatif']);
+
+
+    
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

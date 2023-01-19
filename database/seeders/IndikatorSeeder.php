@@ -22,7 +22,7 @@ class IndikatorSeeder extends Seeder
         $subCpmks = SubCpmk::all();
         foreach ($subCpmks as $subCpmk)
         {
-            for($j=0; $j<rand(1,4); $j++)
+            for($j=0; $j<rand(5,10); $j++)
             {
                 $indikator = new Indikator();
                 $indikator->id_subCpmk = $subCpmk->id_subCpmk;

@@ -47,7 +47,8 @@ class SubcpmkPengamBilanSeeder extends Seeder
                     $interval = rand(10,35);
                     $startDateTime->add(new DateInterval('P'.$interval.'D'));
                     $subpengambilan->waktuSelesai_Pengambilan = $startDateTime;
-                    $subpengambilan->status_subcpmkpengambilan = 2;
+                    $subpengambilan->status_subcpmkpengambilan = 1;
+                    // $subpengambilan->status_subcpmkpengambilan = 2;
                     $subpengambilan->save();
                     $count++;
                 }
