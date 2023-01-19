@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class SubcpmkPengambilan extends Model
 {
@@ -36,5 +37,14 @@ class SubcpmkPengambilan extends Model
     }
     public function subCmpk(){
         return $this->belongsTo(SubCpmk::class, 'id_subCPMK','id_subCpmk');
+    }
+    
+    public function settingKelas(){
+        $setings = DB::table('setting_kelas')
+                    ->join('kelas', 'setting_kelas.id_settting_kelas', '=', 'kelas.id_kelas')
+                    ->join('pengambilankelas', 'kelas.id_kelas', '=', 'pengambilankelas.id_kelas')
+                    ->where("id_pengambilanKelas", '=', $this->id_pengambilanKelas)->first();
+        return $setings;
+                    
     }
 }

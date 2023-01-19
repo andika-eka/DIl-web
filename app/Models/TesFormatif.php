@@ -64,26 +64,48 @@ class TesFormatif extends Model
         
         $detail = $this->detail()->get();
 
-        $trueAnswer = 0;
+        $score = 0;
+        $scoreMax = 0;
+        $settings = $this->subcpmkPengambilan->settingKelas();
+        $bobotIndex = [ 
+        $settings->bobotC1,
+        $settings->bobotC2,
+        $settings->bobotC3,
+        $settings->bobotC4,
+        $settings->bobotC5,
+        $settings->bobotC6,];
         foreach ($detail as $item){
+            $jawaban = 0;
+            $bobot =0;
             try{
                 //jawaban will return null if its empty and cause error
-                $jawaban = $item->jawaban->status_pilihan;
+                $jawaban= $item->jawaban->status_pilihan;
+                $level = $item->jawaban->soal->indikator->level_indikator + 1;
+                $bobot = $bobotIndex[$level];
             }
             catch (\Exception $e)
             {
                 $jawaban = 0;
             }
             if($jawaban == 1){
-                $trueAnswer++;
+                $score += $bobot;
             }
+            $scoreMax += $bobot;
         }
         // dd($trueAnswer);
         
-        $indikator = $this->subcpmkPengambilan->subCmpk->indikator->count();
-        $this->nilai_tesFormatif = $trueAnswer *100 / $indikator; 
+        $this->nilai_tesFormatif = $score *100 / $scoreMax; 
+        $this->checkPassing();
         $this->save();
         return $this;
+    }
+
+    private function checkPassing(){
+        $settings = $this->subcpmkPengambilan->settingKelas();
+        if ($this->nilai_tesFormatif >= $settings->KKM){
+            $this->status_TesFormatif = 3;
+            $this->save();
+        }
     }
 
 
