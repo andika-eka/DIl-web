@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resources([
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
+    Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
+    Route::post('Kelas/{id}',[KelasController::class, 'update']);
     
     Route::patch('Kelas/{id_kelas}/approveSiswa/{id_siswa}', [KelasController::class, 'approveSiswa']);
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
