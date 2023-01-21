@@ -30,8 +30,8 @@ class TesFormatif extends Model
         return $this->hasMany(DetailTesFormatif::class, 'id_tesFormatif', 'id_tesFormatif');
     }
 
-    private function selectSoal($indikator){
-        $numSoal = $this->id_tesFormatif + $indikator->id_indikator + $this->pengulangan_tesFormatif;
+    private function selectSoal($indikator, $number){
+        $numSoal = $this->id_tesFormatif + $indikator->id_indikator + $this->pengulangan_tesFormatif + $number;
         $countSoal = count($indikator->soal);
         $numSoal %= $countSoal;
         $soal = $indikator->soal->slice($numSoal, 1);
@@ -67,25 +67,21 @@ class TesFormatif extends Model
         $score = 0;
         $scoreMax = 0;
         $settings = $this->subcpmkPengambilan->settingKelas();
-        $bobotIndex = [ 
-        $settings->bobotC1,
-        $settings->bobotC2,
-        $settings->bobotC3,
-        $settings->bobotC4,
-        $settings->bobotC5,
-        $settings->bobotC6,];
+        $bobotIndex = $settings->getBobotArray();
         foreach ($detail as $item){
             $jawaban = 0;
             $bobot =0;
             try{
                 //jawaban will return null if its empty and cause error
-                $jawaban= $item->jawaban->status_pilihan;
-                $level = $item->jawaban->soal->indikator->level_indikator + 1;
+                $level = $item->jawaban->soal->indikator->level_indikator - 1;
                 $bobot = $bobotIndex[$level];
+                $jawaban= $item->jawaban->status_pilihan;
             }
             catch (\Exception $e)
             {
                 $jawaban = 0;
+                $level = $item->soal->indikator->level_indikator -1 ;
+                $bobot = $bobotIndex[$level];
             }
             if($jawaban == 1){
                 $score += $bobot;
@@ -122,19 +118,23 @@ class TesFormatif extends Model
 
     private function generateSoal(){
         if (!$this->detail()->exists()){
+            $settings = $this->subcpmkPengambilan->settingKelas();
             $id_subcpmk  = $this->subcpmkPengambilan->id_subCPMK;
             $indikators = SubCpmk::find($id_subcpmk)->indikator
             ->sortBy("nomorUrut_indikator");
             
             $lastNum = 0;
+            $maxNum = $settings->soal_formatif_per_indikator;
             foreach($indikators as $indikator){
-                $lastNum +=1;
-                $soal = $this->selectSoal($indikator)->first();
-                $detailTesFormatif = new DetailTesFormatif;
-                $detailTesFormatif->id_tesFormatif = $this->id_tesFormatif;
-                $detailTesFormatif->nomorUrut_soal = $lastNum;
-                $detailTesFormatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
-                $detailTesFormatif->save();
+                for ($i = 1; $i <= $maxNum ; $i++) {
+                    $lastNum +=1;
+                    $soal = $this->selectSoal($indikator, $i)->first();
+                    $detailTesFormatif = new DetailTesFormatif;
+                    $detailTesFormatif->id_tesFormatif = $this->id_tesFormatif;
+                    $detailTesFormatif->nomorUrut_soal = $lastNum;
+                    $detailTesFormatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
+                    $detailTesFormatif->save();
+                }
             }
         }
         else{

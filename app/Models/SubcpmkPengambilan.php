@@ -44,7 +44,7 @@ class SubcpmkPengambilan extends Model
                     ->join('kelas', 'setting_kelas.id_settting_kelas', '=', 'kelas.id_kelas')
                     ->join('pengambilankelas', 'kelas.id_kelas', '=', 'pengambilankelas.id_kelas')
                     ->where("id_pengambilanKelas", '=', $this->id_pengambilanKelas)->first();
-        return $setings;
+        return SettingKelas::find($setings->id_settting_kelas);
                     
     }
 }

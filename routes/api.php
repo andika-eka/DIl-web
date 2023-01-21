@@ -59,8 +59,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     
+    
     Route::post('Kelas/{id_kelas}/applySettings', [KelasController::class, 'applySettings']);
     Route::patch('Kelas/{id_kelas}/setDefaultSettings', [KelasController::class, 'setDefaultSettings']);
+    Route::get('getPengampuanKelas', [PengajarController::class, 'getPengampuanKelas']);
 
     
     Route::post('Matakuliah/{mkid}/subcpmk', [SubCpmkController::class, 'store']);
@@ -93,7 +95,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('jawaban/{id}', [PilihanjawabanController::class, 'destroy']);
 
     
-    Route::get("getKelas",[KelasController::class, 'getKelas']);
+    Route::get("getKelas",[SiswaController::class, 'getKelas']);
+    Route::get("getApprovedKelas",[SiswaController::class, 'getApprovedKelas']);
     Route::get("currentUnit/{id_kelas}", [LearningController::class, 'currentUnit']);
     Route::get("allUnit/{id_kelas}", [LearningController::class, 'allUnit']);
     Route::get("currenMateri/{id_kelas}", [LearningController::class,'currentMateri']);
@@ -106,8 +109,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("getSoal/{id_kelas}/{no_soal}", [TesFormatifController::class, 'getSoal']);
     Route::post("submitJawaban/{id_kelas}/{no_soal}", [TesFormatifController::class, 'submitJawaban']);
     Route::patch("finishTesFormatif/{id_kelas}", [TesFormatifController::class, 'finishTesFormatif']);
-
-
     
 });
 

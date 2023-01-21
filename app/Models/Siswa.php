@@ -33,7 +33,18 @@ class Siswa extends Model
         return $this->belongsToMany(kelas::class, "pengambilankelas", "id_siswa", "id_kelas");
     }
 
-
+    public function approvedKelas(){
+        $kelas = DB::table('kelas')
+                        ->join('pengambilankelas', 'kelas.id_kelas', '=', 'pengambilankelas.id_kelas')
+                        ->join('siswa', 'pengambilankelas.id_siswa', '=', 'siswa.id_siswa')
+                        ->select('kelas.*', )
+                        ->where([
+                            ['pengambilankelas.id_siswa', '=', $this->id_siswa],
+                            ['pengambilankelas.status_pengambilanKelas', '=', 1],
+                        ])
+                        ->get();
+        return $kelas;
+    }
     /**
      *
      * true if siswa is enrolled in the kelas
@@ -305,7 +316,9 @@ class Siswa extends Model
             $subcpmk = $kelas->matakuliah->subcpmk
                 ->where("nomorUrut_subCpmk", '>', $currentSubcpmk->nomorUrut_subCpmk)
                 ->sortBy("nomorUrut_subCpmk")->first();
-            // dd( $subcpmk);
+            if(!$subcpmk){
+                throw new \Exception('siswa has to take sumatif tes');
+            }
             $pengambilankelas = PengambilanKelas::where([
                 ['id_siswa', '=', $this->id_siswa],
                 ['id_kelas', '=', $id_kelas]

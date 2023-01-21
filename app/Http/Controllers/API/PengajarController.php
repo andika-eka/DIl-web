@@ -84,5 +84,29 @@ class PengajarController extends Controller
         }
         return true;
     }
+
+    public function getPengampuanKelas(){
+        // try
+        // {
+            $user = Auth::user();
+            if ($user->tipe_pengguna != 2)
+            {
+                throw new \Exception("wrong user type");
+            }
+            $kelas = $user->detail->kelas()->get();
+
+            return response()->json([
+                'kelas' =>  $kelas,
+                'success' => true,
+            ],200);
+        // }
+        
+        // catch (\Exception $e){
+        //     return response()->json([
+        //         'message' => $e->getMessage(),
+        //         'success' => false,
+        //     ], 422);
+        // }
+    }
     
 }

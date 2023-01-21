@@ -110,8 +110,8 @@ class LearningController extends Controller
     }
 
     public function nextUnit($id_kelas){
-        // try
-        // {
+        try
+        {
             $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
             $this->getSiswa()->nextSubcpmk($id_kelas);
 
@@ -121,13 +121,13 @@ class LearningController extends Controller
                 'current' => $currentSubcpmk,
                 'completed' => $subcpmk,
             ]);
-        // }
-        // catch (\Exception $e)
-        // {
-        //     return response()->json([
-        //         'message' => $e->getMessage(),
-        //         'success' => false,
-        //     ], 422);
-        // }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
     }
 }

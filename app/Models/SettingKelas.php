@@ -23,5 +23,21 @@ class SettingKelas extends Model
         "KKM",
         "waktu_tunggu_formatif", //jam
         "tgl_sumatif",
+        "soal_formatif_per_indikator",
+        "soal_sumatif_per_indikator",
     ];
+
+    public function getBobotArray(){
+        $array =  [ 
+            $this->bobotC1,
+            $this->bobotC2,
+            $this->bobotC3,
+            $this->bobotC4,
+            $this->bobotC5,
+            $this->bobotC6,];
+        return $array;
+    }
+
+    // public function 
+    
 }
