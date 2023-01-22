@@ -114,12 +114,32 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div
+                class="flex justify-between items-center bg-gray-100 mt-5 px-4 pt-2 pb-4"
+            >
+                <router-link to="/d/tambah-kelas">
+                    <button
+                        type="submit"
+                        class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                    >
+                        Sebelumnya
+                    </button>
+                </router-link>
                 <button
                     @click="addSubCPMK"
-                    class="bg-emerald-400 w-full py-2 px-4 rounded-lg mt-12 text-sm"
+                    class="bg-emerald-500 py-2 px-4 rounded-lg mt-2 text-sm text-white font-medium"
                 >
-                    <i class="fas fa-plus text-white"></i>
+                    Tambah Sub-CPMK <i class="fas fa-plus text-white ml-3"></i>
                 </button>
+                <router-link to="/d/indikator">
+                    <button
+                        type="submit"
+                        class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                    >
+                        Berikutnya
+                    </button>
+                </router-link>
             </div>
         </div>
     </section>

@@ -115,6 +115,24 @@
                     </div>
                 </div>
             </div>
+            <div
+                class="flex justify-between items-center bg-gray-100 mt-5 px-4 pt-2 pb-4"
+            >
+                <router-link to="/d/sub-cpmk">
+                    <button
+                        type="submit"
+                        class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                    >
+                        Sebelumnya
+                    </button>
+                </router-link>
+                <button
+                    type="submit"
+                    class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                >
+                    Finish
+                </button>
+            </div>
         </div>
     </section>
 </template>

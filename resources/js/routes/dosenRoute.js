@@ -22,6 +22,10 @@ const routes = [
                 component: () => import("@/pages/dosen/PilihMatakuliah.vue"),
             },
             {
+                path: "/d/tambah-kelas",
+                component: () => import("@/pages/dosen/TambahKelas.vue"),
+            },
+            {
                 path: "/d/sub-cpmk",
                 component: () => import("@/pages/dosen/SubCPMK.vue"),
             },

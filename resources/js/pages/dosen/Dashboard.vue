@@ -5,7 +5,7 @@
         <!-- Searching -->
 
         <!-- Loop Items -->
-        <div v-for="matkul in matakuliah">
+        <div v-for="kls in kelas" :key="kls">
             <div
                 class="mt-4 h-500-px relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-lg bg-emerald-500"
             >
@@ -27,16 +27,16 @@
                         ></polygon>
                     </svg>
                     <h4 class="text-xl font-bold text-white">
-                        {{ matkul.nama_mataKuliah }}
+                        {{ kls.nama_mataKuliah }}
                     </h4>
                     <p
                         class="text-md font-light mt-2 text-white block h-[76px] text-ellipsis overflow-hidden"
                     >
-                        {{ matkul.cpmk }}
+                        {{ kls.cpmk }}
                     </p>
                 </blockquote>
                 <div class="px-8 pb-4 absolute bottom-0 right-0">
-                    <router-link :to="`/d/setting/${matkul.id_matakuliah}`">
+                    <router-link :to="`/d/setting/${kls.id_matakuliah}`">
                         <button
                             class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button"
@@ -57,20 +57,21 @@ import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "@vue/runtime-core";
 
 const authStore = useAuthStore();
-const matakuliah = ref([]);
-const getMatakuliah = async () => {
+const kelas = ref([]);
+const getKelas = async () => {
     await axios
-        .get("/api/Matakuliah", {
+        .get("/api/getKelas", {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
             },
         })
         .then((res) => {
-            matakuliah.value = res.data;
+            kelas.value = res.data;
+            console.log(res.data);
         });
 };
 
 onMounted(() => {
-    getMatakuliah();
+    getKelas();
 });
 </script>
