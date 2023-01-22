@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 
 class TesFormatif extends Model
@@ -28,6 +29,17 @@ class TesFormatif extends Model
 
     public function detail(){
         return $this->hasMany(DetailTesFormatif::class, 'id_tesFormatif', 'id_tesFormatif');
+    }
+
+    public function veryDetail(){
+        $jawaban = DB::table('detailTesFormatif')
+                        ->join('soalpilihanganda', 'detailTesFormatif.id_soalPilihanGanda', '=', 'soalpilihanganda.id_soalPilihanGanda')
+                        ->join('pilihanjawaban', 'detailTesFormatif.id_pilihanJawaban', '=', 'pilihanjawaban.id_pilihanJawaban')
+                        ->select('detailTesFormatif.nomorUrut_soal','soalpilihanganda.soal', 'pilihanjawaban.noUrut_pilihan', 'pilihanjawaban.teks_pilihan')
+                        ->where('detailTesFormatif.id_tesFormatif', '=', $this->id_tesFormatif)
+                        ->orderBy('detailTesFormatif.nomorUrut_soal')
+                        ->get();
+        return $jawaban;
     }
 
     private function selectSoal($indikator, $number){
