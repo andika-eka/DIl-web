@@ -282,6 +282,21 @@ class KelasController extends Controller
         }
     }
 
+    public function getKelasSettings($id){
+        try {
+            $setting = SettingKelas::find($id);
+            return response()->json([
+                'settings' =>$setting,
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
     public function applySettings(Request $request, $id){
         try {
             $setting = SettingKelas::find($id);

@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     
     
+    Route::get('Kelas/{id_kelas}/Settings', [KelasController::class, 'getKelasSettings']);
     Route::post('Kelas/{id_kelas}/applySettings', [KelasController::class, 'applySettings']);
     Route::patch('Kelas/{id_kelas}/setDefaultSettings', [KelasController::class, 'setDefaultSettings']);
     Route::get('getPengampuanKelas', [PengajarController::class, 'getPengampuanKelas']);
