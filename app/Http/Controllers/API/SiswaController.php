@@ -148,4 +148,45 @@ class SiswaController extends Controller
         }
         
     }
+
+    public function getKelas(){
+        try{
+            $user = Auth::user();
+            if ($user->tipe_pengguna != 3)
+            {
+                throw new \Exception("wrong user type");
+            }
+            $kelas = $user->detail->kelas;
+            return response()->json([
+                'kelas' =>$kelas,
+            ]);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        } 
+    }
+
+    public function getApprovedKelas(){
+        try{
+            $user = Auth::user();
+            if ($user->tipe_pengguna != 3)
+            {
+                throw new \Exception("wrong user type");
+            }
+            $kelas = $user->detail->approvedKelas();
+            return response()->json([
+                'kelas' =>$kelas,
+            ]);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        } 
+    }
+    
 }

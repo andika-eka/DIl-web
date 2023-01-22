@@ -16,15 +16,15 @@ return new class extends Migration
     {
         Schema::create('setting_kelas', function (Blueprint $table) {
             $table->unsignedBigInteger('id_settting_kelas');
-            $table->dateTime("Mulai")->default(DB::raw('NOW()'));
-            $table->dateTime("Berakhir")->nullable();
-            $table->integer("bobotC1")->default(15);
-            $table->integer("bobotC2")->default(15);
-            $table->integer("bobotC3")->default(15);
-            $table->integer("bobotC4")->default(15);
-            $table->integer("bobotC5")->default(15);
-            $table->integer("bobotC6")->default(25);
-            $table->integer("KKM")->default(80);
+            $table->date("Mulai")->default(DB::raw('NOW()'));
+            $table->date("Berakhir")->nullable();
+            $table->integer("bobotC1")->default(1);
+            $table->integer("bobotC2")->default(1);
+            $table->integer("bobotC3")->default(1);
+            $table->integer("bobotC4")->default(1);
+            $table->integer("bobotC5")->default(1);
+            $table->integer("bobotC6")->default(1);
+            $table->integer("KKM")->default(75);
             $table->integer("waktu_tunggu_formatif")->default(0);
             $table->dateTime("tgl_sumatif")->nullable();
             $table->timestamps();

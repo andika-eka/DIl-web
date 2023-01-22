@@ -18,21 +18,7 @@ class KelasController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getKelas(){
-        try{
-            $user = Auth::user();
-            $kelas = $user->detail->kelas;
-            return response()->json([
-                'kelas' =>$kelas,
-            ]);
-        }
-        catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-                'success' => false,
-            ], 422);
-        } 
-    }
+    
     public function index()
     {
         //
@@ -311,6 +297,8 @@ class KelasController extends Controller
             $setting->bobotC6 = $request->bobotC6;
             $setting->KKM = $request->KKM;
             $setting->waktu_tunggu_formatif = $request->waktu_tunggu_formatif;
+            $setting->soal_formatif_per_indikator = $request->soal_formatif_per_indikator;
+            $setting->soal_sumatif_per_indikator = $request->soal_sumatif_per_indikator;
             $jsDateTS = strtotime($request->tgl_sumatif);
             $setting->tgl_sumatif = date('Y-m-d', $jsDateTS );
             $setting->save();
@@ -332,15 +320,17 @@ class KelasController extends Controller
             $setting = SettingKelas::find($id);
             $setting->Mulai =  date("Y-m-d");
             $setting->Berakhir = NULL;
-            $setting->bobotC1 = 15;
-            $setting->bobotC2 = 15;
-            $setting->bobotC3 = 15;
-            $setting->bobotC4 = 15;
-            $setting->bobotC5 = 15;
-            $setting->bobotC6 = 25;
-            $setting->KKM = 80;
+            $setting->bobotC1 = 1;
+            $setting->bobotC2 = 1;
+            $setting->bobotC3 = 1;
+            $setting->bobotC4 = 1;
+            $setting->bobotC5 = 1;
+            $setting->bobotC6 = 1;
+            $setting->KKM = 75;
             $setting->waktu_tunggu_formatif = 0;
             $setting->tgl_sumatif = Null;
+            $setting->soal_formatif_per_indikator = 1;
+            $setting->soal_sumatif_per_indikator = 1;
             $setting->save();
             return response()->json([
                 'kelas' =>$setting,

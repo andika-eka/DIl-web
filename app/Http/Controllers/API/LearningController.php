@@ -28,40 +28,11 @@ class LearningController extends Controller
     }
 
 
-    /**
-     * start a learning session for the given siswa
-     * get the first subcmpk by nomorUrut_subCpmk
-     * create a new SubcpmkPengambilan
-     *
-     * @param integer $id_kelas
-     */
-    private function startKelas($id_kelas){
-        $kelas = Kelas::find($id_kelas);
-        $subcpmk = $kelas->matakuliah->subcpmk->sortBy("nomorUrut_subCpmk")->first();
-        $pengambilankelas = PengambilanKelas::where([
-            ['id_siswa', '=', Auth::user()->id],
-            ['id_kelas', '=', $id_kelas]
-        ])->first();
-        $subPengambilan = new SubcpmkPengambilan;
-        $subPengambilan->id_pengambilanKelas = $pengambilankelas->id_pengambilanKelas;
-        $subPengambilan->id_subCPMK = $subcpmk->id_subCpmk;
-        $subPengambilan->waktuMulai_Pengambilan = date("Y-m-d H:i:s");
-        $subPengambilan->status_subcpmkpengambilan = 1;
-        $subPengambilan->save();
-    }
     public function currentUnit($id_kelas){
         try
         {
             $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
             $currentSubcpmk = $this->getSiswa()->getCurrentSubCpmk($id_kelas);
-            if ($subcpmk  === false){
-                throw new \Exception("Siswa not enrolled");
-            }
-            if((!count($subcpmk))and (!$currentSubcpmk)){
-                $this->startKelas($id_kelas);
-                $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
-                $currentSubcpmk =$this->getSiswa()->getCurrentSubCpmk($id_kelas);
-            }
             return response()->json([
                 'current' => $currentSubcpmk,
                 'completed' => $subcpmk,
@@ -131,6 +102,28 @@ class LearningController extends Controller
             }
         } catch (\Exception $e) {
             
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function nextUnit($id_kelas){
+        try
+        {
+            $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
+            $this->getSiswa()->nextSubcpmk($id_kelas);
+
+            $currentSubcpmk = $this->getSiswa()->getCurrentSubCpmk($id_kelas);
+
+            return response()->json([
+                'current' => $currentSubcpmk,
+                'completed' => $subcpmk,
+            ]);
+        }
+        catch (\Exception $e)
+        {
             return response()->json([
                 'message' => $e->getMessage(),
                 'success' => false,
