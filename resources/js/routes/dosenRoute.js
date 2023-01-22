@@ -15,11 +15,11 @@ const routes = [
             },
             {
                 path: "/d/setting/:id",
-                component: () => import("@/pages/dosen/SettingMatakuliah.vue"),
+                component: () => import("@/pages/dosen/SettingKelas.vue"),
             },
             {
-                path: "/d/new-matakuliah",
-                component: () => import("@/pages/dosen/NewMatakuliah.vue"),
+                path: "/d/select-matakuliah",
+                component: () => import("@/pages/dosen/PilihMatakuliah.vue"),
             },
             {
                 path: "/d/sub-cpmk",

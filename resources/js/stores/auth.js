@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { routerKey } from "vue-router";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -23,6 +22,8 @@ export const useAuthStore = defineStore("auth", {
                 )
                 .then((res) => {
                     this.authUser = null;
+                    document.cookie =
+                        "user=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
                 });
         },
     },

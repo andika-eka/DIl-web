@@ -92,14 +92,16 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useCookie } from "vue-cookie-next";
 import { useAuthStore } from "@/stores/auth";
 
 // Compoenent
 import AlertError from "@/pages/components/Alerts/AlertError.vue";
 
 const router = useRouter();
+const cookie = useCookie();
+const auth = useAuthStore();
 const valid = ref(false);
-const authStore = useAuthStore();
 const form = ref({
     email: "",
     password: "",
@@ -113,10 +115,11 @@ const handleLogin = async () => {
             password: form.value.password,
         })
         .then((res) => {
-            authStore.authUser = res.data;
-            if (authStore.authUser.tipe_pengguna == 1) {
+            auth.authUser = res.data;
+            cookie.setCookie("user", res.data);
+            if (cookie.getCookie("user").tipe_pengguna == 1) {
                 router.push("/a");
-            } else if (authStore.authUser.tipe_pengguna == 2) {
+            } else if (cookie.getCookie("user").tipe_pengguna == 2) {
                 router.push("/d");
             } else {
                 router.push("/u");

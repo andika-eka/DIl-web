@@ -29,8 +29,12 @@ const routes = [
                 component: () => import("@/pages/admin/Tables.vue"),
             },
             {
-                path: "/a/maps",
-                component: () => import("@/pages/admin/Maps.vue"),
+                path: "/a/list-user",
+                component: () => import("@/pages/admin/ListUser.vue"),
+            },
+            {
+                path: "/a/list-kelas",
+                component: () => import("@/pages/admin/ListKelas.vue"),
             },
         ],
     },
