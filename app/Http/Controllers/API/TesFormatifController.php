@@ -34,7 +34,7 @@ class TesFormatifController extends Controller
      * @param  integer $id_kelas
      * @return \Illuminate\Http\Response
      */
-    public function TesFormatif($id_kelas){
+    public function tesFormatif($id_kelas){
         try
         {
             $currentSubcpmk = $this-> getSiswa()->getCurrentSubCpmk($id_kelas);
@@ -71,11 +71,19 @@ class TesFormatifController extends Controller
             $subcpmkPengambilan = SubcpmkPengambilan::find($currentSubcpmk->id_subcpmkpengambilan);
             $testNumber =  $subcpmkPengambilan->tesFormatif->count();
             $currentTest = $subcpmkPengambilan->CurrentTesFormatif();
+            $lastTest = $subcpmkPengambilan->completedTesFormatif()->sortByDesc("pengulangan_tesFormatif")->first();
+            $settings = $subcpmkPengambilan->settingKelas();
             if($currentTest){
                 throw new \Exception ("current test is not finished");
             }
             else if($testNumber >= 3){
                 throw new \Exception ("attemp limit has been reached");
+            }
+            else if($lastTest){
+                if(!$settings->canStartFormatif($lastTest->waktuSelesai_tesFormatif)){
+                    throw new \Exception ("need to wait ".$settings->waktu_tunggu_formatif.' hours before next test');
+                }
+            
             }
             $tesFormatif = new TesFormatif;
             $tesFormatif->id_subCpmkPengambilan = $currentSubcpmk->id_subcpmkpengambilan;
@@ -197,5 +205,42 @@ class TesFormatifController extends Controller
         }
         
     }
+
+    public function currentTestInfo($id_kelas){
+        try
+        {
+            $tesFormatif =  $this->getCurrentTest($id_kelas);
+            return response()->json([
+                'tes' => $tesFormatif,
+                'jawaban' => $tesFormatif->veryDetail(),
+            ]);return response()->json($tesFormatif);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+    
+    public function testInfo($id_tesFormatif){
+        try
+        {
+            $tesFormatif = TesFormatif::find($id_tesFormatif);
+            return response()->json([
+                'tes' => $tesFormatif,
+                'jawaban' => $tesFormatif->veryDetail(),
+            ]);return response()->json($tesFormatif);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+    
 
 }

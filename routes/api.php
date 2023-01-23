@@ -104,11 +104,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch("nextMateri/{id_kelas}", [LearningController::class,'nextMateri']);
     Route::patch("nextUnit/{id_kelas}", [LearningController::class,'nextUnit']);
 
-    Route::get("TesFormatif/{id_kelas}", [TesFormatifController::class, 'TesFormatif']);
+    Route::get("TesFormatif/{id_kelas}", [TesFormatifController::class, 'tesFormatif']);
+    Route::get("TestInfo/{id_tesFormatif}", [TesFormatifController::class, 'testInfo']);
     Route::patch("createTestformatif/{id_kelas}", [TesFormatifController::class, 'createTestformatif']);
     Route::patch("startTesFormatif/{id_kelas}", [TesFormatifController::class, 'startTesFormatif']);
     Route::get("getSoal/{id_kelas}/{no_soal}", [TesFormatifController::class, 'getSoal']);
     Route::post("submitJawaban/{id_kelas}/{no_soal}", [TesFormatifController::class, 'submitJawaban']);
+    Route::get("currentTestInfo/{id_kelas}", [TesFormatifController::class, 'currentTestInfo']);
     Route::patch("finishTesFormatif/{id_kelas}", [TesFormatifController::class, 'finishTesFormatif']);
     
 });

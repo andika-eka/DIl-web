@@ -38,7 +38,7 @@ class IndikatorController extends Controller
             $indikator->level_indikator = $request->level_indikator;
             $indikator->save();
         return response()->json([
-                'subcpmk' =>$indikator,
+                'indikator' =>$indikator,
                 'success' => true,
                 'notif'=>'indikator has `been created',
             ],200);
@@ -96,7 +96,7 @@ class IndikatorController extends Controller
             $indikator->level_indikator = $request->level_indikator;
             $indikator->save();
             return response()->json([
-                'subcpmk' =>$indikator,
+                'indikator' =>$indikator,
                 'success' => true,
                 'notif'=>'indikator has been updated',
             ],200);

@@ -49,7 +49,7 @@ class PilihanjawabanController extends Controller
             
             $jawaban->save();
             return response()->json([
-                'subcpmk' =>$jawaban,
+                'jawaban' =>$jawaban,
                 'success' => true,
                 'notif'=>'jawaban has been created',
             ],200);
@@ -115,7 +115,7 @@ class PilihanjawabanController extends Controller
             }
             $jawaban->save();
             return response()->json([
-                'subcpmk' =>$jawaban,
+                'jawaban' =>$jawaban,
                 'success' => true,
                 'notif'=>'jawaban has been updated',
             ],200);
@@ -138,7 +138,7 @@ class PilihanjawabanController extends Controller
             $jawaban->pathFileGambar_pilihan = NULL;
             $jawaban->save();
             return response()->json([
-                'subcpmk' =>$jawaban,
+                'jawaban' =>$jawaban,
                 'success' => true,
                 'notif'=>'jawaban has been updated',
             ],200);

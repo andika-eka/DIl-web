@@ -38,6 +38,32 @@ class SettingKelas extends Model
         return $array;
     }
 
-    // public function 
+    public function canStartFormatif($waktuSelesai_tesFormatif){
+        $limit = strtotime($waktuSelesai_tesFormatif.'+'.$this->waktu_tunggu_formatif.'hours');
+        if (strtotime(date("Y-m-d H:i:s")) > $limit){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function kelasIsRunning(){
+        try{
+            $start = strtotime($this->Mulai);
+            $stop = strtotime($this->Berakhir);
+        }
+        catch (\Exception $e)
+        {
+            return true;
+        }
+        $now = strtotime(date("Y-m-d H:i:s"));
+        if(($start < $now) and ($now < $stop)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
 }
