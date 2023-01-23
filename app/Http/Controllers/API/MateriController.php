@@ -30,9 +30,9 @@ class MateriController extends Controller
             $materi->minimum_time = $request->minimum_time;
             $materi->save();
             return response()->json([
-                'subcpmk' =>$materi,
+                'soal' =>$materi,
                 'success' => true,
-                'notif'=>'SubCpmk has `been created',
+                'notif'=>'materi has `been created',
             ],200);
         }
         catch (\Exception $e) {
@@ -86,7 +86,7 @@ class MateriController extends Controller
             $materi->minimum_time = $request->minimum_time;
             $materi->save();
             return response()->json([
-                'subcpmk' =>$materi,
+                'materi' =>$materi,
                 'success' => true,
                 'notif'=>'materi has been updated',
             ],200);

@@ -47,7 +47,7 @@ class SoalpilihangandaController extends Controller
             
             $soal->save();
             return response()->json([
-                'subcpmk' =>$soal,
+                'soal' =>$soal,
                 'success' => true,
                 'notif'=>'soal has been created',
             ],200);
@@ -112,7 +112,7 @@ class SoalpilihangandaController extends Controller
             }
             $soal->save();
             return response()->json([
-                'subcpmk' =>$soal,
+                'soal' =>$soal,
                 'success' => true,
                 'notif'=>'soal has been updated',
             ],200);
@@ -134,7 +134,7 @@ class SoalpilihangandaController extends Controller
             $soal->pathFileGambar_soal = NULL;
             $soal->save();
             return response()->json([
-                'subcpmk' =>$soal,
+                'soal' =>$soal,
                 'success' => true,
                 'notif'=>'soal has been updated successfully',
             ],200);
