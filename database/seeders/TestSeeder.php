@@ -27,7 +27,7 @@ class TestSeeder extends Seeder
             SubCpmkSeeder::class,
             IndikatorSeeder::class,
             MateriSeeder::class,
-            SubcpmkPengamBilanSeeder::class,
+            // SubcpmkPengamBilanSeeder::class,
             SoalSeeder::class,
             JawabanSeeder::class,
             
