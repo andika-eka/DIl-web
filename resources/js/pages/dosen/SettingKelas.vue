@@ -53,6 +53,7 @@
                                                     class="mt-1 flex rounded-md shadow-sm"
                                                 >
                                                     <input
+                                                        v-model="formdata.Mulai"
                                                         type="date"
                                                         name="kode-matakuliah"
                                                         id="kode-matakuliah"
@@ -64,12 +65,15 @@
                                                 <label
                                                     for="company-website"
                                                     class="block text-sm font-medium text-gray-700"
-                                                    >Selesai</label
+                                                    >Berakhir</label
                                                 >
                                                 <div
                                                     class="mt-1 flex rounded-md shadow-sm"
                                                 >
                                                     <input
+                                                        v-model="
+                                                            formdata.Berakhir
+                                                        "
                                                         type="date"
                                                         name="kode-matakuliah"
                                                         id="kode-matakuliah"
@@ -81,23 +85,92 @@
                                     </div>
 
                                     <div class="grid md:grid-cols-3 gap-6">
-                                        <div
-                                            v-for="(item, index) in 6"
-                                            :key="item"
-                                            class="col-span-1"
-                                        >
+                                        <div class="col-span-1">
                                             <label
-                                                for="company-website"
                                                 class="block text-sm font-medium text-gray-700"
-                                                >Bobot C{{ index + 1 }}</label
+                                                >Bobot C1</label
                                             >
                                             <div
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <input
+                                                    v-model="formdata.bobotC1"
                                                     type="number"
-                                                    name="kode-matakuliah"
-                                                    id="kode-matakuliah"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Bobot C2</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="formdata.bobotC2"
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Bobot C3</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="formdata.bobotC3"
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Bobot C4</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="formdata.bobotC4"
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Bobot C5</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="formdata.bobotC5"
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-1">
+                                            <label
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Bobot C6</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="formdata.bobotC6"
+                                                    type="number"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 />
                                             </div>
@@ -115,11 +188,10 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <input
+                                                    v-model="formdata.KKM"
                                                     type="number"
                                                     min="1"
                                                     max="100"
-                                                    name="kode-matakuliah"
-                                                    id="kode-matakuliah"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 />
                                             </div>
@@ -133,9 +205,10 @@
                                         >
                                         <div class="mt-1">
                                             <input
+                                                v-model="
+                                                    formdata.waktu_tunggu_formatif
+                                                "
                                                 type="number"
-                                                name="kode-matakuliah"
-                                                id="kode-matakuliah"
                                                 class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                             />
                                         </div>
@@ -149,7 +222,7 @@
                                         </p>
                                     </div>
                                     <div class="grid grid-cols-4 gap-6">
-                                        <div class="col-span-2">
+                                        <div class="col-span-4">
                                             <label
                                                 for="company-website"
                                                 class="block text-sm font-medium text-gray-700"
@@ -160,6 +233,9 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <input
+                                                    v-model="
+                                                        formdata.tgl_sumatif
+                                                    "
                                                     type="date"
                                                     min="1"
                                                     max="100"
@@ -169,7 +245,7 @@
                                                 />
                                             </div>
                                         </div>
-                                        <div class="col-span-2">
+                                        <!-- <div class="col-span-2">
                                             <label
                                                 for="company-website"
                                                 class="block text-sm font-medium text-gray-700"
@@ -180,7 +256,7 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <input
-                                                    type="date"
+                                                    type="time"
                                                     min="1"
                                                     max="100"
                                                     name="kode-matakuliah"
@@ -188,7 +264,7 @@
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 />
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +284,8 @@
                     </button>
                 </router-link>
                 <button
-                    type="submit"
+                    @click="applySetting"
+                    type="button"
                     class="justify-center mt-2 rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
                 >
                     Simpan Perubahan
@@ -220,4 +297,39 @@
 
 <script setup>
 import NavbarNewMataKuliah from "@/pages/components/Navbars/DosenNewMatakuliahNavbar.vue";
+import { reactive, ref } from "@vue/reactivity";
+import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+const router = useRouter();
+const route = useRoute();
+const authStore = useAuthStore();
+
+const formdata = ref({
+    Mulai: "",
+    Berakhir: "",
+    bobotC1: "",
+    bobotC2: "",
+    bobotC3: "",
+    bobotC4: "",
+    bobotC5: "",
+    bobotC6: "",
+    KKM: "",
+    waktu_tunggu_formatif: "",
+    tgl_sumatif: "",
+    soal_formatif_per_indikator: 1,
+    soal_sumatif_per_indikator: 1,
+});
+
+const applySetting = async () => {
+    await axios
+        .post(`/api/Kelas/${route.params.id}/applySettings`, formdata.value, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            router.push("/d/dashboard");
+        });
+};
 </script>

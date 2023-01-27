@@ -176,14 +176,13 @@
             <div
                 class="flex justify-end items-center bg-gray-100 mt-5 px-4 pt-2 pb-4"
             >
-                <router-link to="/d/tambah-kelas">
-                    <button
-                        type="submit"
-                        class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
-                    >
-                        Selanjutnya
-                    </button>
-                </router-link>
+                <button
+                    @click="saveAndNext()"
+                    type="button"
+                    class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+                >
+                    Selanjutnya
+                </button>
             </div>
         </div>
     </section>
@@ -203,9 +202,11 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 import { useKelasStore } from "@/stores/kelas";
+import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
 const kelasStore = useKelasStore();
+const router = useRouter();
 const matakuliah = ref([]);
 const selected = ref(null);
 const kodeMatakuliah = ref(null);
@@ -223,8 +224,12 @@ const getMatakuliah = async () => {
         });
 };
 
-watch(selected, () => {
+const saveAndNext = () => {
     kelasStore.dataMatkul = selected.value;
+    router.push("/d/tambah-kelas");
+};
+
+watch(selected, () => {
     kodeMatakuliah.value = selected.value.kode_mataKuliah;
     cpmk.value = selected.value.cpmk;
 });

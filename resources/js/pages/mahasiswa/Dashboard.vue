@@ -14,8 +14,9 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 md:gap-3 lg:grid-cols-3"
                 >
-                    <!-- Loop Items -->
                     <div
+                        v-for="(kls, index) in kelas"
+                        :key="index"
                         class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500"
                     >
                         <img
@@ -23,36 +24,27 @@
                             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
                             class="w-full align-middle rounded-t-lg"
                         />
-                        <blockquote class="relative p-8">
-                            <svg
-                                preserveAspectRatio="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 583 95"
-                                class="absolute left-0 w-full block h-95-px -top-94-px"
-                            >
-                                <polygon
-                                    points="-30,95 583,95 583,65"
-                                    class="text-emerald-500 fill-current"
-                                ></polygon>
-                            </svg>
-                            <h4 class="text-xl font-bold text-white">
-                                Mahasiswa
+                        <blockquote class="relative p-4">
+                            <h4 class="text-xl font-bold text-white uppercase">
+                                {{ kls.nama_kelas }} - [ SMT{{
+                                    kls.semester_kelas
+                                }}
+                                - {{ kls.tahun_kelas }}/{{
+                                    parseInt(kls.tahun_kelas) + 1
+                                }}
+                                ]
                             </h4>
-                            <p class="text-md font-light mt-2 text-white">
-                                Putting together a page has never been easier
-                                than matching together pre-made components. From
-                                landing pages presentation to login areas, you
-                                can easily customise and built your pages.
-                            </p>
                         </blockquote>
-                        <div class="px-8 pb-4">
-                            <button
-                                class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button"
-                            >
-                                <i class="fas fa-sign-in-alt mr-3"></i>
-                                Masuk Kelas
-                            </button>
+                        <div class="px-4 pb-2">
+                            <router-link :to="'/u/kelas/' + kls.id_kelas">
+                                <button
+                                    type="button"
+                                    class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                >
+                                    <i class="fas fa-sign-in-alt mr-3"></i>
+                                    Masuk Kelas
+                                </button>
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -69,6 +61,8 @@
                 >
                     <!-- Loop Items -->
                     <div
+                        v-for="(kls, index) in kelas"
+                        :key="index"
                         class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500"
                     >
                         <img
@@ -76,29 +70,18 @@
                             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
                             class="w-full align-middle rounded-t-lg"
                         />
-                        <blockquote class="relative p-8">
-                            <svg
-                                preserveAspectRatio="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 583 95"
-                                class="absolute left-0 w-full block h-95-px -top-94-px"
-                            >
-                                <polygon
-                                    points="-30,95 583,95 583,65"
-                                    class="text-emerald-500 fill-current"
-                                ></polygon>
-                            </svg>
-                            <h4 class="text-xl font-bold text-white">
-                                Mahasiswa
+                        <blockquote class="relative p-4">
+                            <h4 class="text-xl font-bold text-white uppercase">
+                                {{ kls.nama_kelas }} - [ SMT{{
+                                    kls.semester_kelas
+                                }}
+                                - {{ kls.tahun_kelas }}/{{
+                                    parseInt(kls.tahun_kelas) + 1
+                                }}
+                                ]
                             </h4>
-                            <p class="text-md font-light mt-2 text-white">
-                                Putting together a page has never been easier
-                                than matching together pre-made components. From
-                                landing pages presentation to login areas, you
-                                can easily customise and built your pages.
-                            </p>
                         </blockquote>
-                        <div class="px-8 pb-4">
+                        <div class="px-4 pb-2">
                             <button
                                 class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                 type="button"
@@ -118,4 +101,24 @@
 <script setup>
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
+import { useAuthStore } from "@/stores/auth";
+import { onMounted, ref } from "@vue/runtime-core";
+
+const authStore = useAuthStore();
+const kelas = ref(null);
+const getAprovedClass = async () => {
+    await axios
+        .get("/api/getApprovedKelas", {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            kelas.value = res.data.kelas;
+        });
+};
+
+onMounted(async () => {
+    await getAprovedClass();
+});
 </script>

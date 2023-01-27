@@ -73,6 +73,7 @@
                                                         idk.narasi_indikator
                                                     "
                                                     type="text"
+                                                    placeholder="Narasi Indikator"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 />
                                             </div>
@@ -90,6 +91,40 @@
                                             </button>
                                             <div
                                                 v-else
+                                                class="bg-white ml-3 py-3 px-4 rounded-md flex items-center justify-center"
+                                            >
+                                                <i
+                                                    class="fas fa-trash text-white text-xs"
+                                                ></i>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex justify-between items-center"
+                                            style="margin-top: 0.75rem"
+                                        >
+                                            <span
+                                                class="text-sm py-2 px-4 bg-none text-white select-none font-semibold mr-3 rounded-md"
+                                                >{{ idx + 1 }}</span
+                                            >
+                                            <div
+                                                class="flex gap-2 rounded-md shadow-sm w-full"
+                                            >
+                                                <input
+                                                    v-model="idk.pertemuanKe"
+                                                    type="number"
+                                                    placeholder="Pertemuan Ke"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                                <input
+                                                    v-model="
+                                                        idk.level_indikator
+                                                    "
+                                                    type="number"
+                                                    placeholder="Level Indikator"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                            <div
                                                 class="bg-white ml-3 py-3 px-4 rounded-md flex items-center justify-center"
                                             >
                                                 <i
@@ -127,7 +162,8 @@
                     </button>
                 </router-link>
                 <button
-                    type="submit"
+                    @click="submitAll"
+                    type="button"
                     class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
                 >
                     Finish
@@ -193,6 +229,18 @@ const addIndikator = (subCpmkIndex) => {
 
 const removeIndikator = (subCpmkIndex, indikatorIndex) => {
     indikator[subCpmkIndex].splice(indikatorIndex, 1);
+};
+
+const submitAll = async () => {
+    await axios.post(
+        "/api/Kelas",
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        }
+    );
 };
 
 watch(indikator, () => {

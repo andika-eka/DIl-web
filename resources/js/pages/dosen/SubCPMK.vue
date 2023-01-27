@@ -54,15 +54,12 @@
                                     </div>
                                     <div>
                                         <label
-                                            for="about"
                                             class="block text-sm font-medium text-gray-700"
                                             >Narasi Sub-CPMK</label
                                         >
                                         <div class="mt-1">
                                             <textarea
                                                 v-model="item.narasi_subCpmk"
-                                                id="cpmk"
-                                                name="cpmk"
                                                 rows="3"
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                             />
@@ -71,10 +68,42 @@
                                     <div>
                                         <label
                                             class="block text-sm font-medium text-gray-700"
+                                            >Pilih Taksonomi Bloom</label
+                                        >
+                                        <select
+                                            v-model="item.taksonomi_bloom"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                            name=""
+                                            id=""
+                                        >
+                                            <option
+                                                v-for="n in 6"
+                                                :key="n"
+                                                :value="n"
+                                            >
+                                                C{{ n }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-gray-700"
                                             >Teks Materi</label
                                         >
                                         <div
-                                            class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6"
+                                            @dragover.prevent="
+                                                handleDragIn(index)
+                                            "
+                                            @drop.prevent="
+                                                handleDrop($event, index)
+                                            "
+                                            @dragleave.prevent="
+                                                handleDragLeave(index)
+                                            "
+                                            :class="[
+                                                fileInputStyle[index],
+                                                'mt-1 flex justify-center rounded-md border-2 border-dashed px-6 pt-5 pb-6',
+                                            ]"
                                         >
                                             <div class="space-y-1 text-center">
                                                 <i
@@ -84,21 +113,52 @@
                                                     class="flex text-sm text-gray-600"
                                                 >
                                                     <label
-                                                        for="file-upload"
-                                                        class="relative cursor-pointer rounded-md bg-white font-medium text-emerald-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2 hover:text-emerald-500"
+                                                        :for="
+                                                            'file-upload' +
+                                                            index
+                                                        "
+                                                        class="relative bg-emerald-100 px-2 cursor-pointer rounded-md font-medium text-emerald-600 focus-within:outline-none hover:text-emerald-500"
                                                     >
                                                         <span
+                                                            v-if="
+                                                                item.materiTeks ==
+                                                                ''
+                                                            "
                                                             >Upload a file</span
                                                         >
+                                                        <span v-else>
+                                                            {{
+                                                                item.materiTeks
+                                                                    ?.name
+                                                            }}
+                                                        </span>
                                                         <input
-                                                            id="file-upload"
+                                                            @change="
+                                                                fileSelected(
+                                                                    $event,
+                                                                    index
+                                                                )
+                                                            "
+                                                            :id="
+                                                                'file-upload' +
+                                                                index
+                                                            "
                                                             name="file-upload"
                                                             type="file"
                                                             class="sr-only"
                                                         />
                                                     </label>
-                                                    <p class="pl-1">
+                                                    <p
+                                                        v-if="
+                                                            item.materiTeks ==
+                                                            ''
+                                                        "
+                                                        class="pl-1"
+                                                    >
                                                         or drag and drop
+                                                    </p>
+                                                    <p v-else class="pl-1">
+                                                        Terpilih
                                                     </p>
                                                 </div>
                                                 <p
@@ -120,7 +180,7 @@
             >
                 <router-link to="/d/tambah-kelas">
                     <button
-                        type="submit"
+                        type="button"
                         class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
                     >
                         Sebelumnya
@@ -134,7 +194,7 @@
                 </button>
                 <router-link to="/d/indikator">
                     <button
-                        type="submit"
+                        type="button"
                         class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
                     >
                         Berikutnya
@@ -152,10 +212,12 @@ import { useKelasStore } from "@/stores/kelas";
 import { onMounted, watch } from "@vue/runtime-core";
 
 const kelasStore = useKelasStore();
+const fileInputStyle = reactive([]);
 const subCpmk = reactive([
     {
         narasi_subCpmk: "",
         materiTeks: "",
+        taksonomi_bloom: "",
     },
 ]);
 
@@ -163,11 +225,31 @@ const addSubCPMK = () => {
     subCpmk.push({
         narasi_subCpmk: "",
         materiTeks: "",
+        taksonomi_bloom: "",
     });
 };
 
 const removeSubCPMK = (index) => {
     subCpmk.splice(index, 1);
+};
+
+const handleDragIn = (index) => {
+    fileInputStyle[index] = "border-indigo-500 bg-indigo-50";
+};
+
+const handleDragLeave = (index) => {
+    fileInputStyle[index] = "border-gray-300";
+};
+
+const handleDrop = (event, index) => {
+    fileInputStyle[index] = "border-emerald-500 bg-emerald-50";
+    subCpmk[index].materiTeks = event.dataTransfer.files[0];
+};
+
+const fileSelected = (event, index) => {
+    fileInputStyle[index] = "border-emerald-500 bg-emerald-50";
+    subCpmk[index].materiTeks = event.target.files[0];
+    console.log(subCpmk[index].materiTeks);
 };
 
 onMounted(() => {

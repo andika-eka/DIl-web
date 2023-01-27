@@ -13,6 +13,10 @@ const routes = [
                 path: "/u/dashboard",
                 component: () => import("@/pages/mahasiswa/Dashboard.vue"),
             },
+            {
+                path: "/u/kelas/:idKelas",
+                component: () => import("@/pages/mahasiswa/Kelas.vue"),
+            },
         ],
     },
 ];

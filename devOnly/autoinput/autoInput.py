@@ -69,7 +69,7 @@ def register_student(student, url_register, token, url_assign):
         print(response)
         # pp.pprint(response.json())
         json_data = response.json()
-        
+
         id = json_data['id']
 
         data2 ={'id_siswa' :id,
@@ -94,17 +94,17 @@ def import_content(url, data, file_path, token):
         response = requests.post(url['subcpmk'], files=subcpmk_file, data=subcmpk_form, headers=hed)
         print(response)
         # pp.pprint(response.json())
-        
+
         json_data = response.json()
         subcpmk_id =json_data['subcpmk']['id_subCpmk']
         count_indikator = 1
         for no_indikator, indikator in enumerate(data['indikator']):
-            
+
             if int(indikator['subcpmk']) < no_subcpmk+1:
                 continue
             if int(indikator['subcpmk']) > no_subcpmk+1:
                 break
-            
+
             indikator_form = {
                 'nomorUrut_indikator': count_indikator,
                 'narasi_indikator' : indikator["narasi"],
@@ -112,7 +112,7 @@ def import_content(url, data, file_path, token):
                 'level_indikator' :indikator['level']
             }
             count_indikator += 1
-            
+
             indikator_url = url['indikator'].replace('{{subcpmk_id}}',str(subcpmk_id))
 
             response = requests.post(indikator_url, data=indikator_form, headers=hed)
@@ -126,7 +126,7 @@ def import_content(url, data, file_path, token):
                     continue
                 if int(soal['indikator']) > no_indikator+1:
                     break
-                
+
                 soal_form = {
                     'soal' : soal['soal'],
                 }
@@ -138,7 +138,7 @@ def import_content(url, data, file_path, token):
                         'gambar' :  open(file_path['soal']+'/'+str(no_soal+1)+'.png', 'rb')
                     }
                     response = requests.post(soal_url, data=soal_form, files=soal_pic, headers=hed)
-                    
+
                 else:
                     response = requests.post(soal_url, data=soal_form, headers=hed)
                 print(response)
@@ -149,7 +149,7 @@ def import_content(url, data, file_path, token):
                     status = 0
                     if no_pilihan+1 == int(soal['kunci']):
                         status = 1
-                    
+
                     jawaban_form = {
                         'noUrut_pilihan' : no_pilihan+1,
                         'teks_pilihan' : pilihan,
@@ -161,10 +161,10 @@ def import_content(url, data, file_path, token):
 
 if __name__ == '__main__':
 
-    id_kelas = '61'
+    id_kelas = '63'
     id_matkul = '21'
-    token_dosen = 'g4MitlQ6tBGJ2LkAMp1s7uZfjtt4cv2zZoUZTZxhBAM2baoX0DkJjnx7Xhci'
-    token_admin = 'g4MitlQ6tBGJ2LkAMp1s7uZfjtt4cv2zZoUZTZxhBAM2baoX0DkJjnx7Xhci'
+    token_dosen = 'MgMeouaOq1YpQRoBM6YswzV8BZ6ZIllzLfeeFAhBsnOoClBhFBrVj4RLYzxR'
+    token_admin = 'zDLzifdEVbQF4FKHNXaBV4Z0nyGeHK0zvUBe0DNMrqccefpuIVBbd0RiHkX1'
     url = {
         'subcpmk' : 'http://127.0.0.1:8000/api/Matakuliah/'+id_matkul+'/subcpmk',
         'indikator' : 'http://127.0.0.1:8000/api/subcpmk/{{subcpmk_id}}/indikator',
@@ -172,7 +172,7 @@ if __name__ == '__main__':
         'soal' : 'http://127.0.0.1:8000/api/indikator/{{indikator_id}}/soal',
         'jawaban' :'http://127.0.0.1:8000/api/soal/{{soal_id}}/jawaban',
         'register' :'http://127.0.0.1:8000/api/register',
-        'add_to_kelas' :'http://127.0.0.1:8000/api/Kelas/'+id_kelas+'/addsiswa', 
+        'add_to_kelas' :'http://127.0.0.1:8000/api/Kelas/'+id_kelas+'/addsiswa',
     }
     path ={
         'subcpmk' : './subcpmk',
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     subcpmk = parse_subcpmk('./subcpmk.csv')
     indikator = parse_indikator('./indikator.csv')
     soal = parse_soal('./soal.tsv')
-    
+
     data = {
         'subcpmk' : subcpmk,
         'indikator' : indikator,
@@ -194,5 +194,3 @@ if __name__ == '__main__':
 
     register_student(student, url['register'] ,token_admin, url['add_to_kelas'] )
     import_content(url, data, path, token_dosen)
-
-
