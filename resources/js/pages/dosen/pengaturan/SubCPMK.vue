@@ -1,7 +1,7 @@
 <template>
     <section class="px-4 mb-6 sm:px-16 lg:px-32 pt-16 pb-8 my-6">
         <h3 class="text-2xl font-medium leading-6 text-gray-900 mb-5">
-            Buat Kelas Baru
+            Pengaturan Matakuliah
         </h3>
         <navbar-new-mata-kuliah />
         <div
@@ -25,7 +25,13 @@
                             </h3>
                             <p class="mt-1 text-sm text-gray-600">
                                 Silakan buat sub cpmk disamping dengan benar,
-                                sesuai dengan kelas yang ingin anda buat
+                                sesuai dengan kelas kuliah yang ingin anda buat.
+                            </p>
+                            <p class="mt-3 text-sm text-gray-600 italic">
+                                <span class="font-bold">Catatan:</span>
+                                <br />Ketika data Sub-CPMK atau Indikator
+                                Pembelajaran ditambahkan, sistem akan melakukan
+                                penyimpanan secara otomatis.
                             </p>
                         </div>
                     </div>
@@ -64,26 +70,6 @@
                                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                             />
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label
-                                            class="block text-sm font-medium text-gray-700"
-                                            >Pilih Taksonomi Bloom</label
-                                        >
-                                        <select
-                                            v-model="item.taksonomi_bloom"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
-                                            name=""
-                                            id=""
-                                        >
-                                            <option
-                                                v-for="n in 6"
-                                                :key="n"
-                                                :value="n"
-                                            >
-                                                C{{ n }}
-                                            </option>
-                                        </select>
                                     </div>
                                     <div>
                                         <label
@@ -178,28 +164,20 @@
             <div
                 class="flex justify-between items-center bg-gray-100 mt-5 px-4 pt-2 pb-4"
             >
-                <router-link to="/d/tambah-kelas">
-                    <button
-                        type="button"
-                        class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
-                    >
-                        Sebelumnya
-                    </button>
-                </router-link>
                 <button
                     @click="addSubCPMK"
                     class="bg-emerald-500 py-2 px-4 rounded-lg mt-2 text-sm text-white font-medium"
                 >
                     Tambah Sub-CPMK <i class="fas fa-plus text-white ml-3"></i>
                 </button>
-                <router-link to="/d/indikator">
+                <a @click.prevent="validateThenNext()" href="#">
                     <button
                         type="button"
                         class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
                     >
-                        Berikutnya
+                        Input Indikator
                     </button>
-                </router-link>
+                </a>
             </div>
         </div>
     </section>
@@ -210,22 +188,35 @@ import NavbarNewMataKuliah from "@/pages/components/Navbars/DosenNewMatakuliahNa
 import { reactive, ref } from "@vue/reactivity";
 import { useKelasStore } from "@/stores/kelas";
 import { onMounted, watch } from "@vue/runtime-core";
+import { useRoute, useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
+const router = useRouter();
 const kelasStore = useKelasStore();
 const fileInputStyle = reactive([]);
 const subCpmk = reactive([
     {
         narasi_subCpmk: "",
         materiTeks: "",
-        taksonomi_bloom: "",
     },
 ]);
+
+const validateThenNext = async () => {
+    if (kelasStore.subCpmk != null) {
+        router.push("/d/indikator");
+    } else {
+        Swal.fire(
+            "Field Required?",
+            "Tolong isi field yang sudah disediakan",
+            "error"
+        );
+    }
+};
 
 const addSubCPMK = () => {
     subCpmk.push({
         narasi_subCpmk: "",
         materiTeks: "",
-        taksonomi_bloom: "",
     });
 };
 
@@ -249,7 +240,6 @@ const handleDrop = (event, index) => {
 const fileSelected = (event, index) => {
     fileInputStyle[index] = "border-emerald-500 bg-emerald-50";
     subCpmk[index].materiTeks = event.target.files[0];
-    console.log(subCpmk[index].materiTeks);
 };
 
 onMounted(() => {

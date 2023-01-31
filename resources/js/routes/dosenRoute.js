@@ -11,27 +11,43 @@ const routes = [
         children: [
             {
                 path: "/d/dashboard",
+                name: "/d/dashboard",
                 component: () => import("@/pages/dosen/Dashboard.vue"),
             },
             {
                 path: "/d/setting/:id",
-                component: () => import("@/pages/dosen/SettingKelas.vue"),
+                name: "/d/setting",
+                component: () =>
+                    import("@/pages/dosen/pengaturan/SettingKelas.vue"),
             },
             {
                 path: "/d/select-matakuliah",
-                component: () => import("@/pages/dosen/PilihMatakuliah.vue"),
+                name: "/d/select-matakuliah",
+                component: () =>
+                    import("@/pages/dosen/pengaturan/PilihMatakuliah.vue"),
             },
             {
                 path: "/d/tambah-kelas",
-                component: () => import("@/pages/dosen/TambahKelas.vue"),
+                name: "/d/tambah-kelas",
+                component: () =>
+                    import("@/pages/dosen/pengaturan/TambahKelas.vue"),
             },
             {
                 path: "/d/sub-cpmk",
-                component: () => import("@/pages/dosen/SubCPMK.vue"),
+                name: "/d/sub-cpmk",
+                component: () => import("@/pages/dosen/pengaturan/SubCPMK.vue"),
             },
             {
                 path: "/d/indikator",
-                component: () => import("@/pages/dosen/Indikator.vue"),
+                name: "/d/indikator",
+                component: () =>
+                    import("@/pages/dosen/pengaturan/Indikator.vue"),
+            },
+            {
+                path: "/d/list-mahasiswa",
+                name: "/d/list-mahasiswa",
+                component: () =>
+                    import("@/pages/dosen/daftar-mahasiswa/Index.vue"),
             },
         ],
     },

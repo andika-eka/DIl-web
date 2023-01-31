@@ -8,7 +8,7 @@
             <div
                 class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
             >
-                <router-link to="/d/dashboard">
+                <router-link to="/u/dashboard">
                     <a
                         class="text-slate-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
                         href="#pablo"
@@ -33,7 +33,7 @@
                     class="flex flex-col lg:flex-row list-none lg:ml-auto gap-4"
                 >
                     <li class="flex items-center">
-                        <router-link to="/d/dashboard">
+                        <router-link to="/u/dashboard">
                             <a
                                 href="#"
                                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"

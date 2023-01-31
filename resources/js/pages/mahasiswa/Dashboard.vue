@@ -2,13 +2,22 @@
     <div>
         <index-navbar />
         <section class="px-4 sm:px-16 lg:px-32 pt-16 pb-8">
-            <!-- Searching -->
+            <!-- Welcome -->
+            <div class="bg-gray-100 px-5 py-3 mt-3">
+                <span class="text-2xl mr-2">Selamat Datang</span>
+                <span class="text-xl uppercase italic font-bold"
+                    >"{{ authStore.authUser.name }}" 👋</span
+                >
+                <div class="text-sm font-light italic">
+                    Jaga selalu kerahasiaan username dan password anda.
+                </div>
+            </div>
 
             <!-- Kelas Saya -->
             <div class="mt-5">
                 <div class="bg-gray-100 w-full py-3 px-6 rounded-sm shadow-sm">
                     <h1 class="text-xl font-medium text-emerald-700">
-                        Daftar Kelas Saya
+                        Daftar Kelas Kuliah Saya
                     </h1>
                 </div>
                 <div
@@ -36,15 +45,14 @@
                             </h4>
                         </blockquote>
                         <div class="px-4 pb-2">
-                            <router-link :to="'/u/kelas/' + kls.id_kelas">
-                                <button
-                                    type="button"
-                                    class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                >
-                                    <i class="fas fa-sign-in-alt mr-3"></i>
-                                    Masuk Kelas
-                                </button>
-                            </router-link>
+                            <button
+                                @click.prevent="masukKelas(kls.id_kelas, index)"
+                                type="button"
+                                class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            >
+                                <i class="fas fa-sign-in-alt mr-3"></i>
+                                Masuk Kelas
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -102,10 +110,19 @@
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
 import { useAuthStore } from "@/stores/auth";
+import { useKelasStore } from "@/stores/kelas";
 import { onMounted, ref } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
+const kelasStore = useKelasStore();
+const router = useRouter();
 const kelas = ref(null);
+
+const masukKelas = async (id_kelas, idx_kelas) => {
+    kelasStore.kelas = kelas.value[idx_kelas];
+    router.push("/u/kelas/" + id_kelas);
+};
 const getAprovedClass = async () => {
     await axios
         .get("/api/getApprovedKelas", {

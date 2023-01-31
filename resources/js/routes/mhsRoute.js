@@ -14,7 +14,7 @@ const routes = [
                 component: () => import("@/pages/mahasiswa/Dashboard.vue"),
             },
             {
-                path: "/u/kelas/:idKelas",
+                path: "/u/kelas/:id",
                 component: () => import("@/pages/mahasiswa/Kelas.vue"),
             },
         ],

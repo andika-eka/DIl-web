@@ -159,81 +159,19 @@
                             class="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6"
                         >
                             <h1
-                                class="text-4xl font-bold tracking-tight text-gray-900"
+                                class="text-4xl font-bold tracking-tight text-gray-900 uppercase"
                             >
-                                Kelas
+                                {{ kelasStore.kelas?.nama_kelas }}
                             </h1>
 
                             <div class="flex items-center">
-                                <Menu
-                                    as="div"
-                                    class="relative inline-block text-left"
-                                >
-                                    <div>
-                                        <MenuButton
-                                            class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
-                                        >
-                                            Sort
-                                            <ChevronDownIcon
-                                                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                                                aria-hidden="true"
-                                            />
-                                        </MenuButton>
-                                    </div>
-
-                                    <transition
-                                        enter-active-class="transition ease-out duration-100"
-                                        enter-from-class="transform opacity-0 scale-95"
-                                        enter-to-class="transform opacity-100 scale-100"
-                                        leave-active-class="transition ease-in duration-75"
-                                        leave-from-class="transform opacity-100 scale-100"
-                                        leave-to-class="transform opacity-0 scale-95"
-                                    >
-                                        <MenuItems
-                                            class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                        >
-                                            <div class="py-1">
-                                                <MenuItem
-                                                    v-for="option in sortOptions"
-                                                    :key="option.name"
-                                                    v-slot="{ active }"
-                                                >
-                                                    <a
-                                                        :href="option.href"
-                                                        :class="[
-                                                            option.current
-                                                                ? 'font-medium text-gray-900'
-                                                                : 'text-gray-500',
-                                                            active
-                                                                ? 'bg-gray-100'
-                                                                : '',
-                                                            'block px-4 py-2 text-sm',
-                                                        ]"
-                                                        >{{ option.name }}</a
-                                                    >
-                                                </MenuItem>
-                                            </div>
-                                        </MenuItems>
-                                    </transition>
-                                </Menu>
-
-                                <button
-                                    type="button"
-                                    class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-                                >
-                                    <span class="sr-only">View grid</span>
-                                    <Squares2X2Icon
-                                        class="h-5 w-5"
-                                        aria-hidden="true"
-                                    />
-                                </button>
                                 <button
                                     type="button"
                                     class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
                                     @click="mobileFiltersOpen = true"
                                 >
                                     <span class="sr-only">Filters</span>
-                                    <FunnelIcon
+                                    <Squares2X2Icon
                                         class="h-5 w-5"
                                         aria-hidden="true"
                                     />
@@ -254,25 +192,10 @@
                             >
                                 <!-- Filters -->
                                 <form class="hidden lg:block">
-                                    <h3 class="sr-only">Categories</h3>
-                                    <ul
-                                        role="list"
-                                        class="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
-                                    >
-                                        <li
-                                            v-for="category in subCategories"
-                                            :key="category.name"
-                                        >
-                                            <a :href="category.href">{{
-                                                category.name
-                                            }}</a>
-                                        </li>
-                                    </ul>
-
                                     <Disclosure
                                         as="div"
-                                        v-for="section in filters"
-                                        :key="section.id"
+                                        v-for="section in 3"
+                                        :key="section"
                                         class="border-b border-gray-200 py-6"
                                         v-slot="{ open }"
                                     >
@@ -282,7 +205,7 @@
                                             >
                                                 <span
                                                     class="font-medium text-gray-900"
-                                                    >{{ section.name }}</span
+                                                    >Section</span
                                                 >
                                                 <span
                                                     class="ml-6 flex items-center"
@@ -305,13 +228,13 @@
                                                 <div
                                                     v-for="(
                                                         option, optionIdx
-                                                    ) in section.options"
-                                                    :key="option.value"
+                                                    ) in 6"
+                                                    :key="option"
                                                     class="flex items-center"
                                                 >
                                                     <input
-                                                        :id="`filter-${section.id}-${optionIdx}`"
-                                                        :name="`${section.id}[]`"
+                                                        :id="`filter-${optionIdx}`"
+                                                        :name="`${section}[]`"
                                                         :value="option.value"
                                                         type="checkbox"
                                                         :checked="
@@ -322,9 +245,7 @@
                                                     <label
                                                         :for="`filter-${section.id}-${optionIdx}`"
                                                         class="ml-3 text-sm text-gray-600"
-                                                        >{{
-                                                            option.label
-                                                        }}</label
+                                                        >option label</label
                                                     >
                                                 </div>
                                             </div>
@@ -347,11 +268,8 @@
                 <div class="overflow-hidden bg-white sm:rounded-lg mt-3">
                     <div class="px-4 py-5 sm:px-6">
                         <h3 class="text-lg font-medium leading-6 text-gray-900">
-                            Applicant Information
+                            Detail Kelas
                         </h3>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                            Personal details and application.
-                        </p>
                     </div>
                     <div class="border-t border-gray-200">
                         <dl>
@@ -359,7 +277,7 @@
                                 class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Full name
+                                    Nama Kelas
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -371,7 +289,7 @@
                                 class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Application for
+                                    Nama Matakuliah
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -383,31 +301,7 @@
                                 class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Email address
-                                </dt>
-                                <dd
-                                    class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
-                                >
-                                    margotfoster@example.com
-                                </dd>
-                            </div>
-                            <div
-                                class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                            >
-                                <dt class="text-sm font-medium text-gray-500">
-                                    Salary expectation
-                                </dt>
-                                <dd
-                                    class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
-                                >
-                                    $120,000
-                                </dd>
-                            </div>
-                            <div
-                                class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                            >
-                                <dt class="text-sm font-medium text-gray-500">
-                                    About
+                                    Deskripsi
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -517,11 +411,13 @@ import {
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
 import { useAuthStore } from "@/stores/auth";
+import { useKelasStore } from "@/stores/kelas";
 import { onMounted, ref } from "@vue/runtime-core";
 
 const authStore = useAuthStore();
+const kelasStore = useKelasStore();
 const kelas = ref(null);
-const getAprovedClass = async () => {
+const getAClass = async () => {
     await axios
         .get("/api/getApprovedKelas", {
             headers: {
