@@ -17,7 +17,7 @@ class SubcpmkPengambilan extends Model
         'id_subCPMK',
         'waktuMulai_Pengambilan',
         'waktuSelesai_Pengambilan',
-        'status_subcpmkpengambilan', // 1 = unfinished, 2 = finished 
+        'status_subcpmkpengambilan', // 1 = unfinished, 2 = finished, 3 = locked
         'current_materi_id',
         'current_materi_start_time',
     ];

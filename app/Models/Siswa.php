@@ -231,7 +231,6 @@ class Siswa extends Model
         
         $subcpmk = $this->getCurrentSubCpmk($id_kelas);
         if($subcpmk){
-            if($subcpmk->status_subcpmkpengambilan == 1){
                 if (!$subcpmk->current_materi_id){
                     $this-> startMateri($id_kelas);
                 }
@@ -239,10 +238,6 @@ class Siswa extends Model
                 $materi = Materi::find($subcpmk->current_materi_id);
                 return $materi;
             }
-            else{
-                throw new \Exception('Siswa has to go to test');
-            }
-        }
         else{
             throw new \Exception('Siswa is not enrolled');
         }
@@ -277,8 +272,7 @@ class Siswa extends Model
                     $subcpmkPengambilan->current_materi_start_time = NUll;
                     $subcpmkPengambilan->status_subcpmkpengambilan = 2;
                     $subcpmkPengambilan->save();
-                    $subcpmkPengambilan->subcmpkFinished = true;
-                    
+                    return false;
                 }
                 else{
                     $nextIndikator = $subCpmkIndikator->where("nomorUrut_indikator", ">",$currentMateri->indikator->nomorUrut_indikator)->first();
@@ -288,7 +282,6 @@ class Siswa extends Model
                     $subcpmkPengambilan->current_materi_id = $materiId;
                     $subcpmkPengambilan->current_materi_start_time = date("Y-m-d H:i:s");
                     $subcpmkPengambilan->save();
-                    $subcpmkPengambilan->subcmpkFinished = false;
                 }   
             }
             else{
@@ -297,9 +290,8 @@ class Siswa extends Model
                 $subcpmkPengambilan->current_materi_id = $materiId;
                 $subcpmkPengambilan->current_materi_start_time = date("Y-m-d H:i:s");
                 $subcpmkPengambilan->save();
-                $subcpmkPengambilan->subcmpkFinished = false;
             }
-            return $subcpmkPengambilan;
+            return true;
         }
         else{
             throw new \Exception('Siswa is not enrolled');
@@ -317,7 +309,7 @@ class Siswa extends Model
                 ->where("nomorUrut_subCpmk", '>', $currentSubcpmk->nomorUrut_subCpmk)
                 ->sortBy("nomorUrut_subCpmk")->first();
             if(!$subcpmk){
-                throw new \Exception('siswa has to take sumatif tes');
+                return false;
             }
             $pengambilankelas = PengambilanKelas::where([
                 ['id_siswa', '=', $this->id_siswa],
@@ -329,11 +321,17 @@ class Siswa extends Model
             $subPengambilan->waktuMulai_Pengambilan = date("Y-m-d H:i:s");
             $subPengambilan->status_subcpmkpengambilan = 1;
             $subPengambilan->save();
+            return true;
         }
         else{
             throw new \Exception('previuos tesformatif has not finished yet');
         }
 
-        
+    }
+
+    public function getTesSumatif($id_kelas){
+        $pengambilanKelas = PengambilanKelas::where('id_kelas',$id_kelas)
+        ->where('id_siswa',$this->id_siswa);
+        return $pengambilanKelas->sumatif();
     }
 }

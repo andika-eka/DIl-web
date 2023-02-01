@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\PengambilanKelas;
-use App\Models\SubcpmkPengambilan;
-use App\Models\Kelas;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
@@ -88,15 +84,13 @@ class LearningController extends Controller
     public function nextMateri($id_kelas){
         try {
             $nextMateri = $this->getSiswa()->nextMateri($id_kelas);
-            if($nextMateri->subcmpkFinished){
+            if(!$nextMateri){
                 return response()->json([
-                    'subcpmkPengambilan' => $nextMateri,
                     'currentMateri' => NULL,
                 ]);
             }
             else{
                 return response()->json([
-                    'subcpmkPengambilan' => $nextMateri,
                     'currentMateri' => $this->getSiswa()->getCurrentMateri($id_kelas),
                 ]);
             }
@@ -113,7 +107,13 @@ class LearningController extends Controller
         try
         {
             $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
-            $this->getSiswa()->nextSubcpmk($id_kelas);
+            $nextSubcpmk = $this->getSiswa()->nextSubcpmk($id_kelas);
+            if(!$nextSubcpmk){
+                return response()->json([
+                    'current' => NULL,
+                    'completed' => $subcpmk,
+                ]);
+            }
 
             $currentSubcpmk = $this->getSiswa()->getCurrentSubCpmk($id_kelas);
 

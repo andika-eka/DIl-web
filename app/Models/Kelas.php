@@ -37,6 +37,24 @@ class Kelas extends Model
     public function settings(){
         return $this->hasOne(SettingKelas::class, "id_settting_kelas", "id_kelas");
     }
+
+    public function kelasIsRunning(){
+        try{
+            $start = strtotime($this->tanggalMulai_kelas);
+            $stop = strtotime($this->tanggalSelesai_kelas);
+        }
+        catch (\Exception $e)
+        {
+            return true;
+        }
+        $now = strtotime(date("Y-m-d H:i:s"));
+        if(($start < $now) and ($now < $stop)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public function enrolled(){
         $siswa = DB::table("siswa")
                     ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')

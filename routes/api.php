@@ -113,6 +113,15 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("currentTestInfo/{id_kelas}", [TesFormatifController::class, 'currentTestInfo']);
     Route::patch("finishTesFormatif/{id_kelas}", [TesFormatifController::class, 'finishTesFormatif']);
     
+    Route::patch("createTesSumatif/{id_kelas}", [SumatifController::class, 'createTesSumatif']);
+    Route::get("sumatifInfo/{id_kelas}", [SumatifController::class, 'sumatifInfo']);
+    Route::get("getCurrentSumatif/{id_kelas}", [SumatifController::class, 'getCurrentSumatif']);
+    Route::patch("startTestSumatif/{id_kelas}", [SumatifController::class, 'startTestSumatif']);
+    Route::get("sumatif/getSoal/{id_kelas}/{no_soal}", [SumatifController::class, 'getSoal']);
+    Route::post("sumatif/submitJawaban/{id_kelas}/{no_soal}", [SumatifController::class, 'submitJawaban']);
+    Route::patch("finishTestSumatif/{id_kelas}", [SumatifController::class, 'finishTestSumatif']);
+    
+    
 });
 
 Route::group(['middleware' => ['admin:api']], function () {

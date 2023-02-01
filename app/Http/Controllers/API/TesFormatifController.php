@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TesFormatif;
 use App\Models\SubcpmkPengambilan;
-use App\Models\Kelas;
-use App\Models\SubCpmk;
 use Illuminate\Support\Facades\Auth;
 
 use function PHPUnit\Framework\isEmpty;
@@ -68,6 +66,9 @@ class TesFormatifController extends Controller
         try
         {
             $currentSubcpmk = $this-> getSiswa()->getCurrentSubCpmk($id_kelas);
+            if ($currentSubcpmk->status_subcpmkpengambilan == 1){
+                throw new \Exception ("current unit is not finished");
+            }
             $subcpmkPengambilan = SubcpmkPengambilan::find($currentSubcpmk->id_subcpmkpengambilan);
             $testNumber =  $subcpmkPengambilan->tesFormatif->count();
             $currentTest = $subcpmkPengambilan->CurrentTesFormatif();
@@ -109,7 +110,8 @@ class TesFormatifController extends Controller
             
         $currentTest = $subcpmkPengambilan->CurrentTesFormatif();
         if(! $currentTest){
-            throw new \Exception ("there is no current test");
+            $this->createTestformatif($id_kelas);
+            $currentTest = $subcpmkPengambilan->CurrentTesFormatif();
         }
         return TesFormatif::find($currentTest->id_tesFormatif);
     }
@@ -119,7 +121,8 @@ class TesFormatifController extends Controller
         {
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $tesFormatif->startTesFomatif();
-            return response()->json($tesFormatif->detail);
+            $tesFormatif->detail;
+            return response()->json($tesFormatif);
         }
         catch (\Exception $e)
         {
@@ -213,7 +216,7 @@ class TesFormatifController extends Controller
             return response()->json([
                 'tes' => $tesFormatif,
                 'jawaban' => $tesFormatif->veryDetail(),
-            ]);return response()->json($tesFormatif);
+            ]);
         }
         catch (\Exception $e)
         {

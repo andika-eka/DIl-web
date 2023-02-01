@@ -24,10 +24,9 @@ class PengambilanKelas extends Model
         return $this->belongsTo(Kelas::class, "id_siswa", "id_siswa");
     }
     
-    public function subcpmk(){
-        return $this->hasMany(SubCpmk::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
+    public function sumatif(){
+        return $this->hasOne(Sumatif::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
     }
-    
-    
+
     
 }
