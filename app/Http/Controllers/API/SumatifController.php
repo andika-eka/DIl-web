@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\SubcpmkPengambilan;
 use App\Models\PengambilanKelas;
 use App\Models\Sumatif;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +28,7 @@ class SumatifController extends Controller
                 throw new \Exception ("tes already created");
             }
             $pengambilanKelas = PengambilanKelas::where('id_kelas',$id_kelas)
-                        ->where('id_siswa',$siswa->id_siswa);
+                        ->where('id_siswa',$siswa->id_siswa)->first();
             
             $sumatif = new Sumatif;
             $sumatif->id_pengambilanKelas = $pengambilanKelas->id_pengambilanKelas;
@@ -51,6 +50,7 @@ class SumatifController extends Controller
             $siswa = $this->getSiswa();
             $currentSumatif = $siswa->getTesSumatif($id_kelas);
             if (!$currentSumatif){
+                // dd($currentSumatif);
                 $this->createTesSumatif($id_kelas);
                 $currentSumatif = $siswa->getTesSumatif($id_kelas);
             }

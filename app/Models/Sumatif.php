@@ -23,7 +23,7 @@ class Sumatif extends Model
 
 
     public function pengambilanKelas(){
-        return $this->hasMany(PengambilanKelas::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
+        return $this->hasOne(PengambilanKelas::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
     }
 
     public function detail(){
@@ -50,13 +50,20 @@ class Sumatif extends Model
         return $soal;
     }
     private function getIndikator(){
-        $indikator = $this->pengambilanKelas->kelas->matakuliah->indikator;
+        $id_matakliah = $this->pengambilanKelas->kelas->matakuliah->id_matakuliah;
+        $indikator = DB::table("indikator")
+                        ->join('subcpmk', 'indikator.id_subCpmk','=', 'subcpmk.id_subCpmk')
+                        ->where( 'subcpmk.id_mataKuliah', '=', $id_matakliah)
+                        ->select('indikator.*')
+                        ->orderBy('nomorUrut_subCpmk')
+                        ->orderBy('nomorUrut_indikator')
+                        ->get();
         return $indikator;
     }
 
     private function getDurationlimit(){
 
-        $settings = $this->pengambilanKelas->kelas->settingKelas();
+        $settings = $this->pengambilanKelas->kelas->settings;
         $indikator = $this->getIndikator()->count();
         $time  = $settings->waktu_per_soal_sumatif * $indikator;
         return $time;
@@ -68,10 +75,10 @@ class Sumatif extends Model
     }
 
     public function startTesSumatif(){
-        if ($this->pengambilanKelas->status_pengambilanKelas == 1){
+        if ($this->pengambilanKelas->status_pengambilanKelas != 3){
             throw new \Exception('kelas has not finished yet');
         }
-        $settings = $this->pengambilanKelas->kelas->settingKelas();
+        $settings = $this->pengambilanKelas->kelas->settings;
         if (!$settings->sumatifIsAvailable()){
             throw new \Exception('sumatif is not available today');
         }
@@ -86,7 +93,7 @@ class Sumatif extends Model
 
         $score = 0;
         $scoreMax = 0;
-        $settings = $this->subcpmkPengambilan->settingKelas();
+        $settings = $this->pengambilanKelas->kelas->settings;
         $bobotIndex = $settings->getBobotArray();
         foreach ($detail as $item){
             $jawaban = 0;
@@ -128,7 +135,7 @@ class Sumatif extends Model
 
     private function generateSoal(){
         if (!$this->detail()->exists()){
-            $settings = $this->pengambilanKelas->kelas->settingKelas();
+            $settings = $this->pengambilanKelas->kelas->settings;
             $indikators = $this->getIndikator();
             
             $lastNum = 0;
@@ -138,11 +145,12 @@ class Sumatif extends Model
                 foreach($indikators as $indikator){
                     for ($i = 1; $i <= $maxNum ; $i++) {
                         $lastNum +=1;
+                        $indikator =Indikator::find($indikator->id_indikator);
                         $soal = $this->selectSoal($indikator, $i)->first();
                         $detailTesSumatif = new DetailTesSumatif;
                         $detailTesSumatif->id_sumatif = $this->id_sumatif;
                         $detailTesSumatif->no_soal = $lastNum;
-                        $detailTesSumatif->id_pilihanJawaban = $soal->id_soalPilihanGanda;
+                        $detailTesSumatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
                         $detailTesSumatif->save();
                     }
                 }
@@ -161,7 +169,7 @@ class Sumatif extends Model
 
             $idsoal = $this->detail->where('no_soal',$noSoal)->first()->id_soalPilihanGanda;
             $soal = Soalpilihanganda::find($idsoal);
-            $soal->jawaban;
+            $soal->jawaban->makeHidden('status_pilihan');;
             return $soal;
         }
         catch (\Exception $e)

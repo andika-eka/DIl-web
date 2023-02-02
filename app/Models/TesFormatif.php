@@ -177,7 +177,7 @@ class TesFormatif extends Model
 
             $idsoal = $this->detail->where('nomorUrut_soal',$noSoal)->first()->id_soalPilihanGanda;
             $soal = Soalpilihanganda::find($idsoal);
-            $soal->jawaban;
+            $soal->jawaban->makeHidden('status_pilihan');
             return $soal;
         }
         catch (\Exception $e)

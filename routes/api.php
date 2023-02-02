@@ -18,6 +18,7 @@ use App\Http\Controllers\API\PilihanjawabanController;
 
 use App\Http\Controllers\API\LearningController;
 use App\Http\Controllers\API\TesFormatifController;
+use App\Http\Controllers\API\SumatifController;
 
 
 

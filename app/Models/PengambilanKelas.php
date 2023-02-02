@@ -14,7 +14,7 @@ class PengambilanKelas extends Model
         "id_pengambilanKelas",
         "id_siswa",
         "id_kelas",
-        "status_pengambilanKelas",
+        "status_pengambilanKelas", //1 = approved, 2=applying, 3=finished
     ];
     public $timestamps = false;
     public function kelas(){

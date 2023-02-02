@@ -309,6 +309,11 @@ class Siswa extends Model
                 ->where("nomorUrut_subCpmk", '>', $currentSubcpmk->nomorUrut_subCpmk)
                 ->sortBy("nomorUrut_subCpmk")->first();
             if(!$subcpmk){
+                $pengambilankelas = PengambilanKelas::where([
+                    ['id_siswa', '=', $this->id_siswa],
+                    ['id_kelas', '=', $id_kelas]
+                ])->first();
+                $pengambilankelas->status_pengambilanKelas = 3;
                 return false;
             }
             $pengambilankelas = PengambilanKelas::where([
@@ -331,7 +336,7 @@ class Siswa extends Model
 
     public function getTesSumatif($id_kelas){
         $pengambilanKelas = PengambilanKelas::where('id_kelas',$id_kelas)
-        ->where('id_siswa',$this->id_siswa);
-        return $pengambilanKelas->sumatif();
+        ->where('id_siswa',$this->id_siswa)->first();
+        return $pengambilanKelas->sumatif;
     }
 }
