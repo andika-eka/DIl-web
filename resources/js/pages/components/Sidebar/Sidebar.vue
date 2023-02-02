@@ -165,6 +165,17 @@
                     <li class="items-center">
                         <router-link
                             class="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
+                            to="/a/list-matakuliah"
+                        >
+                            <i
+                                class="fas fa-book text-slate-300 mr-2 text-sm"
+                            ></i>
+                            List Matakuliah
+                        </router-link>
+                    </li>
+                    <li class="items-center">
+                        <router-link
+                            class="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
                             to="/a/list-kelas"
                         >
                             <i

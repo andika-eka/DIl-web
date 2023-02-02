@@ -44,10 +44,22 @@ const routes = [
                     import("@/pages/dosen/pengaturan/Indikator.vue"),
             },
             {
-                path: "/d/list-mahasiswa",
+                path: "/d/test-sumatif/:idKelas",
+                name: "/d/test-sumatif",
+                component: () =>
+                    import("@/pages/dosen/daftar-mahasiswa/TestSumatif.vue"),
+            },
+            {
+                path: "/d/test-formatif/:idKelas",
+                name: "/d/test-formatif",
+                component: () =>
+                    import("@/pages/dosen/daftar-mahasiswa/TestFormatif.vue"),
+            },
+            {
+                path: "/d/list-mahasiswa/:idKelas",
                 name: "/d/list-mahasiswa",
                 component: () =>
-                    import("@/pages/dosen/daftar-mahasiswa/Index.vue"),
+                    import("@/pages/dosen/daftar-mahasiswa/ListMahasiswa.vue"),
             },
         ],
     },

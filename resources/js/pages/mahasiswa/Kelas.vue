@@ -161,7 +161,7 @@
                             <h1
                                 class="text-4xl font-bold tracking-tight text-gray-900 uppercase"
                             >
-                                {{ kelasStore.kelas?.nama_kelas }}
+                                NAMA MATAKULIAH - KODE (TAHUN)
                             </h1>
 
                             <div class="flex items-center">
@@ -277,7 +277,19 @@
                                 class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Nama Kelas
+                                    Kode Mata Kuliah
+                                </dt>
+                                <dd
+                                    class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
+                                >
+                                    Margot Foster
+                                </dd>
+                            </div>
+                            <div
+                                class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                            >
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Nama Mata Kuliah
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -289,7 +301,7 @@
                                 class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Nama Matakuliah
+                                    CPMK
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -301,7 +313,7 @@
                                 class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Deskripsi
+                                    Sub-CPMK
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"
@@ -319,7 +331,7 @@
                                 class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                             >
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Attachments
+                                    Modul Kuliah
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"

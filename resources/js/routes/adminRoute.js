@@ -33,8 +33,24 @@ const routes = [
                 component: () => import("@/pages/admin/ListUser.vue"),
             },
             {
+                path: "/a/list-matakuliah",
+                component: () => import("@/pages/admin/ListMatakuliah.vue"),
+            },
+            {
+                path: "/a/add-matakuliah",
+                component: () => import("@/pages/admin/AddMatakuliah.vue"),
+            },
+            {
+                path: "/a/register-new-user",
+                component: () => import("@/pages/admin/AddNewUser.vue"),
+            },
+            {
                 path: "/a/list-kelas",
                 component: () => import("@/pages/admin/ListKelas.vue"),
+            },
+            {
+                path: "/a/add-kelas",
+                component: () => import("@/pages/admin/AddKelas.vue"),
             },
         ],
     },

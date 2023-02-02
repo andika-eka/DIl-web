@@ -74,7 +74,7 @@
                                     <div>
                                         <label
                                             class="block text-sm font-medium text-gray-700"
-                                            >Teks Materi</label
+                                            >Bahan Ajar Berbasis Teks</label
                                         >
                                         <div
                                             @dragover.prevent="

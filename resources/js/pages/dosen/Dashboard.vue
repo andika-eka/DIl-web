@@ -42,7 +42,7 @@
                 </blockquote>
                 <div class="px-4 absolute bottom-3 flex justify-between w-full">
                     <button
-                        @click.prevent=""
+                        @click.prevent="goToListMahasiswa(kls.id_kelas, index)"
                         class="bg-teal-600 hover:bg-teal-700 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
                         type="button"
                     >
@@ -76,6 +76,11 @@ const kelasStore = useKelasStore();
 const router = useRouter();
 const kelas = ref([]);
 const matakuliah = ref([]);
+
+const goToListMahasiswa = (id, index) => {
+    // kelasStore.kelas = kelas.value[index];
+    router.push(`/d/list-mahasiswa/${id}`);
+};
 
 const goToSettingKelas = (id, index) => {
     kelasStore.kelas = kelas.value[index];

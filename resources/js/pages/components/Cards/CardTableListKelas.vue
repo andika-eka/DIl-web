@@ -15,6 +15,15 @@
                         List Kelas
                     </h3>
                 </div>
+                <!-- Add Button -->
+                <router-link to="/a/add-kelas">
+                    <button
+                        class="bg-emerald-500 hover:bg-emerald-700 px-4 py-2 rounded-md text-white text-sm"
+                    >
+                        Add Kelas
+                        <i class="fas fa-plus ml-2"></i>
+                    </button>
+                </router-link>
             </div>
         </div>
         <div class="block w-full overflow-x-auto relative p-8">

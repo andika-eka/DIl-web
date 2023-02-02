@@ -12,15 +12,15 @@
                             color === 'light' ? 'text-slate-700' : 'text-white',
                         ]"
                     >
-                        List User
+                        List Matakuliah
                     </h3>
                 </div>
                 <!-- Add Button -->
-                <router-link to="/a/register-new-user">
+                <router-link to="/a/add-matakuliah">
                     <button
                         class="bg-emerald-500 hover:bg-emerald-700 px-4 py-2 rounded-md text-white text-sm"
                     >
-                        Add User
+                        Add Matakuliah
                         <i class="fas fa-plus ml-2"></i>
                     </button>
                 </router-link>
@@ -28,7 +28,7 @@
         </div>
         <div class="block w-full overflow-x-auto relative p-8">
             <!-- Projects table -->
-            <DataTable :data="users" :columns="columns" class="w-full">
+            <DataTable :data="matakuliah" :columns="columns" class="w-full">
                 <thead>
                     <tr>
                         <th
@@ -39,7 +39,7 @@
                                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                             ]"
                         >
-                            Nama User
+                            Kode Matakuliah
                         </th>
                         <th
                             class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -49,7 +49,7 @@
                                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                             ]"
                         >
-                            Email
+                            Nama Matakuliah
                         </th>
                         <th
                             class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -59,17 +59,7 @@
                                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                             ]"
                         >
-                            Tipe Pengguna
-                        </th>
-                        <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
-                        >
-                            Status
+                            CPMK
                         </th>
                         <th
                             class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -95,32 +85,11 @@ import DataTablesLib from "datatables.net";
 DataTable.use(DataTablesLib);
 
 const authStore = useAuthStore();
-const users = ref(null);
+const matakuliah = ref(null);
 const columns = ref([
-    { data: "name" },
-    { data: "email" },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            switch (data.tipe_pengguna) {
-                case 1:
-                    return "Admin";
-                    break;
-                case 2:
-                    return "Pengajar";
-                    break;
-                case 3:
-                    return "Mahasiswa";
-                    break;
-            }
-        },
-    },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            return data.status_pengguna == 1 ? "Aktif" : "Non-Aktif";
-        },
-    },
+    { data: "kode_mataKuliah" },
+    { data: "nama_mataKuliah" },
+    { data: "cpmk", width: "50%" },
 ]);
 
 const props = defineProps({
@@ -134,18 +103,18 @@ const props = defineProps({
 });
 
 onMounted(async () => {
-    await getUser();
+    await getMatakuliah();
 });
 
-const getUser = async () => {
+const getMatakuliah = async () => {
     await axios
-        .get("/api/user", {
+        .get("/api/Matakuliah", {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
             },
         })
         .then((res) => {
-            users.value = res.data;
+            matakuliah.value = res.data;
         });
 };
 </script>
