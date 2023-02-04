@@ -5,19 +5,23 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use App\Models\Indikator;
+use App\Models\SubCpmk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IndikatorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function index()
-    // {
-    //     //
-    // }
+    private function checkAccessToMatkul($id_matakuliah){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuMatakuliah($id_matakuliah)){
+            abort(403);
+        }
+        
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -30,6 +34,8 @@ class IndikatorController extends Controller
         //
         try
         {
+            $subcpmk = SubCpmk::find($scid);
+            $this->checkAccessToMatkul($subcpmk->id_mataKuliah);  
             $indikator = new Indikator;
             $indikator->id_subCpmk = $scid;
             $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
@@ -63,6 +69,7 @@ class IndikatorController extends Controller
         try
         {
             $indikator = Indikator::find($id);
+            $this->checkAccessToMatkul($indikator->subcpmk->id_mataKuliah);  
             $indikator->subcmpk;
             $indikator->materi;
             $indikator->soal;
@@ -90,6 +97,7 @@ class IndikatorController extends Controller
         try
         {
             $indikator = Indikator::find($id);
+            $this->checkAccessToMatkul($indikator->subcpmk->id_mataKuliah);  
             $indikator->nomorUrut_indikator = $request->nomorUrut_indikator;
             $indikator->narasi_indikator = $request->narasi_indikator;
             $indikator->pertemuanKe = $request->pertemuanKe;
@@ -122,6 +130,7 @@ class IndikatorController extends Controller
         try
         {
             $indikator = Indikator::find($id);
+            $this->checkAccessToMatkul($indikator->subcpmk->id_mataKuliah);  
             $indikator->delete();
             return response()->json([
                 'success' => true,

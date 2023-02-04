@@ -86,8 +86,8 @@ class PengajarController extends Controller
     }
 
     public function getPengampuanKelas(){
-        // try
-        // {
+        try
+        {
             $user = Auth::user();
             if ($user->tipe_pengguna != 2)
             {
@@ -99,14 +99,38 @@ class PengajarController extends Controller
                 'kelas' =>  $kelas,
                 'success' => true,
             ],200);
-        // }
+        }
         
-        // catch (\Exception $e){
-        //     return response()->json([
-        //         'message' => $e->getMessage(),
-        //         'success' => false,
-        //     ], 422);
-        // }
+        catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function getPengampuanMatakuliah(){
+        try
+        {
+            $user = Auth::user();
+            if ($user->tipe_pengguna != 2)
+            {
+                throw new \Exception("wrong user type");
+            }
+            $matakuliah = $user->detail->matakuliah();
+
+            return response()->json([
+                'matakuliah' =>  $matakuliah,
+                'success' => true,
+            ],200);
+        }
+        
+        catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
     }
     
 }

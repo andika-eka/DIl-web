@@ -5,9 +5,23 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\MataKuliah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MataKuliahController extends Controller
 {
+
+    private function checkAccessToMatkul($id_matakuliah){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuMatakuliah($id_matakuliah)){
+            abort(403);
+        }
+        
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -65,7 +79,7 @@ class MataKuliahController extends Controller
         {
             $mataKuliah = MataKuliah::find($id);
             $mataKuliah->kelas;
-            $mataKuliah->subCpmk;
+            $mataKuliah->load('subCpmk.indikator.materi');
             return Response()->json($mataKuliah);
         }
         
@@ -90,6 +104,7 @@ class MataKuliahController extends Controller
         
         try
         {
+            $this->checkAccessToMatkul($id);
             $mataKuliah = MataKuliah::find($id);
             $mataKuliah->kode_mataKuliah = $request->kode_mataKuliah;
             $mataKuliah->nama_mataKuliah = $request->nama_mataKuliah;

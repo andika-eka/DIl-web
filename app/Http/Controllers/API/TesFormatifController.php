@@ -7,9 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TesFormatif;
 use App\Models\SubcpmkPengambilan;
+use App\Models\Kelas;
 use Illuminate\Support\Facades\Auth;
 
-use function PHPUnit\Framework\isEmpty;
 
 class TesFormatifController extends Controller
 {
@@ -23,6 +23,12 @@ class TesFormatifController extends Controller
         return $user->detail;
     }
 
+    private function checkStartEnd($id_kelas){
+        $kelas = Kelas::find($id_kelas);
+        if(!$kelas->kelasIsRunning()){
+            throw new \Exception("outside of Kelas period");
+        }
+    }
 
     /**
      * 
@@ -65,6 +71,7 @@ class TesFormatifController extends Controller
     public function createTestformatif($id_kelas){
         try
         {
+            $this->checkStartEnd($id_kelas);
             $currentSubcpmk = $this-> getSiswa()->getCurrentSubCpmk($id_kelas);
             if ($currentSubcpmk->status_subcpmkpengambilan == 1){
                 throw new \Exception ("current unit is not finished");
@@ -77,7 +84,7 @@ class TesFormatifController extends Controller
             if($currentTest){
                 throw new \Exception ("current test is not finished");
             }
-            else if($testNumber >= 3){
+            else if($testNumber >=  $settings->batas_pengulangan_remidi){
                 throw new \Exception ("attemp limit has been reached");
             }
             else if($lastTest){
@@ -119,6 +126,7 @@ class TesFormatifController extends Controller
     public function startTesFormatif($id_kelas){
         try
         {
+            $this->checkStartEnd($id_kelas);
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $tesFormatif->startTesFomatif();
             $tesFormatif->detail;
@@ -177,6 +185,7 @@ class TesFormatifController extends Controller
     public function submitJawaban(Request $request, $id_kelas, $no_soal){
         try
         {
+            $this->checkStartEnd($id_kelas);
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $detail = $tesFormatif->saveJawaban($request->noUrut_pilihan, $no_soal );
             $detail->jawaban->soal;
@@ -195,6 +204,7 @@ class TesFormatifController extends Controller
     public function finishTesFormatif($id_kelas){
         try
         {
+            $this->checkStartEnd($id_kelas);
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $tesFormatif->endTesFormatif();
             return response()->json($tesFormatif);

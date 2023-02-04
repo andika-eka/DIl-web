@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
+use App\Models\Pengajar;
 use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
@@ -18,7 +19,19 @@ class KelasController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    
+    private function checkAccessToKelas($id_kelas){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuKelas($id_kelas)){
+            abort(403);
+        }
+        
+    }
+
+
     public function index()
     {
         //
@@ -118,6 +131,7 @@ class KelasController extends Controller
         //
         try
         {
+            $this->checkAccessToKelas($id);
             $kelas = Kelas::find($id);
             $kelas->id_matakuliah = $request->id_matakuliah;
             $kelas->tahun_kelas = $request->tahun_kelas;
@@ -267,6 +281,7 @@ class KelasController extends Controller
 
     public function approveSiswa($id, $id_siswa){
         try {
+            $this->checkAccessToKelas($id);
             $kelas = Kelas::find($id);
             $kelas->approveSiswa($id_siswa);
             return response()->json([
@@ -284,6 +299,7 @@ class KelasController extends Controller
 
     public function getKelasSettings($id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
             return response()->json([
                 'settings' =>$setting,
@@ -299,6 +315,7 @@ class KelasController extends Controller
 
     public function applySettings(Request $request, $id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
             // $jsDateTS = strtotime($request->Mulai);
             // $setting->Mulai = date('Y-m-d', $jsDateTS );
@@ -335,6 +352,7 @@ class KelasController extends Controller
     }
     public function setDefaultSettings($id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
             $setting->Mulai =  date("Y-m-d");
             $setting->Berakhir = NULL;
