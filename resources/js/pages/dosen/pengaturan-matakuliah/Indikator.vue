@@ -153,7 +153,9 @@
             <div
                 class="flex justify-between items-center bg-gray-100 mt-5 px-4 pt-2 pb-4"
             >
-                <router-link to="/d/sub-cpmk">
+                <router-link
+                    :to="`/d/sub-cpmk/${kelasStore.kelasList.id_matakuliah}`"
+                >
                     <button
                         type="submit"
                         class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
@@ -175,17 +177,24 @@
 
 <script setup>
 import NavbarNewMataKuliah from "@/pages/components/Navbars/DosenNewMatakuliahNavbar.vue";
+import { useAuthStore } from "@/stores/auth";
 import { useKelasStore } from "@/stores/kelas";
+import { useSubCPMKStore } from "@/stores/subCpmk";
+import { useIndikatorStore } from "@/stores/indikator";
 import { reactive, ref } from "@vue/reactivity";
 import { onMounted, watch } from "@vue/runtime-core";
+import axios from "axios";
 
+const authStore = useAuthStore();
 const kelasStore = useKelasStore();
-const subCpmk = ref(kelasStore.subCpmk);
+const subCPMKStore = useSubCPMKStore();
+const indikatorStore = useIndikatorStore();
+const subCpmk = ref(subCPMKStore.subCpmk);
 const indikator = reactive([]);
 
 onMounted(() => {
-    if (kelasStore.indikator === null) {
-        kelasStore.subCpmk.forEach((el) => {
+    if (indikatorStore.indikator === null) {
+        subCPMKStore.subCpmk.forEach((el) => {
             indikator.push([
                 {
                     narasi_indikator: "",
@@ -195,16 +204,17 @@ onMounted(() => {
             ]);
         });
     } else {
-        if (kelasStore.indikator.length > kelasStore.subCpmk.length) {
-            kelasStore.indikator = indikator;
+        if (indikatorStore.indikator.length > subCPMKStore.subCpmk.length) {
+            indikatorStore.indikator = indikator;
         }
-        kelasStore.indikator.forEach((el) => {
+        indikatorStore.indikator.forEach((el) => {
             indikator.push(el);
         });
-        if (kelasStore.indikator.length < kelasStore.subCpmk.length) {
+        if (indikatorStore.indikator.length < subCPMKStore.subCpmk.length) {
             for (
                 let i = 0;
-                i < kelasStore.subCpmk.length - kelasStore.indikator.length;
+                i <
+                subCPMKStore.subCpmk.length - indikatorStore.indikator.length;
                 i++
             ) {
                 indikator.push([
@@ -232,18 +242,10 @@ const removeIndikator = (subCpmkIndex, indikatorIndex) => {
 };
 
 const submitAll = async () => {
-    await axios.post(
-        "/api/Kelas",
-        {},
-        {
-            headers: {
-                Authorization: `Bearer ${authStore.authUser.api_token}`,
-            },
-        }
-    );
+    await axios.post("/api/Kelas");
 };
 
 watch(indikator, () => {
-    kelasStore.indikator = indikator;
+    indikatorStore.indikator = indikator;
 });
 </script>

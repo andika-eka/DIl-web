@@ -3,7 +3,34 @@
         <h3 class="text-2xl font-medium leading-6 text-gray-900 mb-5">
             Pengaturan Matakuliah
         </h3>
-        <navbar-new-mata-kuliah />
+        <!-- Start Redundant Section -->
+        <div class="flex bg-gray-100 rounded-md pt-3 px-3 gap-2">
+            <router-link to="">
+                <div
+                    :class="[
+                        $router.currentRoute.value.name == '/d/setting'
+                            ? 'bg-emerald-700'
+                            : 'bg-emerald-500',
+                        'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase',
+                    ]"
+                >
+                    Pengaturan Kelas
+                </div>
+            </router-link>
+            <router-link :to="`/d/sub-cpmk/${$route.params.idmatakuliah}`">
+                <div
+                    :class="[
+                        $router.currentRoute.value.name != '/d/setting'
+                            ? 'bg-emerald-700'
+                            : 'bg-emerald-500',
+                        'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase',
+                    ]"
+                >
+                    Pengaturan Matakuliah
+                </div>
+            </router-link>
+        </div>
+        <!-- End Redundan Section -->
         <div
             class="my-3 p-4 text-3xl font-normal leading-normal text-emerald-800 mb-28"
         >
@@ -186,13 +213,18 @@
 <script setup>
 import NavbarNewMataKuliah from "@/pages/components/Navbars/DosenNewMatakuliahNavbar.vue";
 import { reactive, ref } from "@vue/reactivity";
-import { useKelasStore } from "@/stores/kelas";
+import { useSubCPMKStore } from "@/stores/subCPMK";
 import { onMounted, watch } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import { useKelasStore } from "@/stores/kelas";
 import Swal from "sweetalert2";
 
+const route = useRoute();
 const router = useRouter();
+const authStore = useAuthStore();
 const kelasStore = useKelasStore();
+const subCPMKStore = useSubCPMKStore();
 const fileInputStyle = reactive([]);
 const subCpmk = reactive([
     {
@@ -202,15 +234,7 @@ const subCpmk = reactive([
 ]);
 
 const validateThenNext = async () => {
-    if (kelasStore.subCpmk != null) {
-        router.push("/d/indikator");
-    } else {
-        Swal.fire(
-            "Field Required?",
-            "Tolong isi field yang sudah disediakan",
-            "error"
-        );
-    }
+    router.push("/d/indikator");
 };
 
 const addSubCPMK = () => {
@@ -242,16 +266,30 @@ const fileSelected = (event, index) => {
     subCpmk[index].materiTeks = event.target.files[0];
 };
 
-onMounted(() => {
-    if (kelasStore.subCpmk !== null) {
+const getData = async () => {
+    await axios
+        .get(`/api/Matakuliah/${route.params.idmatakuliah}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            subCPMKStore.subCpmk = res.data.sub_cpmk;
+            console.log(res.data);
+        });
+};
+
+onMounted(async () => {
+    await getData();
+    if (subCPMKStore.subCpmk !== null) {
         subCpmk.splice(0, 1);
-        kelasStore.subCpmk.forEach((el) => {
+        subCPMKStore.subCpmk.forEach((el) => {
             subCpmk.push(el);
         });
     }
 });
 
 watch(subCpmk, () => {
-    kelasStore.subCpmk = subCpmk;
+    subCPMKStore.subCpmk = subCpmk;
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="flex bg-gray-100 rounded-md pt-3 px-3 gap-2">
-        <router-link :to="`/d/setting/${kelasStore.kelas.id_kelas}`">
+        <router-link :to="`/d/setting/${$route.params.id}`">
             <div
                 :class="[
                     $router.currentRoute.value.name == '/d/setting'
@@ -12,7 +12,7 @@
                 Pengaturan Kelas
             </div>
         </router-link>
-        <router-link to="/d/sub-cpmk">
+        <router-link :to="`/d/sub-cpmk/${kelasStore.kelas.id_matakuliah}`">
             <div
                 :class="[
                     $router.currentRoute.value.name != '/d/setting'

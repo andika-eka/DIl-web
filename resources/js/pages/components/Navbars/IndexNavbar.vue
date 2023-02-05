@@ -13,7 +13,7 @@
                         class="text-slate-700 text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
                         href="#pablo"
                     >
-                        <i class="fas fa-laptop-code"></i> DIL ML
+                        <i class="fas fa-laptop-code"></i> DIL-ML
                     </a>
                 </router-link>
                 <button

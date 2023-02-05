@@ -58,7 +58,7 @@
                 </div>
             </div>
             <!-- Cari Kelas -->
-            <div class="mt-5">
+            <!-- <div class="mt-5">
                 <div class="bg-gray-100 w-full py-3 px-6 rounded-sm shadow-sm">
                     <h1 class="text-xl font-medium text-emerald-700">
                         Cari Kelas
@@ -67,7 +67,6 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 md:gap-3 lg:grid-cols-3"
                 >
-                    <!-- Loop Items -->
                     <div
                         v-for="(kls, index) in kelas"
                         :key="index"
@@ -100,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </section>
         <footer-component />
     </div>

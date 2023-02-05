@@ -2,10 +2,6 @@
     <div class="container mx-auto px-4 h-full">
         <div class="flex content-center items-center justify-center h-full">
             <div class="w-full lg:w-5/12 px-4">
-                <alert-error
-                    v-if="valid"
-                    text="Incorect username and password"
-                />
                 <div
                     class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0"
                 >
@@ -90,43 +86,18 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
-import { useCookie } from "vue-cookie-next";
 import { useAuthStore } from "@/stores/auth";
 
 // Compoenent
 import AlertError from "@/pages/components/Alerts/AlertError.vue";
 
-const router = useRouter();
-const cookie = useCookie();
-const auth = useAuthStore();
-const valid = ref(false);
+const authStore = useAuthStore();
 const form = ref({
     email: "",
     password: "",
 });
 
 const handleLogin = async () => {
-    valid.value = false;
-    await axios
-        .post("/api/login", {
-            email: form.value.email,
-            password: form.value.password,
-        })
-        .then((res) => {
-            auth.authUser = res.data;
-            cookie.setCookie("user", res.data);
-            if (cookie.getCookie("user").tipe_pengguna == 1) {
-                router.push("/a");
-            } else if (cookie.getCookie("user").tipe_pengguna == 2) {
-                router.push("/d");
-            } else {
-                router.push("/u");
-            }
-        })
-        .catch(() => {
-            valid.value = true;
-        });
+    authStore.login(form.value);
 };
 </script>

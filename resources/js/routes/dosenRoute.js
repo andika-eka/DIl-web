@@ -15,30 +15,23 @@ const routes = [
                 component: () => import("@/pages/dosen/Dashboard.vue"),
             },
             {
-                path: "/d/setting/:id",
-                name: "/d/setting",
+                path: "/d/kelas/:id_kelas",
+                name: "/d/kelas",
+                component: () => import("@/pages/dosen/Kelas.vue"),
+            },
+            {
+                path: "/d/p-kelas/:id",
+                name: "/d/p-kelas",
                 component: () =>
                     import("@/pages/dosen/pengaturan/SettingKelas.vue"),
             },
             {
-                path: "/d/select-matakuliah",
-                name: "/d/select-matakuliah",
-                component: () =>
-                    import("@/pages/dosen/pengaturan/PilihMatakuliah.vue"),
-            },
-            {
-                path: "/d/tambah-kelas",
-                name: "/d/tambah-kelas",
-                component: () =>
-                    import("@/pages/dosen/pengaturan/TambahKelas.vue"),
-            },
-            {
-                path: "/d/sub-cpmk",
-                name: "/d/sub-cpmk",
+                path: "/d/p-matakuliah/:idmatakuliah/sub-cpmk",
+                name: "/d/p-matakuliah/sub-cpmk",
                 component: () => import("@/pages/dosen/pengaturan/SubCPMK.vue"),
             },
             {
-                path: "/d/indikator",
+                path: "/d/p-matkul/indikator",
                 name: "/d/indikator",
                 component: () =>
                     import("@/pages/dosen/pengaturan/Indikator.vue"),

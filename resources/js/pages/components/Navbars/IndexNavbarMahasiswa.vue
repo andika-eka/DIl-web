@@ -38,7 +38,27 @@
                                 href="#"
                                 class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
                             >
-                                Dashboard
+                                Halaman Utama
+                            </a>
+                        </router-link>
+                    </li>
+                    <li class="flex items-center">
+                        <router-link to="/u/dashboard">
+                            <a
+                                href="#"
+                                class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+                            >
+                                Petunjuk
+                            </a>
+                        </router-link>
+                    </li>
+                    <li class="flex items-center">
+                        <router-link to="/u/dashboard">
+                            <a
+                                href="#"
+                                class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"
+                            >
+                                Tentang
                             </a>
                         </router-link>
                     </li>
@@ -48,7 +68,7 @@
                             class="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button"
                         >
-                            Logout
+                            Keluar
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </li>

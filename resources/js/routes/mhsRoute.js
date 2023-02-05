@@ -16,6 +16,14 @@ const routes = [
             {
                 path: "/u/kelas/:id",
                 component: () => import("@/pages/mahasiswa/Kelas.vue"),
+                // redirect: "/u/kelas/:id/materi/:idindikator",
+                // children: [
+                //     {
+                //         path: "/u/kelas/:id/materi/:idindikator",
+                //         component: () =>
+                //             import("@pages/mahasiswa/kelas/Materi.vue"),
+                //     },
+                // ],
             },
         ],
     },

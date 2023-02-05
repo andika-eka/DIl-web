@@ -90,33 +90,26 @@
     </div>
 </template>
 <script setup>
-import { useAuthStore } from "@/stores/auth";
 import { ref } from "@vue/reactivity";
 import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
+import authAxios from "@/axios/auth";
 
 const router = useRouter();
-const authStore = useAuthStore();
 const matkulData = ref({
     kode_mataKuliah: "",
     naam_mataKuliah: "",
     cpmk: "",
 });
 const newMatkul = async () => {
-    await axios
-        .post("/api/Matakuliah", matkulData.value, {
-            headers: {
-                Authorization: `Bearer ${authStore.authUser.api_token}`,
-            },
-        })
-        .then((res) => {
-            Swal.fire(
-                "Adding Success",
-                "Data Mata Kuliah Berhasil ditambahkan",
-                "success"
-            ).then(() => {
-                router.push("/a/list-matakuliah");
-            });
+    await authAxios.post("/api/Matakuliah", matkulData.value).then((res) => {
+        Swal.fire(
+            "Adding Success",
+            "Data Mata Kuliah Berhasil ditambahkan",
+            "success"
+        ).then(() => {
+            router.push("/a/list-matakuliah");
         });
+    });
 };
 </script>

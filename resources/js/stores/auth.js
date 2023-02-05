@@ -10,6 +10,49 @@ export const useAuthStore = defineStore("auth", {
         user: (state) => state.authUser,
     },
     actions: {
+        login: async function (credential) {
+            await axios
+                .post("/api/login", {
+                    email: credential.email,
+                    password: credential.password,
+                })
+                .then((res) => {
+                    this.authUser = res.data;
+                    this.cookie.setCookie("user", res.data);
+                    if (this.cookie.getCookie("user").tipe_pengguna == 1) {
+                        this.$router.push("/a");
+                    } else if (
+                        this.cookie.getCookie("user").tipe_pengguna == 2
+                    ) {
+                        this.$router.push("/d");
+                    } else {
+                        this.$router.push("/u");
+                    }
+                })
+                .catch(() => {
+                    // const Toast = Swal.mixin({});
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Password atau Email salah",
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener(
+                                "mouseenter",
+                                Swal.stopTimer
+                            );
+                            toast.addEventListener(
+                                "mouseleave",
+                                Swal.resumeTimer
+                            );
+                        },
+                    });
+                });
+        },
         logout: async function () {
             await Swal.fire({
                 title: "Apakah anda yakin?",
@@ -33,8 +76,7 @@ export const useAuthStore = defineStore("auth", {
                         )
                         .then((res) => {
                             this.authUser = null;
-                            document.cookie =
-                                "user=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+                            this.cookie.removeCookie("user");
                             Swal.fire(
                                 "Logout!",
                                 "Anda sudah keluar dari session",

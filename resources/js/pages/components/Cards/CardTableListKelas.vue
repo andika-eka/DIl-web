@@ -28,142 +28,138 @@
         </div>
         <div class="block w-full overflow-x-auto relative p-8">
             <!-- Projects table -->
-            <DataTable :data="data" :columns="columns" class="w-full">
+            <table id="kelas_table" class="display w-full">
                 <thead>
                     <tr>
                         <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
                         >
                             Nama Kelas
                         </th>
                         <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
                         >
                             Semester Kelas
                         </th>
                         <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
                         >
                             Tahun Kelas
                         </th>
                         <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
                         >
-                            Tgl Buat
+                            Jenis Kelas
                         </th>
                         <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
-                        >
-                            Tgl Mulai
-                        </th>
-                        <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
-                        >
-                            Tgl Berakhir
-                        </th>
-                        <th
-                            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            :class="[
-                                color === 'light'
-                                    ? 'bg-slate-50 text-slate-500 border-slate-100'
-                                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-                            ]"
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
                         >
                             Status Kelas
                         </th>
+                        <th
+                            class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                        >
+                            Action
+                        </th>
                     </tr>
                 </thead>
-                <tbody></tbody>
-            </DataTable>
+                <tbody>
+                    <tr v-for="(item, index) in data" :key="index">
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            {{ item.nama_kelas }}
+                        </td>
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            <span v-if="item.semester_kelas == 1">Ganjil</span>
+                            <span v-else>Genap</span>
+                        </td>
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            {{ item.tahun_kelas }}
+                        </td>
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            <span v-if="item.jenis_kelas == 1">Reguler</span>
+                            <span v-else>International</span>
+                        </td>
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            <span v-if="item.status_kelas == 1">
+                                <i
+                                    class="fas fa-circle text-emerald-500 mr-2"
+                                ></i>
+                                Aktif
+                            </span>
+                            <span v-else>
+                                <i
+                                    class="fas fa-circle text-orange-500 mr-2"
+                                ></i>
+                                Non-Aktif
+                            </span>
+                        </td>
+                        <td
+                            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+                        >
+                            <div class="space-x-2">
+                                <button
+                                    class="px-3 py-2 bg-orange-500 rounded hover:bg-orange-600"
+                                >
+                                    <i class="fas fa-pen text-white"></i>
+                                </button>
+                                <button
+                                    class="px-3 py-2 bg-red-500 rounded hover:bg-red-600"
+                                >
+                                    <i class="fas fa-trash text-white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
 <script setup>
-import TableDropdown from "@/pages/components/Dropdowns/TableDropdown.vue";
 import bootstrap from "@/assets/img/bootstrap.jpg";
-import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "@vue/runtime-core";
 import DataTable from "datatables.net-vue3";
 import DataTablesLib from "datatables.net";
 
 DataTable.use(DataTablesLib);
 
-const authStore = useAuthStore();
+import authAxios from "@/axios/auth";
 const data = ref(null);
-const columns = ref([
-    { data: "nama_kelas" },
-    { data: "semester_kelas" },
-    { data: "tahun_kelas" },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            return data.tanggalBuat_kelas;
-        },
-    },
-    { data: "tanggalMulai_kelas" },
-    { data: "tanggalSelesai_kelas" },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            return data.kelas == 1 ? "Aktif" : "Non-Aktif";
-        },
-    },
-]);
 
 const props = defineProps({
     color: {
         default: "light",
         validator: function (value) {
-            // The value must match one of these strings
             return ["light", "dark"].indexOf(value) !== -1;
         },
     },
 });
 
 onMounted(async () => {
-    await getUser();
+    await getKelas();
+    await $(document).ready(function () {
+        $("#kelas_table").DataTable({
+            paging: true,
+            ordering: true,
+            info: false,
+        });
+    });
 });
 
-const getUser = async () => {
-    await axios
-        .get("/api/Kelas", {
-            headers: {
-                Authorization: `Bearer ${authStore.authUser.api_token}`,
-            },
-        })
-        .then((res) => {
-            data.value = res.data;
-        });
+const getKelas = async () => {
+    await authAxios.get("/api/Kelas").then((res) => {
+        data.value = res.data;
+    });
 };
 </script>
 

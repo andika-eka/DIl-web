@@ -2,11 +2,38 @@
     <section class="px-4 mb-6 sm:px-16 lg:px-32 pt-16 pb-8 my-6">
         <h3 class="text-2xl font-medium leading-6 text-gray-900 mb-5">
             Pengaturan Kelas -
-            <span class="uppercase">{{
-                kelasStore.kelas.matkul.nama_mataKuliah
-            }}</span>
+            <span class="uppercase"
+                >{{ matakuliah.nama_mataKuliah }} ({{
+                    matakuliah.kode_mataKuliah
+                }})</span
+            >
         </h3>
-        <navbar-new-mata-kuliah />
+        <div class="flex bg-gray-100 rounded-md pt-3 px-3 gap-2">
+            <router-link :to="`/d/setting/${$route.params.id}`">
+                <div
+                    :class="[
+                        $router.currentRoute.value.name == '/d/setting'
+                            ? 'bg-emerald-700'
+                            : 'bg-emerald-500',
+                        'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase',
+                    ]"
+                >
+                    Pengaturan Kelas
+                </div>
+            </router-link>
+            <router-link :to="`/d/sub-cpmk/${kelasStore.kelas.id_matakuliah}`">
+                <div
+                    :class="[
+                        $router.currentRoute.value.name != '/d/setting'
+                            ? 'bg-emerald-700'
+                            : 'bg-emerald-500',
+                        'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase',
+                    ]"
+                >
+                    Pengaturan Matakuliah
+                </div>
+            </router-link>
+        </div>
         <div
             class="my-3 p-4 text-3xl font-normal leading-normal text-emerald-800 mb-28"
         >
@@ -110,7 +137,7 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <select
-                                                    v-model="selectedTahun"
+                                                    v-model="tahun_kelas"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 >
                                                     <option
@@ -134,13 +161,13 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <select
-                                                    v-model="selelctedSemester"
+                                                    v-model="semester_kelas"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 >
-                                                    <option value="Ganjil">
+                                                    <option value="1">
                                                         Ganjil
                                                     </option>
-                                                    <option value="Genap">
+                                                    <option value="2">
                                                         Genap
                                                     </option>
                                                 </select>
@@ -155,7 +182,7 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <select
-                                                    v-model="selectedNamaKelas"
+                                                    v-model="nama_kelas"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 >
                                                     <option value="A">A</option>
@@ -175,15 +202,13 @@
                                                 class="mt-1 flex rounded-md shadow-sm"
                                             >
                                                 <select
-                                                    v-model="selectedJenisKelas"
+                                                    v-model="jenis_kelas"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 >
-                                                    <option value="reguler">
+                                                    <option value="1">
                                                         Reguler
                                                     </option>
-                                                    <option
-                                                        value="international"
-                                                    >
+                                                    <option value="2">
                                                         International
                                                     </option>
                                                 </select>
@@ -200,7 +225,7 @@
                                                 <!-- Select -->
                                                 <!-- Aktif / Tidak Aktif -->
                                                 <select
-                                                    v-model="selectedTahun"
+                                                    v-model="status_kelas"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 >
                                                     <option value="1">
@@ -369,7 +394,7 @@
                                             <label
                                                 for="company-website"
                                                 class="block text-sm font-medium text-gray-700"
-                                                >Kriteria Kentuntasan Minimum
+                                                >Kriteria Ketuntasan Minimum
                                                 (KKM)</label
                                             >
                                             <div
@@ -389,7 +414,7 @@
                                         <label
                                             for="about"
                                             class="block text-sm font-medium text-gray-700"
-                                            >Waktu Tunggu untuk melakukan Test
+                                            >Waktu Tunggu untuk melakukan Tes
                                             Formatif Ulang</label
                                         >
                                         <div class="mt-1 flex rounded-md">
@@ -411,7 +436,7 @@
                                             <label
                                                 for="company-website"
                                                 class="block text-sm font-medium text-gray-700"
-                                                >Tanggal Pelaksanaan Test
+                                                >Tanggal Pelaksanaan Tes
                                                 Sumatif</label
                                             >
                                             <div
@@ -428,6 +453,109 @@
                                                     id="kode-matakuliah"
                                                     class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
                                                 />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-4 gap-6">
+                                        <div class="col-span-2">
+                                            <label
+                                                for="soalformatif"
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Jumlah Soal Formatif
+                                                per-Indikator</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="
+                                                        formdata.soal_formatif_per_indikator
+                                                    "
+                                                    type="number"
+                                                    name="soalformatif"
+                                                    id="soalformatif"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label
+                                                for="soalsumatif"
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Jumlah Soal Sumatif
+                                                per-Indikator</label
+                                            >
+                                            <div
+                                                class="mt-1 flex rounded-md shadow-sm"
+                                            >
+                                                <input
+                                                    v-model="
+                                                        formdata.soal_sumatif_per_indikator
+                                                    "
+                                                    type="number"
+                                                    name="soalsumatif"
+                                                    id="soalsumatif"
+                                                    class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="about"
+                                            class="block text-sm font-medium text-gray-700"
+                                            >Maksimal Jumlah Remidi</label
+                                        >
+                                        <div class="mt-1 flex rounded-md">
+                                            <input
+                                                v-model="
+                                                    formdata.waktu_tunggu_formatif
+                                                "
+                                                type="number"
+                                                class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                            />
+                                            <span
+                                                class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white"
+                                                >Kali</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-4 gap-6">
+                                        <div class="col-span-2">
+                                            <label
+                                                for="about"
+                                                class="block text-sm font-medium text-gray-700"
+                                                >Waktu per-Soal untuk Tes
+                                                Formatif</label
+                                            >
+                                            <div class="mt-1 flex rounded-md">
+                                                <input
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                                <span
+                                                    class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white"
+                                                    >Menit</span
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label
+                                                for="about"
+                                                class="block text-sm font-medium text-gray-700"
+                                            >
+                                                Waktu per-Soal untuk Tes
+                                                Sumatif</label
+                                            >
+                                            <div class="mt-1 flex rounded-md">
+                                                <input
+                                                    type="number"
+                                                    class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm"
+                                                />
+                                                <span
+                                                    class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white"
+                                                    >Menit</span
+                                                >
                                             </div>
                                         </div>
                                     </div>
@@ -466,9 +594,9 @@ import { reactive, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useKelasStore } from "@/stores/kelas";
-import axios from "axios";
+import authAxios from "@/axios/auth";
 import Swal from "sweetalert2";
-import { onMounted, watch } from "@vue/runtime-core";
+import { onMounted } from "@vue/runtime-core";
 
 const router = useRouter();
 const route = useRoute();
@@ -483,12 +611,17 @@ const makeTahunList = () => {
         yearlist.value[i] = yearnow - i;
     }
 };
-const selectedTahun = ref();
-const selelctedSemester = ref();
-const selectedNamaKelas = ref();
-const selectedJenisKelas = ref();
-const selectedStatusKelas = ref();
-
+const tahun_kelas = ref();
+const semester_kelas = ref();
+const nama_kelas = ref();
+const status_kelas = ref();
+const jenis_kelas = ref();
+const matakuliah = ref({
+    id_matakuliah: "",
+    kode_matakuliah: "",
+    nama_matakuliah: "",
+    cpmk: "",
+});
 const formdata = ref({
     Mulai: "",
     Berakhir: "",
@@ -505,15 +638,23 @@ const formdata = ref({
     soal_sumatif_per_indikator: 1,
 });
 
-const getSetting = async () => {
+const getKelas = async () => {
     await axios
-        .get(`/api/Kelas/${kelasStore.kelas?.id_kelas}/Settings`, {
+        .get(`/api/Kelas/${route.params.id}`, {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
             },
         })
         .then((res) => {
-            formdata.value = res.data.settings;
+            formdata.value = res.data.kelas.settings;
+            matakuliah.value = res.data.kelas.matakuliah;
+            tahun_kelas.value = res.data.kelas.tahun_kelas;
+            semester_kelas.value = res.data.kelas.semester_kelas;
+            nama_kelas.value = res.data.kelas.nama_kelas;
+            jenis_kelas.value = res.data.kelas.jenis_kelas;
+            status_kelas.value = res.data.kelas.status_kelas;
+            kelasStore.kelas.id_matakuliah =
+                res.data.kelas.matakuliah.id_matakuliah;
         });
 };
 
@@ -528,15 +669,10 @@ const applySetting = async () => {
         reverseButtons: true,
     }).then(async (result) => {
         if (result.isConfirmed) {
-            await axios
+            await authAxios
                 .post(
                     `/api/Kelas/${route.params.id}/applySettings`,
-                    formdata.value,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${authStore.authUser.api_token}`,
-                        },
-                    }
+                    formdata.value
                 )
                 .then((res) => {
                     Swal.fire(
@@ -552,7 +688,7 @@ const applySetting = async () => {
 };
 
 onMounted(async () => {
-    await getSetting();
+    await getKelas();
     makeTahunList();
 });
 </script>

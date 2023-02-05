@@ -1,42 +1,41 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import authAxios from "@/axios/auth";
 
 export const useKelasStore = defineStore("kelas", {
     state: () => ({
-        kelas: null,
-        subCpmk: null,
-        indikator: null,
+        kelas: {
+            id_matakuliah: null,
+            tahun_kelas: null,
+            semester_kelas: null,
+            nama_kelas: null,
+            tanggalBuat_kelas: null,
+            tanggalMulai_kelas: null,
+            tanggalSelesai_kelas: null,
+            status_kelas: null,
+            jenis_kelas: null,
+        },
+        kelasList: null,
     }),
     actions: {
-        createKelas: async function () {
-            let kelasForm = {
-                id_matakuliah: this.dataMatkul.id_matakuliah,
-                tahun_kelas: this.kelas.tahun_kelas,
-                semester_kelas: this.kelas.semester_kelas,
-                nama_kelas: this.kelas.nama_kelas,
-                tanggalBuat_kelas: Date.now(),
-                tanggalMulai_kelas: this.kelas.tgl_mulai,
-                tanggalSelsai_kelas: this.kelas.tgl_selesai,
-                status_kelas: 1,
-                jenis_kelas: 1,
-            };
-            await axios.post("/api/Kelas", kelasForm, {
-                headers: {
-                    Authorization: `Bearer ${authStore.authUser.api_token}`,
-                },
-            });
+        makeDefaultDate: async function () {
+            function formatDate(date) {
+                var d = new Date(date),
+                    month = "" + (d.getMonth() + 1),
+                    day = "" + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = "0" + month;
+                if (day.length < 2) day = "0" + day;
+
+                return [year, month, day].join("-");
+            }
+            this.kelas.tanggalBuat_kelas = formatDate(Date.now());
+            this.kelas.tanggalMulai_kelas = formatDate(Date.now());
+            this.kelas.tanggalSelesai_kelas = formatDate(Date.now());
         },
-        createSubCPMK: async function () {
-            this.subCpmk.forEach(async (subCpmkForm) => {
-                await axios.post(
-                    `Matakuliah/${this.dataMatkul.id_matakuliah}/subcpmk`,
-                    subCpmkForm,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${authStore.authUser.api_token}`,
-                        },
-                    }
-                );
+        createKelas: async function () {
+            await authAxios.post("/api/Kelas", this.kelas).then((res) => {
+                this.$reset();
             });
         },
     },
