@@ -12,8 +12,6 @@ class SettingKelas extends Model
     protected $primaryKey = 'id_settting_kelas';
     protected $fillable = [
         "id_settting_kelas",
-        "Mulai",
-        "Berakhir",
         "bobotC1",
         "bobotC2",
         "bobotC3",
@@ -25,6 +23,9 @@ class SettingKelas extends Model
         "tgl_sumatif",
         "soal_formatif_per_indikator",
         "soal_sumatif_per_indikator",
+        "waktu_per_soal_formatif",
+        'batas_pengulangan_remidi',
+        "waktu_per_soal_sumatif", 
     ];
 
     public function getBobotArray(){
@@ -48,22 +49,15 @@ class SettingKelas extends Model
         }
     }
 
-    public function kelasIsRunning(){
-        try{
-            $start = strtotime($this->Mulai);
-            $stop = strtotime($this->Berakhir);
-        }
-        catch (\Exception $e)
-        {
+
+    public function sumatifIsAvailable(){
+        $sumatifDate = strtotime($this->tgl_sumatif);//Y-m-d H:i:s
+        if(date('Y-m-d', $sumatifDate) == date('Y-m-d')){
             return true;
-        }
-        $now = strtotime(date("Y-m-d H:i:s"));
-        if(($start < $now) and ($now < $stop)){
-            return true;
-        }
-        else{
+        }else{
             return false;
         }
     }
+    
     
 }

@@ -1,0 +1,2 @@
+php artisan cheat:sumatif_is_today
+php artisan cheat:finish_the_kelas 20

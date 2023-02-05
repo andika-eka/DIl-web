@@ -14,7 +14,7 @@ class PengambilanKelas extends Model
         "id_pengambilanKelas",
         "id_siswa",
         "id_kelas",
-        "status_pengambilanKelas",
+        "status_pengambilanKelas", //1 = approved, 2=applying, 3=finished
     ];
     public $timestamps = false;
     public function kelas(){
@@ -24,10 +24,9 @@ class PengambilanKelas extends Model
         return $this->belongsTo(Kelas::class, "id_siswa", "id_siswa");
     }
     
-    public function subcpmk(){
-        return $this->hasMany(SubCpmk::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
+    public function sumatif(){
+        return $this->hasOne(Sumatif::class, 'id_pengambilanKelas', 'id_pengambilanKelas');
     }
-    
-    
+
     
 }

@@ -6,14 +6,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File; 
 use App\Models\SubCpmk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubCpmkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    private function checkAccessToMatkul($id_matakuliah){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuMatakuliah($id_matakuliah)){
+            abort(403);
+        }
+        
+    }
     
 
     /**
@@ -27,6 +35,7 @@ class SubCpmkController extends Controller
         
         try
         {
+            $this->checkAccessToMatkul($mkid);
             $subcpmk = new SubCpmk;
             $subcpmk->id_mataKuliah = $mkid;
             $subcpmk->nomorUrut_subCpmk = $request->nomorUrut_subCpmk;
@@ -69,6 +78,7 @@ class SubCpmkController extends Controller
         try
         {
             $subcpmk = subcpmk::with(['matakuliah','indikator.materi'])->find($id);
+            $this->checkAccessToMatkul($subcpmk->id_mataKuliah);
             return response()->json($subcpmk);
         }
         catch (\Exception $e)
@@ -93,6 +103,7 @@ class SubCpmkController extends Controller
         try
         {
             $subcpmk = SubCpmk::find($id);
+            $this->checkAccessToMatkul($subcpmk->id_mataKuliah);
             $subcpmk->nomorUrut_subCpmk = $request->nomorUrut_subCpmk;
             $subcpmk->taksnomi_bloom = $request->taksnomi_bloom;
             $subcpmk->narasi_subCpmk = $request->narasi_subCpmk;
@@ -118,6 +129,7 @@ class SubCpmkController extends Controller
         {
             
             $subcpmk = SubCpmk::find($id);
+            $this->checkAccessToMatkul($subcpmk->id_mataKuliah);
             $filePath = $subcpmk->pathFile_materiTeks;
             File::delete($filePath);
             $file = $request->file('materiTeks');
@@ -156,6 +168,7 @@ class SubCpmkController extends Controller
         try
         {
             $subcpmk = SubCpmk::find($id);
+            $this->checkAccessToMatkul($subcpmk->id_mataKuliah);
             $filePath = $subcpmk->pathFile_materiTeks;
             File::delete($filePath);
             $subcpmk->delete();

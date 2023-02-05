@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
+use App\Models\Pengajar;
 use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
@@ -18,7 +19,19 @@ class KelasController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    
+    private function checkAccessToKelas($id_kelas){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuKelas($id_kelas)){
+            abort(403);
+        }
+        
+    }
+
+
     public function index()
     {
         //
@@ -118,6 +131,7 @@ class KelasController extends Controller
         //
         try
         {
+            $this->checkAccessToKelas($id);
             $kelas = Kelas::find($id);
             $kelas->id_matakuliah = $request->id_matakuliah;
             $kelas->tahun_kelas = $request->tahun_kelas;
@@ -267,6 +281,7 @@ class KelasController extends Controller
 
     public function approveSiswa($id, $id_siswa){
         try {
+            $this->checkAccessToKelas($id);
             $kelas = Kelas::find($id);
             $kelas->approveSiswa($id_siswa);
             return response()->json([
@@ -284,6 +299,7 @@ class KelasController extends Controller
 
     public function getKelasSettings($id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
             return response()->json([
                 'settings' =>$setting,
@@ -299,11 +315,12 @@ class KelasController extends Controller
 
     public function applySettings(Request $request, $id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
-            $jsDateTS = strtotime($request->Mulai);
-            $setting->Mulai = date('Y-m-d', $jsDateTS );
-            $jsDateTS = strtotime($request->Berakhir);
-            $setting->Berakhir = date('Y-m-d', $jsDateTS );
+            // $jsDateTS = strtotime($request->Mulai);
+            // $setting->Mulai = date('Y-m-d', $jsDateTS );
+            // $jsDateTS = strtotime($request->Berakhir);
+            // $setting->Berakhir = date('Y-m-d', $jsDateTS );
             $setting->bobotC1 = $request->bobotC1;
             $setting->bobotC2 = $request->bobotC2;
             $setting->bobotC3 = $request->bobotC3;
@@ -314,6 +331,9 @@ class KelasController extends Controller
             $setting->waktu_tunggu_formatif = $request->waktu_tunggu_formatif;
             $setting->soal_formatif_per_indikator = $request->soal_formatif_per_indikator;
             $setting->soal_sumatif_per_indikator = $request->soal_sumatif_per_indikator;
+            $setting->waktu_per_soal_formatif = $request->waktu_per_soal_formatif;
+            $setting->waktu_per_soal_sumatif = $request->waktu_per_soal_sumatif;
+            $setting->batas_pengulangan_remidi = $request->batas_pengulangan_remidi;
             $jsDateTS = strtotime($request->tgl_sumatif);
             $setting->tgl_sumatif = date('Y-m-d', $jsDateTS );
             $setting->save();
@@ -332,6 +352,7 @@ class KelasController extends Controller
     }
     public function setDefaultSettings($id){
         try {
+            $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
             $setting->Mulai =  date("Y-m-d");
             $setting->Berakhir = NULL;
@@ -346,6 +367,9 @@ class KelasController extends Controller
             $setting->tgl_sumatif = Null;
             $setting->soal_formatif_per_indikator = 1;
             $setting->soal_sumatif_per_indikator = 1;
+            $setting->waktu_per_soal_formatif = 2;
+            $setting->waktu_per_soal_sumatif = 2;
+            $setting->batas_pengulangan_remidi  = 3;
             $setting->save();
             return response()->json([
                 'kelas' =>$setting,

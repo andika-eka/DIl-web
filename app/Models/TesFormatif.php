@@ -19,7 +19,7 @@ class TesFormatif extends Model
         'waktuMulai_TesFormatif',
         'waktuSelesai_tesFormatif',
         'nilai_tesFormatif',
-        'status_TesFormatif',
+        'status_TesFormatif', // 1 = running , 2 = finished failed, 3 = finished passed
     ];
     public $timestamps = false;
 
@@ -52,8 +52,11 @@ class TesFormatif extends Model
 
     //return number of minute
     private function getDurationlimit(){
+
+        $settings = $this->subcpmkPengambilan->settingKelas();
         $id_subcpmk  = $this->subcpmkPengambilan->id_subCPMK;
-        $time = SubCpmk::find($id_subcpmk)->indikator->count();
+        $indikator = SubCpmk::find($id_subcpmk)->indikator->count();
+        $time  = $settings->waktu_per_soal_formatif * $indikator;
         return $time;
     }
 
@@ -114,6 +117,15 @@ class TesFormatif extends Model
             $this->status_TesFormatif = 3;
             $this->save();
         }
+        else if($this->pengulangan_tesFormatif >= $settings->batas_pengulangan_remidi){
+            // there is a possibility that previous attempts is passed
+            $passed = $this->subcpmkPengambilan->tesFormatif->where('status_TesFormatif',3);
+            if (!$passed){
+                $sub = $this->subcpmkPengambilan;
+                $sub->status_subcpmkpengambilan = 3;
+                $sub->save();
+            }
+        }
     }
 
 
@@ -137,16 +149,22 @@ class TesFormatif extends Model
             
             $lastNum = 0;
             $maxNum = $settings->soal_formatif_per_indikator;
-            foreach($indikators as $indikator){
-                for ($i = 1; $i <= $maxNum ; $i++) {
-                    $lastNum +=1;
-                    $soal = $this->selectSoal($indikator, $i)->first();
-                    $detailTesFormatif = new DetailTesFormatif;
-                    $detailTesFormatif->id_tesFormatif = $this->id_tesFormatif;
-                    $detailTesFormatif->nomorUrut_soal = $lastNum;
-                    $detailTesFormatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
-                    $detailTesFormatif->save();
+            DB::beginTransaction();
+            try {
+                foreach($indikators as $indikator){
+                    for ($i = 1; $i <= $maxNum ; $i++) {
+                        $lastNum +=1;
+                        $soal = $this->selectSoal($indikator, $i)->first();
+                        $detailTesFormatif = new DetailTesFormatif;
+                        $detailTesFormatif->id_tesFormatif = $this->id_tesFormatif;
+                        $detailTesFormatif->nomorUrut_soal = $lastNum;
+                        $detailTesFormatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
+                        $detailTesFormatif->save();
+                    }
                 }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
             }
         }
         else{
@@ -159,7 +177,7 @@ class TesFormatif extends Model
 
             $idsoal = $this->detail->where('nomorUrut_soal',$noSoal)->first()->id_soalPilihanGanda;
             $soal = Soalpilihanganda::find($idsoal);
-            $soal->jawaban;
+            $soal->jawaban->makeHidden('status_pilihan');
             return $soal;
         }
         catch (\Exception $e)
