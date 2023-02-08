@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <index-navbar /> -->
+        <index-navbar />
         <section class="px-4 sm:px-8 lg:px-16 pb-8">
             <div class="bg-white pb-24">
                 <div>
@@ -84,6 +84,10 @@
                                     <div>
                                         <iframe width="100%" height="480" allow="autoplay" frameborder="0" allowfullscreen :src="`${currentMateri?.pathFile_materi}?modestbranding=0&rel=0&autoplay=1`"></iframe>
                                     </div>
+
+                                    <div class="mt-3">
+                                        <button @click.prevent="nextMateri()" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 rounded text-white">Materi Selanjutnya</button>
+                                    </div>
                                 </div>
 
                                 <!-- Filters -->
@@ -147,21 +151,26 @@
                                     {{ matakuliah?.cpmk }}
                                 </dd>
                             </div>
-                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">Sub-CPMK</dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 capitalize">
-                                    {{ materiList?.narasi_subCpmk }}
+                                    <span>
+                                        {{ materiList?.narasi_subCpmk }}
+                                    </span>
+                                    <ul class="ml-6 list-disc">
+                                        <li v-for="(indikator, indikatorIdx) in materiList?.indikator" :key="indikatorIdx">{{ indikator.narasi_indikator }}</li>
+                                    </ul>
                                 </dd>
                             </div>
-                            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">Modul Kuliah</dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                                    <button class="flex bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded">
+                                    <a :href="`public/files/${String(currentUnit?.current.pathFile_materiTeks).split('/').at(-1)}`" download class="flex bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded">
                                         <PaperClipIcon class="h-5 w-5 flex-shrink-0 text-white" aria-hidden="true" />
                                         <div class="ml-4 flex-shrink-0">
                                             <span class="font-medium text-white">Unduh</span>
                                         </div>
-                                    </button>
+                                    </a>
                                 </dd>
                             </div>
                         </dl>
@@ -184,10 +193,12 @@ import { useKelasStore } from "@/stores/kelas";
 import { onMounted, ref } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const route = useRoute();
 const authStore = useAuthStore();
 const kelasStore = useKelasStore();
+const currentUnit = ref();
 const currentMateri = ref();
 const materiList = ref();
 const matakuliah = ref({
@@ -220,6 +231,7 @@ const getCurrUnit = async () => {
         })
         .then((res) => {
             console.log("curr unit:", res.data);
+            currentUnit.value = res.data;
         });
 };
 
@@ -237,8 +249,30 @@ const getCurrMateri = async () => {
         });
 };
 
+const nextMateri = async () => {
+    await axios
+        .patch(
+            "/api/nextMateri/" + route.params?.id,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${authStore.authUser.api_token}`,
+                },
+            }
+        )
+        .then((res) => {
+            console.log(res.data);
+            if (res.data?.currentMateri) {
+                getCurrMateri();
+            }
+        })
+        .catch((err) => {
+            Swal.fire("Anda belum boleh Lanjut", "Silakan tunggu beberapa saat lagi", "info");
+        });
+};
+
 onMounted(async () => {
-    await getData();
+    getData();
     await getCurrUnit();
     await getCurrMateri();
 });
