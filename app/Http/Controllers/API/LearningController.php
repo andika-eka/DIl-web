@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Kelas;
 
 class LearningController extends Controller
 {
@@ -23,6 +24,13 @@ class LearningController extends Controller
         return $user->detail;
     }
 
+    private function checkStartEnd($id_kelas){
+        $kelas = Kelas::find($id_kelas);
+        if(!$kelas->kelasIsRunning()){
+            throw new \Exception("outside of Kelas period");
+        }
+    }
+
 
     public function currentUnit($id_kelas){
         try
@@ -32,7 +40,7 @@ class LearningController extends Controller
             return response()->json([
                 'current' => $currentSubcpmk,
                 'completed' => $subcpmk,
-            ]);
+                ]);
         }
         catch (\Exception $e)
         {
@@ -83,6 +91,7 @@ class LearningController extends Controller
     }
     public function nextMateri($id_kelas){
         try {
+            $this->checkStartEnd($id_kelas);
             $nextMateri = $this->getSiswa()->nextMateri($id_kelas);
             if(!$nextMateri){
                 return response()->json([
@@ -106,6 +115,7 @@ class LearningController extends Controller
     public function nextUnit($id_kelas){
         try
         {
+            $this->checkStartEnd($id_kelas);
             $subcpmk = $this->getSiswa()->getProgressSubCpmk($id_kelas);
             $nextSubcpmk = $this->getSiswa()->nextSubcpmk($id_kelas);
             if(!$nextSubcpmk){

@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Indikator;
 use Illuminate\Support\Facades\File; 
 use App\Models\Soalpilihanganda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SoalpilihangandaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function index()
-    // {
-    //     //
-    // }
+    private function checkAccessToMatkul($id_matakuliah){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuMatakuliah($id_matakuliah)){
+            abort(403);
+        }
+        
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -30,6 +34,8 @@ class SoalpilihangandaController extends Controller
         //
         try
         {
+            $indikator = Indikator::find($inid);
+            $this->checkAccessToMatkul($indikator->subcpmk->id_mataKuliah);
             $soal = new Soalpilihanganda;
             $soal->id_indikator = $inid;
             $soal->soal = $request->soal;
@@ -73,6 +79,7 @@ class SoalpilihangandaController extends Controller
         try
         {
             $soal = Soalpilihanganda::find($id);
+            $this->checkAccessToMatkul($soal->indikator->subcpmk->id_mataKuliah);
             $soal->indikator;
             $soal->jawaban->makeHidden("status_pilihan");
             return response()->json($soal);
@@ -99,6 +106,7 @@ class SoalpilihangandaController extends Controller
         try
         {
             $soal = Soalpilihanganda::find($id);
+            $this->checkAccessToMatkul($soal->indikator->subcpmk->id_mataKuliah);
             $soal->soal = $request->soal;
             if ($request->has("gambar")){
                 $filePath = $soal->pathFile_materiTeks;
@@ -129,6 +137,7 @@ class SoalpilihangandaController extends Controller
         try
         {
             $soal = Soalpilihanganda::find($id);
+            $this->checkAccessToMatkul($soal->indikator->subcpmk->id_mataKuliah);
             $filePath = $soal->pathFile_materiTeks;
             File::delete($filePath);
             $soal->pathFileGambar_soal = NULL;
@@ -160,6 +169,7 @@ class SoalpilihangandaController extends Controller
         try
         {
             $soal = Soalpilihanganda::find($id);
+            $this->checkAccessToMatkul($soal->indikator->subcpmk->id_mataKuliah);
             $soal->delete();
             return response()->json([
                 'success' => true,

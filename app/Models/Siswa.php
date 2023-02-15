@@ -227,10 +227,20 @@ class Siswa extends Model
      * @param integer $id_kelas
      * @return App\Models\Materi;
      */
+
+    private function checkSubStatus($status){
+        if ($status == 2){
+            throw new \Exception('siswa has to go to test');
+        }
+        if ($status == 3){
+            throw new \Exception('class is locked');
+        }
+    }
     public function getCurrentMateri($id_kelas){
         
         $subcpmk = $this->getCurrentSubCpmk($id_kelas);
         if($subcpmk){
+                $this->checkSubStatus($subcpmk->status_subcpmkpengambilan);
                 if (!$subcpmk->current_materi_id){
                     $this-> startMateri($id_kelas);
                 }
@@ -250,8 +260,8 @@ class Siswa extends Model
         if($subcpmk){
             $currentMateri = $this->getCurrentMateri($id_kelas);
             if($currentMateri->minimum_time){
-                $minimumTime = date('Y-m-d H:i:s',strtotime('+'.$currentMateri->minimum_time.' minutes',strtotime($currentMateri->current_materi_start_time)));
-                if ((date("Y-m-d H:i:s")) > $minimumTime){
+                $minimumTime = strtotime('+'.$currentMateri->minimum_time.' minutes',strtotime($subcpmk->current_materi_start_time));
+                if (strtotime(date("Y-m-d H:i:s")) < $minimumTime){
                     throw new \Exception('minimum time not reached');
                     return false;
                 }

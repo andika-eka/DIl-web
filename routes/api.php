@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth:api']], function () {
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
     Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
+    Route::get('getPengampuanMatakuliah', [PengajarController::class, 'getPengampuanMatakuliah']);
+    
     Route::post('Kelas/{id}',[KelasController::class, 'update']);
     
     Route::patch('Kelas/{id_kelas}/approveSiswa/{id_siswa}', [KelasController::class, 'approveSiswa']);
@@ -65,7 +67,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('Kelas/{id_kelas}/applySettings', [KelasController::class, 'applySettings']);
     Route::patch('Kelas/{id_kelas}/setDefaultSettings', [KelasController::class, 'setDefaultSettings']);
     Route::get('getPengampuanKelas', [PengajarController::class, 'getPengampuanKelas']);
-
+    
     
     Route::post('Matakuliah/{mkid}/subcpmk', [SubCpmkController::class, 'store']);
     Route::get('subcpmk/{id}', [SubCpmkController::class, 'show']);

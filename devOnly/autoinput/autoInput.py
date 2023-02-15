@@ -14,6 +14,7 @@ def parse_student(file_path):
             student = {
                 "nim" : row[1],
                 "name" : row[2],
+                'email' : row[3],
             }
             data.append(student);
         return data
@@ -59,7 +60,7 @@ def register_student(student, url_register, token, url_assign):
 
     for s in student:
         data = {'name' : s['name'],
-                'email' : s['nim']+'@dil.com',
+                'email' : s['email'],
                 'password' : s['nim'],
                 'tipe_pengguna' : 3,
                 'status_pengguna' : 1,
@@ -161,10 +162,10 @@ def import_content(url, data, file_path, token):
 
 if __name__ == '__main__':
 
-    id_kelas = '61'
-    id_matkul = '21'
-    token_dosen = 'g4MitlQ6tBGJ2LkAMp1s7uZfjtt4cv2zZoUZTZxhBAM2baoX0DkJjnx7Xhci'
-    token_admin = 'g4MitlQ6tBGJ2LkAMp1s7uZfjtt4cv2zZoUZTZxhBAM2baoX0DkJjnx7Xhci'
+    id_kelas = '1'
+    id_matkul = '1'
+    token_dosen = 'FmSrNTHSnhitVq1GT5QDCzeYMlfo58uIebw9B066u9OF3v1aP09RXirT4F5N'
+    token_admin = 'HUIz5WgpypjEHdCIvfguVjzAIpdez3U5UFhqgjzacDxFna8H8EEvLrDt3D0q'
     url = {
         'subcpmk' : 'http://127.0.0.1:8000/api/Matakuliah/'+id_matkul+'/subcpmk',
         'indikator' : 'http://127.0.0.1:8000/api/subcpmk/{{subcpmk_id}}/indikator',

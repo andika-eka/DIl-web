@@ -4,20 +4,24 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pilihanjawaban;
+use App\Models\Soalpilihanganda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Auth;
 
 class PilihanjawabanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function index()
-    // {
-    //     //
-    // }
+    private function checkAccessToMatkul($id_matakuliah){
+        $user = Auth::user();
+        if($user->tipe_pengguna != 2){
+            abort(403);
+        }
+        $pengajar =$user->detail;
+        if (!$pengajar->isMengampuMatakuliah($id_matakuliah)){
+            abort(403);
+        }
+        
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -30,6 +34,8 @@ class PilihanjawabanController extends Controller
         //
         try
         {
+            $soal = Soalpilihanganda::find($soal_id);
+            $this->checkAccessToMatkul($soal->indikator->subcpmk->id_mataKuliah);
             $jawaban = new Pilihanjawaban;
             $jawaban->id_soalPilihanGanda = $soal_id;
             $jawaban->noUrut_pilihan = $request->noUrut_pilihan;
@@ -74,6 +80,7 @@ class PilihanjawabanController extends Controller
         try
         {
             $jawaban = Pilihanjawaban::find($id);
+            $this->checkAccessToMatkul($jawaban->soal->indikator->subcpmk->id_mataKuliah);
             $jawaban->soal;
             return response()->json($jawaban);
         }
@@ -99,6 +106,7 @@ class PilihanjawabanController extends Controller
         //
         try
         {
+            $this->checkAccessToMatkul($jawaban->soal->indikator->subcpmk->id_mataKuliah);
             $jawaban = Pilihanjawaban::find($id);
             $jawaban->noUrut_pilihan = $request->noUrut_pilihan;
             $jawaban->teks_pilihan = $request->teks_pilihan;
@@ -133,6 +141,7 @@ class PilihanjawabanController extends Controller
         try
         {
             $jawaban = Pilihanjawaban::find($id);
+            $this->checkAccessToMatkul($jawaban->soal->indikator->subcpmk->id_mataKuliah);
             $filePath = $jawaban->pathFile_materiTeks;
             File::delete($filePath);
             $jawaban->pathFileGambar_pilihan = NULL;
@@ -162,6 +171,7 @@ class PilihanjawabanController extends Controller
         try
         {
             $jawaban = Pilihanjawaban::find($id);
+            $this->checkAccessToMatkul($jawaban->soal->indikator->subcpmk->id_mataKuliah);
             $jawaban->delete();
             return response()->json([
                 'success' => true,
