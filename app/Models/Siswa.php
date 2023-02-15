@@ -331,12 +331,62 @@ class Siswa extends Model
         else{
             throw new \Exception('previuos tesformatif has not finished yet');
         }
-
+        
     }
-
+    
     public function getTesSumatif($id_kelas){
         $pengambilanKelas = PengambilanKelas::where('id_kelas',$id_kelas)
         ->where('id_siswa',$this->id_siswa)->first();
         return $pengambilanKelas->sumatif;
     }
+    
+    public function getTesformatifHistory($id_kelas){
+        $pengambilanKelas = PengambilanKelas::where('id_kelas',$id_kelas)
+        ->where('id_siswa',$this->id_siswa)->first();
+        $testFormatif = SubcpmkPengambilan::with('tesFormatif')->where('id_pengambilanKelas',$pengambilanKelas->id_pengambilanKelas)->get();
+        return $testFormatif;
+    }
+    
+    public function fellowFailed($id_kelas){
+        $currentSubcpmk = $this->getCurrentSubCpmk($id_kelas);
+        if ($currentSubcpmk->status_subcpmkpengambilan != 3) {
+            throw new \Exception('only acceesable by locked student');
+        }
+
+        $siswa = DB::table('siswa')
+                ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+                ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+                ->join('tesformatif', 'subcpmkpengambilan.id_subcpmkpengambilan', '=', 'tesformatif.id_subcpmkpengambilan')
+                ->select('siswa.*', 'tesformatif.*', DB::raw('max(tesformatif.nilai_tesFormatif) as max_nilai'))
+                ->groupBy('siswa.id_siswa')
+                ->where('pengambilankelas.id_kelas','=', $id_kelas)
+                ->where('subcpmkpengambilan.id_subCPMK', '=',  $currentSubcpmk->id_subCpmk)
+                ->where('subcpmkpengambilan.status_subcpmkpengambilan', '=',  3)
+                ->get();
+
+        return $siswa;
+    }
+
+    public function topSiswa($id_kelas, $number){
+        $currentSubcpmk = $this->getCurrentSubCpmk($id_kelas);
+        if ($currentSubcpmk->status_subcpmkpengambilan != 3) {
+            throw new \Exception('only acceesable by locked student');
+        }
+        $siswa = DB::table('siswa')
+                ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+                ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+                ->join('tesformatif', 'subcpmkpengambilan.id_subcpmkpengambilan', '=', 'tesformatif.id_subcpmkpengambilan')
+                ->select('siswa.*', 'tesformatif.*', DB::raw('max(tesformatif.nilai_tesFormatif) as max_nilai'))
+                ->groupBy('siswa.id_siswa')
+                ->where('pengambilankelas.id_kelas','=', $id_kelas)
+                ->where('subcpmkpengambilan.id_subCPMK', '=',  $currentSubcpmk->id_subCpmk)
+                ->orderByDesc('max_nilai')
+                ->limit($number)
+                ->get();
+        return $siswa;
+    }
+
+
+
+
 }

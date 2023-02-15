@@ -30,25 +30,27 @@ class SubcpmkPengamBilanSeeder extends Seeder
             // echo $startDateTime->format('Y-m-d H:i:s');;
             $isStarted = rand(1,3);
             if ($isStarted != 2){
-                $isFinished = rand(1,2);
                 foreach($subcpmk as $sub){
                     $subpengambilan = new SubcpmkPengambilan; 
                     $subpengambilan->id_pengambilanKelas = $kelas->id_pengambilanKelas;
                     $subpengambilan->id_subCPMK = $sub->id_subCpmk;
                     $subpengambilan->waktuMulai_Pengambilan = $startDateTime;
-                    if ($isFinished ==1){
-                        if ($count == $current){
-                            $subpengambilan->waktuSelesai_Pengambilan= $startDateTime;
-                            $subpengambilan->status_subcpmkpengambilan = 1;
-                            $subpengambilan->save();
-                            break;
+                    if ($count == $current){
+                        $subpengambilan->waktuSelesai_Pengambilan= $startDateTime;
+                        if (rand(1,3)==1){
+                            $subpengambilan->status_subcpmkpengambilan = 3;
                         }
+                        else{
+                            $subpengambilan->status_subcpmkpengambilan = 1;
+                        }
+
+                        $subpengambilan->save();
+                        break;
                     }
                     $interval = rand(10,35);
                     $startDateTime->add(new DateInterval('P'.$interval.'D'));
                     $subpengambilan->waktuSelesai_Pengambilan = $startDateTime;
-                    $subpengambilan->status_subcpmkpengambilan = 1;
-                    // $subpengambilan->status_subcpmkpengambilan = 2;
+                    $subpengambilan->status_subcpmkpengambilan = 2;
                     $subpengambilan->save();
                     $count++;
                 }
