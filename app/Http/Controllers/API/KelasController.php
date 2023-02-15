@@ -96,7 +96,7 @@ class KelasController extends Controller
             $kelas->pengajar;
 
             $user = Auth()->user();
-            if($user->tipe_pengguna == 2){
+            if(($user->tipe_pengguna == 2) and ($user->detail->isMengampuKelas($id))){
                 return response()->json([
                     'kelas' => $kelas,
                     'enrolled' => $kelas->enrolled(),

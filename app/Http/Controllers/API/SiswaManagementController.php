@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\DB;
 
 class SiswaManagementController extends Controller
 {
@@ -80,6 +81,38 @@ class SiswaManagementController extends Controller
                 'success' => false,
             ], 422);
         }
+    }
+
+    public function getFormatifResult($id_kelas, $id_subcpmk){
+        try {
+            $this->checkAccessToKelas($id_kelas);
+            $kelas = Kelas::find($id_kelas);
+            $siswa = $kelas->FormatifResult($id_subcpmk);
+            return response()->json($siswa,200);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+        
+    }
+
+    public function getlockedSiswa($id_kelas){
+        try {
+            $this->checkAccessToKelas($id_kelas);
+            $kelas = Kelas::find($id_kelas);
+            $siswa = $kelas->lockedSiswa();
+            return response()->json($siswa,200);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+        
     }
 
 

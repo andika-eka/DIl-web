@@ -23,7 +23,7 @@ class FormatifSeeder extends Seeder
                 continue;
             }
             if ($subcpmk->status_subcpmkpengambilan == 2){
-                for ($i=0; $i < rand(1,3); $i++){
+                for ($i=1; $i <= rand(1,3); $i++){
                     $tes = new TesFormatif;
                     $tes->id_subCpmkPengambilan = $subcpmk->id_subcpmkpengambilan;
                     $tes->pengulangan_tesFormatif = $i;
@@ -35,7 +35,7 @@ class FormatifSeeder extends Seeder
                 }
             }
             if ($subcpmk->status_subcpmkpengambilan == 3){
-                for ($i=0; $i < 3; $i++){
+                for ($i=1; $i <= 3; $i++){
                     $tes = new TesFormatif;
                     $tes->id_subCpmkPengambilan = $subcpmk->id_subcpmkpengambilan;
                     $tes->pengulangan_tesFormatif = $i;

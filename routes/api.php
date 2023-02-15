@@ -128,6 +128,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('SiswaManagementController/{id_kelas}/approveSiswa/{id_siswa}', [SiswaManagementController::class, 'approveSiswa']);
     Route::get('SiswaManagementController/{id_kelas}/getEnrolledSiswa', [SiswaManagementController::class, 'getEnrolledSiswa']);
     Route::get('SiswaManagementController/{id_kelas}/getApplyingSiswa', [SiswaManagementController::class, 'getApplyingSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/Formatif/{id_subcpmk}', [SiswaManagementController::class, 'getFormatifResult']);
+    Route::get('SiswaManagementController/{id_kelas}/Locked', [SiswaManagementController::class, 'getlockedSiswa']);
     
 });
 

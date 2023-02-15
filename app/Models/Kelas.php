@@ -88,5 +88,31 @@ class Kelas extends Model
         $pengambilankelas->status_pengambilanKelas = 1;
         $pengambilankelas->save();
     }
+    public function FormatifResult($id_subcpmk){
+        $siswa = DB::table('siswa')
+            ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+            ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+            ->join('tesformatif', 'subcpmkpengambilan.id_subcpmkpengambilan', '=', 'tesformatif.id_subcpmkpengambilan')
+            ->select('siswa.*', 'tesformatif.*',)
+            ->where('pengambilankelas.id_kelas','=', $this->id_kelas)
+            ->where('subcpmkpengambilan.id_subCPMK', '=',  $id_subcpmk)
+            ->get();
+        return $siswa;    
+    }
+
+    public function lockedSiswa(){
+        $siswa = DB::table('siswa')
+            ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
+            ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+            ->join('tesformatif', 'subcpmkpengambilan.id_subcpmkpengambilan', '=', 'tesformatif.id_subcpmkpengambilan')
+            ->join('subcpmk', 'subcpmkpengambilan.id_subCPMK', '=', 'subcpmk.id_subCpmk')
+            ->select('siswa.*', 'tesformatif.*', 'subcpmk.*',DB::raw('max(tesformatif.nilai_tesFormatif) as max_nilai'))
+            ->groupBy('siswa.id_siswa')
+            ->where('pengambilankelas.id_kelas','=', $this->id_kelas)
+            ->where('subcpmkpengambilan.status_subcpmkpengambilan', '=', 3)
+            ->get();
+        return $siswa;
+        
+    }
 
 }
