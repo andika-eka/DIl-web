@@ -59,7 +59,7 @@ class Kelas extends Model
         $siswa = DB::table("siswa")
                     ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
                     ->join('kelas', 'pengambilankelas.id_kelas', '=', 'kelas.id_kelas')
-                    ->select('siswa.*', 'pengambilankelas.status_pengambilanKelas', 'kelas.*')
+                    ->select('siswa.*', 'pengambilankelas.*',)
                     ->where([
                         ['pengambilankelas.id_kelas', '=', $this->id_kelas],
                         ['pengambilankelas.status_pengambilanKelas', '=', 1],
@@ -72,7 +72,7 @@ class Kelas extends Model
         $siswa = DB::table("siswa")
                     ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
                     ->join('kelas', 'pengambilankelas.id_kelas', '=', 'kelas.id_kelas')
-                    ->select('siswa.*', 'pengambilankelas.status_pengambilanKelas', 'kelas.*')
+                    ->select('siswa.*', 'pengambilankelas.*',)
                     ->where([
                         ['pengambilankelas.id_kelas', '=', $this->id_kelas],
                         ['pengambilankelas.status_pengambilanKelas', '=', 2],

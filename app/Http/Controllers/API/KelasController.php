@@ -102,13 +102,11 @@ class KelasController extends Controller
                     'enrolled' => $kelas->enrolled(),
                     'applying' => $kelas->applying(),
                 ]);
-            }
-            else {
-                return response()->json([
-                    'kelas' => $kelas,
-                    'enrolled' => $kelas->enrolled(),
-                ]);
-            }
+                }
+            return response()->json([
+                'kelas' => $kelas,
+                'enrolled' => $kelas->enrolled(),
+            ]);
         }
         catch (\Exception $e)
         {
@@ -279,24 +277,7 @@ class KelasController extends Controller
         
     }
 
-    public function approveSiswa($id, $id_siswa){
-        try {
-            $this->checkAccessToKelas($id);
-            $kelas = Kelas::find($id);
-            $kelas->approveSiswa($id_siswa);
-            return response()->json([
-                'success' => true,
-                'notif'=>' siswa approved',
-            ],200);
-            
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-                'success' => false,
-            ], 422);
-        }
-    }
-
+    
     public function getKelasSettings($id){
         try {
             $this->checkAccessToKelas($id);
@@ -317,10 +298,6 @@ class KelasController extends Controller
         try {
             $this->checkAccessToKelas($id);
             $setting = SettingKelas::find($id);
-            // $jsDateTS = strtotime($request->Mulai);
-            // $setting->Mulai = date('Y-m-d', $jsDateTS );
-            // $jsDateTS = strtotime($request->Berakhir);
-            // $setting->Berakhir = date('Y-m-d', $jsDateTS );
             $setting->bobotC1 = $request->bobotC1;
             $setting->bobotC2 = $request->bobotC2;
             $setting->bobotC3 = $request->bobotC3;
