@@ -18,10 +18,10 @@ class SumatifSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
         foreach(Kelas::all() as $kelas){
             if (rand(1,3)==1){
-                $pengambilanKelas = pengambilanKelas::where('id_kelas', $kelas)->get();
+                $pengambilanKelas = pengambilanKelas::where('id_kelas', 42)->get();
                 foreach($pengambilanKelas as $pengambilan){
                     $pengambilan->status_pengambilanKelas = 3;
                     $pengambilan->save();

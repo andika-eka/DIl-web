@@ -130,6 +130,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('SiswaManagementController/{id_kelas}/getApplyingSiswa', [SiswaManagementController::class, 'getApplyingSiswa']);
     Route::get('SiswaManagementController/{id_kelas}/Formatif/{id_subcpmk}', [SiswaManagementController::class, 'getFormatifResult']);
     Route::get('SiswaManagementController/{id_kelas}/Locked', [SiswaManagementController::class, 'getlockedSiswa']);
+    Route::patch('SiswaManagementController/unlock/{id_subcpmkpengambilan}', [SiswaManagementController::class, 'unlockSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/Sumatif', [SiswaManagementController::class, 'getSumatifResult']);
+    Route::get('SiswaManagementController/Sumatif/{id_sumatif}', [SiswaManagementController::class, 'SumatifDetail']);
     
 });
 

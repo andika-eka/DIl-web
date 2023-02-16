@@ -400,7 +400,7 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"const jsonData = pm.response.json();\r",
-									"pm.collectionVariables.set(\"lengthSoal\",jsonData.length);\r",
+									"pm.collectionVariables.set(\"lengthSoal\",jsonData.detail.length);\r",
 									"pm.collectionVariables.set(\"currentSoal\",1);\r",
 									""
 								],
@@ -447,6 +447,60 @@
 					"response": []
 				},
 				{
+					"name": "current Test Info Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{SiswaTokenLearning}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/currentTestInfo/{{id_kelas_learning}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"currentTestInfo",
+								"{{id_kelas_learning}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "get soal Copy",
 					"event": [
 						{
@@ -467,7 +521,7 @@
 									"else{\r",
 									"    pm.environment.set(\"jawaban\",1);\r",
 									"}\r",
-									"postman.setNextRequest('submit jawaban')"
+									"postman.setNextRequest('submit jawaban Copy')"
 								],
 								"type": "text/javascript"
 							}
@@ -526,7 +580,7 @@
 									"var lengthSoal = pm.collectionVariables.get(\"lengthSoal\");\r",
 									"if(currentSoal < lengthSoal){\r",
 									"    pm.collectionVariables.set(\"currentSoal\", currentSoal + 1);\r",
-									"    postman.setNextRequest('get soal')\r",
+									"    postman.setNextRequest('get soal Copy')\r",
 									"}"
 								],
 								"type": "text/javascript"

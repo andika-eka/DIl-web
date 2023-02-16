@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\DB;
+use App\Models\SubcpmkPengambilan;
+use App\Models\PengambilanKelas;
+use App\Models\TesFormatif;
+use App\Models\Sumatif;
 
 class SiswaManagementController extends Controller
 {
@@ -115,5 +119,56 @@ class SiswaManagementController extends Controller
         
     }
 
+    public function unlockSiswa($id_subcpmkpengambilan){
+        try{
+            $subPengambilan = SubcpmkPengambilan::find($id_subcpmkpengambilan);
+            $id_kelas = PengambilanKelas::find($subPengambilan->id_pengambilanKelas)->id_kelas;
+            $this->checkAccessToKelas($id_kelas);
+            TesFormatif::where('id_subCpmkPengambilan', $id_subcpmkpengambilan)->delete();
+            return response()->json([
+                'success' => true,
+                'notif'=>' siswa unlocked',
+            ],200);
 
+        }catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function getSumatifResult($id_kelas){
+        try{
+            $this->checkAccessToKelas($id_kelas);
+            $sumatif = Kelas::find($id_kelas)->sumatif();
+            return response()->json($sumatif,200);
+            
+            
+
+        }catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function SumatifDetail($id_sumatif){
+        try{
+            $sumatif = Sumatif::find($id_sumatif);
+            $this->checkAccessToKelas($sumatif->pengambilanKelas->id_kelas);
+            return response()->json([
+                'tes' => $sumatif,
+                'jawaban' => $sumatif->veryDetail(),
+            ]);
+            
+
+        }catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
 }

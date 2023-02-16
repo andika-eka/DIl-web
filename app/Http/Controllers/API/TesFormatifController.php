@@ -241,6 +241,9 @@ class TesFormatifController extends Controller
         try
         {
             $tesFormatif = TesFormatif::find($id_tesFormatif);
+            if (! $tesFormatif->userHasAccess()) {
+                abort(403);
+            }
             return response()->json([
                 'tes' => $tesFormatif,
                 'jawaban' => $tesFormatif->veryDetail(),

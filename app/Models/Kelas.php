@@ -38,6 +38,19 @@ class Kelas extends Model
         return $this->hasOne(SettingKelas::class, "id_settting_kelas", "id_kelas");
     }
 
+    // public function sumatif(){
+    //     return $this->belongsToMany(Sumatif::class, "pengambilankelas", "id_kelas", "id_pengambilanKelas");
+    // }
+
+    public function sumatif(){
+        return DB::table('sumatif')
+                ->join('pengambilankelas', 'sumatif.id_pengambilanKelas', '=', 'pengambilankelas.id_pengambilanKelas')
+                ->join('siswa', 'pengambilankelas.id_siswa', '=', 'siswa.id_siswa')
+                ->select('siswa.*', "sumatif.*")
+                ->where('pengambilankelas.id_kelas', $this->id_kelas)
+                ->get();
+    }
+
     public function kelasIsRunning(){
         try{
             $start = strtotime($this->tanggalMulai_kelas);

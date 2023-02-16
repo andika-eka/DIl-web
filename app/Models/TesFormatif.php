@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 class TesFormatif extends Model
 {
@@ -40,6 +40,35 @@ class TesFormatif extends Model
                         ->orderBy('detailTesFormatif.nomorUrut_soal')
                         ->get();
         return $jawaban;
+    }
+    public function userHasAccess(){
+
+        $user = Auth()->user();
+        
+        if($user->tipe_pengguna == 2){
+            $kelasQuery = DB::table('kelas')
+                        ->join('pengambilankelas', 'kelas.id_kelas', '=', 'pengambilankelas.id_kelas')
+                        ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+                        ->select('kelas.*')
+                        ->where("subcpmkpengambilan.id_subcpmkpengambilan", '=', $this->id_subCpmkPengambilan)
+                        ->first();
+            $kelas = Kelas::find($kelasQuery->id_kelas);
+            return $kelas->pengajar->contains($user->id);
+        }
+        else if($user->tipe_pengguna == 3){
+            $pengambilankelas =  DB::table('pengambilankelas')
+                        ->join('subcpmkpengambilan', 'pengambilankelas.id_pengambilanKelas', '=', 'subcpmkpengambilan.id_pengambilanKelas')
+                        ->select('pengambilankelas.*')
+                        ->where("subcpmkpengambilan.id_subcpmkpengambilan", '=', $this->id_subCpmkPengambilan)
+                        ->first();
+            return $pengambilankelas->id_siswa == $user->id;
+        }
+        else {
+            return false;
+        }
+
+
+
     }
 
     private function selectSoal($indikator, $number){
