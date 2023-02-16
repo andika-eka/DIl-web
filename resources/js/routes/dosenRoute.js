@@ -22,8 +22,7 @@ const routes = [
             {
                 path: "/d/p-kelas/:id",
                 name: "/d/p-kelas",
-                component: () =>
-                    import("@/pages/dosen/pengaturan/SettingKelas.vue"),
+                component: () => import("@/pages/dosen/pengaturan-kelas/SettingKelas.vue"),
             },
             {
                 path: "/d/p-matakuliah/:idmatakuliah/sub-cpmk",
@@ -33,26 +32,22 @@ const routes = [
             {
                 path: "/d/p-matkul/indikator",
                 name: "/d/indikator",
-                component: () =>
-                    import("@/pages/dosen/pengaturan/Indikator.vue"),
+                component: () => import("@/pages/dosen/pengaturan/Indikator.vue"),
             },
             {
                 path: "/d/test-sumatif/:idKelas",
                 name: "/d/test-sumatif",
-                component: () =>
-                    import("@/pages/dosen/daftar-mahasiswa/TestSumatif.vue"),
+                component: () => import("@/pages/dosen/daftar-mahasiswa/TestSumatif.vue"),
             },
             {
                 path: "/d/test-formatif/:idKelas",
                 name: "/d/test-formatif",
-                component: () =>
-                    import("@/pages/dosen/daftar-mahasiswa/TestFormatif.vue"),
+                component: () => import("@/pages/dosen/daftar-mahasiswa/TestFormatif.vue"),
             },
             {
                 path: "/d/list-mahasiswa/:idKelas",
                 name: "/d/list-mahasiswa",
-                component: () =>
-                    import("@/pages/dosen/daftar-mahasiswa/ListMahasiswa.vue"),
+                component: () => import("@/pages/dosen/daftar-mahasiswa/ListMahasiswa.vue"),
             },
         ],
     },
