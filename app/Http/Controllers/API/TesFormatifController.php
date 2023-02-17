@@ -156,8 +156,8 @@ class TesFormatifController extends Controller
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $soal = $tesFormatif->showSoal( $no_soal);
             return response()->json([
-                'time remining' => $tesFormatif->getTimeRemaining(),
-                'soal count' => $tesFormatif->detail->count(),
+                'time_remining' => $tesFormatif->getTimeRemaining(),
+                'soal_count' => $tesFormatif->detail->count(),
                 'soal' => $soal,
             ]);
         }
