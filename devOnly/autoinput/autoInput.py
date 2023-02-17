@@ -3,6 +3,7 @@ from http.client import responses
 import requests
 import json
 import pprint
+# import decimal
 
 pp = pprint.PrettyPrinter(width=41, compact=True)
 
@@ -53,7 +54,26 @@ def parse_soal(file_path):
                 'indikator': row[7]
             }
             data.append(soal);
+        # pp.pprint(data)
         return data
+
+def parse_materi(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        csv_reader = csv.reader(file, delimiter='\t', )
+        data = list()
+        for row in csv_reader:
+            print(row)
+
+            materi = {
+                "indikator" : row[0],
+                "durasi" : int(float(row[1])),
+                "yt_id": row[2],
+                'title': row[3]
+            }
+            data.append(materi);
+        pp.pprint(data)
+        return data
+    
 def register_student(student, url_register, token, url_assign):
 
     hed = {'Authorization': 'Bearer ' + token}
@@ -122,6 +142,27 @@ def import_content(url, data, file_path, token):
             json_data = response.json()
             indikator_id =json_data['indikator']['id_indikator']
 
+            count_materi = 1
+            for no_matri, materi in enumerate(data['materi']):
+                if int(materi['indikator']) < no_indikator+1:
+                    continue
+                if int(materi['indikator']) > no_indikator+1:
+                    break
+                
+                materi_form = {
+                    'nomorUrut_materi' : count_materi,
+                    'nama_materi' : materi['title'],
+                    'pathFile_materi': materi['yt_id'],
+                    'minimum_time' :materi['durasi']
+                }
+
+                materi_url = url['materi'].replace('{{indikator_id}}',str(indikator_id))
+                pp.pprint(materi_form)
+                # print(materi_url)
+                response = requests.post(materi_url, data=materi_form, headers=hed)
+                # print(response)
+                count_materi += 1
+                
             for no_soal, soal in enumerate(data['soal']):
                 if int(soal['indikator']) < no_indikator+1:
                     continue
@@ -169,7 +210,7 @@ if __name__ == '__main__':
     url = {
         'subcpmk' : 'http://127.0.0.1:8000/api/Matakuliah/'+id_matkul+'/subcpmk',
         'indikator' : 'http://127.0.0.1:8000/api/subcpmk/{{subcpmk_id}}/indikator',
-        # 'materi' : '',
+        'materi' : 'http://127.0.0.1:8000/api/indikator/{{indikator_id}}/materi',
         'soal' : 'http://127.0.0.1:8000/api/indikator/{{indikator_id}}/soal',
         'jawaban' :'http://127.0.0.1:8000/api/soal/{{soal_id}}/jawaban',
         'register' :'http://127.0.0.1:8000/api/register',
@@ -184,16 +225,17 @@ if __name__ == '__main__':
     student = parse_student('./student.csv')
     subcpmk = parse_subcpmk('./subcpmk.csv')
     indikator = parse_indikator('./indikator.csv')
+    materi = parse_materi('./materi.tsv')
     soal = parse_soal('./soal.tsv')
     
     data = {
         'subcpmk' : subcpmk,
         'indikator' : indikator,
-        # 'materi' : '',
+        'materi' : materi,
         'soal' : soal,
     }
 
-    register_student(student, url['register'] ,token_admin, url['add_to_kelas'] )
+    # register_student(student, url['register'] ,token_admin, url['add_to_kelas'] )
     import_content(url, data, path, token_dosen)
 
 
