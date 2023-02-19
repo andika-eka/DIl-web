@@ -18,12 +18,8 @@ const routes = [
                 component: () => import("@/pages/mahasiswa/Kelas.vue"),
             },
             {
-                path: "/u/kelas/:id/materi",
-                component: () => import("@/pages/mahasiswa/kelas/Materi.vue"),
-            },
-            {
                 path: "/u/kelas/:id/formatif",
-                component: () => import("@/pages/mahasiswa/kelas/Formatif.vue"),
+                component: () => import("@/pages/mahasiswa/Formatif.vue"),
             },
         ],
     },
