@@ -21,7 +21,8 @@ class FinishTheKelasCheat extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'finish pengambilan kelas';
+
 
     /**
      * Execute the console command.
@@ -44,14 +45,17 @@ class FinishTheKelasCheat extends Command
             $subPengambilan->status_subcpmkpengambilan = 2;
             $subPengambilan->save();
 
-            $tesFormatif = new TesFormatif;
-            $tesFormatif->id_subCpmkPengambilan = $subPengambilan->id_subcpmkpengambilan;
-            $tesFormatif->pengulangan_tesFormatif = 1;
-            $tesFormatif->waktuMulai_TesFormatif =date("Y-m-d H:i:s");
-            $tesFormatif->waktuSelesai_tesFormatif =date("Y-m-d H:i:s");
-            $tesFormatif->nilai_tesFormatif =75;
-            $tesFormatif->status_TesFormatif =3;
-            $tesFormatif->save();
+            for($i =0 ; $i <rand(1,3); $i++){
+
+                $tesFormatif = new TesFormatif;
+                $tesFormatif->id_subCpmkPengambilan = $subPengambilan->id_subcpmkpengambilan;
+                $tesFormatif->pengulangan_tesFormatif = $i;
+                $tesFormatif->waktuMulai_TesFormatif =date("Y-m-d H:i:s");
+                $tesFormatif->waktuSelesai_tesFormatif =date("Y-m-d H:i:s");
+                $tesFormatif->nilai_tesFormatif =rand(50,90);
+                $tesFormatif->status_TesFormatif =3;
+                $tesFormatif->save();
+            }
         }
         $pengambilanKelas->status_pengambilanKelas = 3;
         $pengambilanKelas->save();

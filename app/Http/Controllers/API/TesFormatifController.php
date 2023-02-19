@@ -156,8 +156,8 @@ class TesFormatifController extends Controller
             $tesFormatif =  $this->getCurrentTest($id_kelas);
             $soal = $tesFormatif->showSoal( $no_soal);
             return response()->json([
-                'time remining' => $tesFormatif->getTimeRemaining(),
-                'soal count' => $tesFormatif->detail->count(),
+                'time_remining' => $tesFormatif->getTimeRemaining(),
+                'soal_count' => $tesFormatif->detail->count(),
                 'soal' => $soal,
             ]);
         }
@@ -241,10 +241,28 @@ class TesFormatifController extends Controller
         try
         {
             $tesFormatif = TesFormatif::find($id_tesFormatif);
+            if (! $tesFormatif->userHasAccess()) {
+                abort(403);
+            }
             return response()->json([
                 'tes' => $tesFormatif,
                 'jawaban' => $tesFormatif->veryDetail(),
-            ]);return response()->json($tesFormatif);
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function tesHistory($id_kelas){
+        try
+        {
+            $tesHistory = $this->getSiswa()->getTesFormatifHistory($id_kelas);
+            return response()->json($tesHistory);
         }
         catch (\Exception $e)
         {

@@ -14,6 +14,7 @@ use App\Http\Controllers\API\IndikatorController;
 use App\Http\Controllers\API\MateriController;
 use App\Http\Controllers\API\SoalpilihangandaController;
 use App\Http\Controllers\API\PilihanjawabanController;
+use App\Http\Controllers\API\SiswaManagementController;
 
 
 use App\Http\Controllers\API\LearningController;
@@ -54,11 +55,8 @@ Route::group(['middleware' => ['auth:api']], function () {
         'Kelas' => KelasController::class,
     ],['only' => ['index', 'show',]]);
     Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
-    Route::get('getPengampuanMatakuliah', [PengajarController::class, 'getPengampuanMatakuliah']);
-    
     Route::post('Kelas/{id}',[KelasController::class, 'update']);
     
-    Route::patch('Kelas/{id_kelas}/approveSiswa/{id_siswa}', [KelasController::class, 'approveSiswa']);
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
     
@@ -74,18 +72,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('subcpmk/{id}', [SubCpmkController::class, 'update']);
     Route::post('subcpmk/{id}/file', [SubCpmkController::class, 'updateFile']);
     Route::delete('subcpmk/{id}', [SubCpmkController::class, 'destroy']);
-
-
+    
+    
     Route::post('subcpmk/{mkid}/indikator', [IndikatorController::class, 'store']);
     Route::get('indikator/{id}', [IndikatorController::class, 'show']);
     Route::post('indikator/{id}', [IndikatorController::class, 'update']);
     Route::delete('indikator/{id}', [IndikatorController::class, 'destroy']);
-
+    
     Route::post('indikator/{inid}/materi', [MateriController::class, 'store']);
     Route::get('materi/{id}', [MateriController::class, 'show']);
     Route::post('materi/{id}', [MateriController::class, 'update']);
     Route::delete('materi/{id}', [MateriController::class, 'destroy']);
-
+    
     Route::post('indikator/{inid}/soal', [SoalpilihangandaController::class, 'store']);
     Route::get('soal/{id}', [SoalpilihangandaController::class, 'show']);
     Route::post('soal/{id}', [SoalpilihangandaController::class, 'update']);
@@ -97,7 +95,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('jawaban/{id}', [PilihanjawabanController::class, 'update']);
     Route::patch('jawaban/{id}/removepic', [PilihanjawabanController::class, 'removePic']);
     Route::delete('jawaban/{id}', [PilihanjawabanController::class, 'destroy']);
-
+    
     
     Route::get("getKelas",[SiswaController::class, 'getKelas']);
     Route::get("getApprovedKelas",[SiswaController::class, 'getApprovedKelas']);
@@ -106,9 +104,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get("currenMateri/{id_kelas}", [LearningController::class,'currentMateri']);
     Route::patch("nextMateri/{id_kelas}", [LearningController::class,'nextMateri']);
     Route::patch("nextUnit/{id_kelas}", [LearningController::class,'nextUnit']);
-
+    Route::get("getFailedInfo/{id_kelas}", [LearningController::class,'getFailedInfo']);
+    
+    
     Route::get("TesFormatif/{id_kelas}", [TesFormatifController::class, 'tesFormatif']);
     Route::get("TestInfo/{id_tesFormatif}", [TesFormatifController::class, 'testInfo']);
+    Route::get("tesHistory/{id_kelas}", [TesFormatifController::class, 'tesHistory']);
     Route::patch("createTestformatif/{id_kelas}", [TesFormatifController::class, 'createTestformatif']);
     Route::patch("startTesFormatif/{id_kelas}", [TesFormatifController::class, 'startTesFormatif']);
     Route::get("getSoal/{id_kelas}/{no_soal}", [TesFormatifController::class, 'getSoal']);
@@ -124,6 +125,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post("sumatif/submitJawaban/{id_kelas}/{no_soal}", [SumatifController::class, 'submitJawaban']);
     Route::patch("finishTestSumatif/{id_kelas}", [SumatifController::class, 'finishTestSumatif']);
     
+    Route::patch('SiswaManagementController/{id_kelas}/approveSiswa/{id_siswa}', [SiswaManagementController::class, 'approveSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/getEnrolledSiswa', [SiswaManagementController::class, 'getEnrolledSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/getApplyingSiswa', [SiswaManagementController::class, 'getApplyingSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/Formatif/{id_subcpmk}', [SiswaManagementController::class, 'getFormatifResult']);
+    Route::get('SiswaManagementController/{id_kelas}/Locked', [SiswaManagementController::class, 'getlockedSiswa']);
+    Route::patch('SiswaManagementController/unlock/{id_subcpmkpengambilan}', [SiswaManagementController::class, 'unlockSiswa']);
+    Route::get('SiswaManagementController/{id_kelas}/Sumatif', [SiswaManagementController::class, 'getSumatifResult']);
+    Route::get('SiswaManagementController/Sumatif/{id_sumatif}', [SiswaManagementController::class, 'SumatifDetail']);
     
 });
 
@@ -136,7 +145,7 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::get('user/{id}', [UserController::class, 'show']);
     Route::post('user/{id}/newPassword', [UserController::class, 'newPassword']);
     Route::delete('user/{id}', [UserController::class, 'destroy']);
-
+    
     Route::resources([
         'Matakuliah' => MataKuliahController::class,
     ],['only' => ['store', 'destroy']]);

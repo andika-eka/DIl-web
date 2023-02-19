@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "d7275953-0718-45f2-9bda-cab666db6546",
-		"name": "tesForrmatif",
+		"_postman_id": "6f6e5042-924d-47c1-bce4-c9f9c2e7a5cc",
+		"name": "Kelas Management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12081671"
 	},
 	"item": [
 		{
-			"name": "all attemp",
+			"name": "pengampuan kelas",
 			"event": [
 				{
 					"listen": "test",
@@ -15,7 +15,11 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.kelas.length);\r",
+							"const item = jsonData.kelas[index];\r",
+							"pm.environment.set(\"managed_kelas\", item.id_kelas);"
 						],
 						"type": "text/javascript"
 					}
@@ -27,7 +31,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -41,7 +45,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/TesFormatif/{{id_kelas_learning}}",
+					"raw": "http://127.0.0.1:8000/api/getPengampuanKelas/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -52,15 +56,15 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"TesFormatif",
-						"{{id_kelas_learning}}"
+						"getPengampuanKelas",
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Test History",
+			"name": "get a kelas Copy",
 			"event": [
 				{
 					"listen": "test",
@@ -70,10 +74,118 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"const jsonData = pm.response.json();\r",
-							"const index = Math.trunc(Math.random() * jsonData.length);\r",
-							"const tesIndex = Math.trunc(Math.random() * jsonData[index].tes_formatif.length);\r",
-							"pm.collectionVariables.set(\"test_id\", jsonData[index].tes_formatif[tesIndex].id_tesFormatif);\r",
-							"// pm.collectionVariables.set(\"test_id\", 1743);\r",
+							"pm.environment.set(\"id_matkul\", jsonData.kelas.id_matakuliah);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Kelas/{{managed_kelas}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Kelas",
+						"{{managed_kelas}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a Matakuliah Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.sub_cpmk.length);\r",
+							"const item = jsonData.sub_cpmk[index];\r",
+							"pm.environment.set(\"id_subcpmk\", item.id_subCpmk);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SiswaToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/Matakuliah/{{id_matkul}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"Matakuliah",
+						"{{id_matkul}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get enrrolled  siswa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
 							""
 						],
 						"type": "text/javascript"
@@ -86,7 +198,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -100,7 +212,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/tesHistory/{{id_kelas_learning}}",
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/getEnrolledSiswa/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -111,8 +223,181 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"tesHistory",
-						"{{id_kelas_learning}}"
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"getEnrolledSiswa",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Applying siswa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.siswa.length);\r",
+							"const item = jsonData.siswa[index];\r",
+							"pm.environment.set(\"siswaApplying\", item.id_siswa);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/getApplyingSiswa/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"getApplyingSiswa",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approve siswa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/approveSiswa/{{siswaApplying}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"approveSiswa",
+						"{{siswaApplying}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get formatif result",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.collectionVariables.set(\"test_id\", item.id_tesFormatif);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{PengajarToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/Formatif/{{id_subcpmk}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"Formatif",
+						"{{id_subcpmk}}"
 					]
 				}
 			},
@@ -139,7 +424,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -172,7 +457,7 @@
 			"response": []
 		},
 		{
-			"name": "current unit Copy",
+			"name": "get locked",
 			"event": [
 				{
 					"listen": "test",
@@ -180,7 +465,11 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
-							"});"
+							"});\r",
+							"const jsonData = pm.response.json();\r",
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.collectionVariables.set(\"locked_sucpmk\", item.id_subCpmkPengambilan);"
 						],
 						"type": "text/javascript"
 					}
@@ -192,7 +481,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -206,7 +495,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/currentUnit/{{id_kelas_learning}}",
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/Locked/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -217,68 +506,17 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"currentUnit",
-						"{{id_kelas_learning}}"
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"Locked",
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "create test attemp",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/createTestformatif/{{id_kelas_learning}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"createTestformatif",
-						"{{id_kelas_learning}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "start attemp",
+			"name": "unlock siswa",
 			"event": [
 				{
 					"listen": "test",
@@ -287,9 +525,6 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"const jsonData = pm.response.json();\r",
-							"pm.collectionVariables.set(\"lengthSoal\",jsonData.detail.length);\r",
-							"pm.collectionVariables.set(\"currentSoal\",1);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -302,21 +537,15 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
 				},
 				"method": "PATCH",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/startTesFormatif/{{id_kelas_learning}}",
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/unlock/{{locked_sucpmk}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -327,15 +556,16 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"startTesFormatif",
-						"{{id_kelas_learning}}"
+						"SiswaManagementController",
+						"unlock",
+						"{{locked_sucpmk}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "get soal",
+			"name": "get sumatif result",
 			"event": [
 				{
 					"listen": "test",
@@ -344,19 +574,10 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"\r",
 							"const jsonData = pm.response.json();\r",
-							"const index = Math.trunc(Math.random() * jsonData.soal.jawaban.length);\r",
-							"const item = jsonData.soal.jawaban[index];\r",
-							"var currentSoal =pm.collectionVariables.get(\"currentSoal\");\r",
-							"const probability =  Math.trunc(Math.random()) % 5;\r",
-							"if (probability == 1 || currentSoal < 3){\r",
-							"    pm.environment.set(\"jawaban\",item.noUrut_pilihan);\r",
-							"}\r",
-							"else{\r",
-							"    pm.environment.set(\"jawaban\",1);\r",
-							"}\r",
-							"postman.setNextRequest('submit jawaban')"
+							"const index = Math.trunc(Math.random() * jsonData.length);\r",
+							"const item = jsonData[index];\r",
+							"pm.collectionVariables.set(\"sumatif_test_id\", item.id_sumatif);"
 						],
 						"type": "text/javascript"
 					}
@@ -368,7 +589,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -382,7 +603,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/getSoal/{{id_kelas_learning}}/{{currentSoal}}",
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/{{managed_kelas}}/Sumatif/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -393,16 +614,17 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"getSoal",
-						"{{id_kelas_learning}}",
-						"{{currentSoal}}"
+						"SiswaManagementController",
+						"{{managed_kelas}}",
+						"Sumatif",
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "submit jawaban",
+			"name": "get sumatif detail",
 			"event": [
 				{
 					"listen": "test",
@@ -411,20 +633,6 @@
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
-							"var currentSoal =pm.collectionVariables.get(\"currentSoal\");\r",
-							"var lengthSoal = pm.collectionVariables.get(\"lengthSoal\");\r",
-							"if(currentSoal < lengthSoal){\r",
-							"    pm.collectionVariables.set(\"currentSoal\", currentSoal + 1);\r",
-							"    postman.setNextRequest('get soal')\r",
-							"}"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
 							""
 						],
 						"type": "text/javascript"
@@ -437,71 +645,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "noUrut_pilihan",
-							"value": "{{jawaban}}",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/submitJawaban/{{id_kelas_learning}}/{{currentSoal}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"submitJawaban",
-						"{{id_kelas_learning}}",
-						"{{currentSoal}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "current Test Info",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
+							"value": "{{PengajarToken}}",
 							"type": "string"
 						}
 					]
@@ -515,7 +659,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/currentTestInfo/{{id_kelas_learning}}",
+					"raw": "http://127.0.0.1:8000/api/SiswaManagementController/Sumatif/{{sumatif_test_id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -526,228 +670,9 @@
 					"port": "8000",
 					"path": [
 						"api",
-						"currentTestInfo",
-						"{{id_kelas_learning}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "finish test",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"const jsonData = pm.response.json();\r",
-							"pm.collectionVariables.set(\"completedTestID\", jsonData.id_tesFormatif);\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PATCH",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/finishTesFormatif/{{id_kelas_learning}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"finishTesFormatif",
-						"{{id_kelas_learning}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Test Info",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/TestInfo/{{completedTestID}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"TestInfo",
-						"{{completedTestID}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "all attemp Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"const jsonData = pm.response.json();\r",
-							"const index = jsonData.completed.length;\r",
-							"const item = jsonData.completed[index-1];\r",
-							"pm.collectionVariables.set(\"completedTestID\", item.id_tesFormatif);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/TesFormatif/{{id_kelas_learning}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"TesFormatif",
-						"{{id_kelas_learning}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "failed info",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{SiswaTokenLearning}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/getFailedInfo/{{id_kelas_learning}}",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"getFailedInfo",
-						"{{id_kelas_learning}}"
+						"SiswaManagementController",
+						"Sumatif",
+						"{{sumatif_test_id}}"
 					]
 				}
 			},
@@ -756,19 +681,19 @@
 	],
 	"variable": [
 		{
-			"key": "lengthSoal",
-			"value": ""
-		},
-		{
-			"key": "currentSoal",
-			"value": ""
-		},
-		{
-			"key": "completedTestID",
+			"key": "managed_kelas",
 			"value": ""
 		},
 		{
 			"key": "test_id",
+			"value": ""
+		},
+		{
+			"key": "locked_sucpmk",
+			"value": ""
+		},
+		{
+			"key": "sumatif_test_id",
 			"value": ""
 		}
 	]
