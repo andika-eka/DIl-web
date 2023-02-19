@@ -2,13 +2,12 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-    content: [
-        "./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./resources/**/*.vue",
-    ],
+    content: ["./resources/**/*.blade.php", "./resources/**/*.js", "./resources/**/*.vue"],
     theme: {
         extend: {
+            fontFamily: {
+                quick: ["Quicksand", "sans-serif"],
+            },
             minHeight: {
                 "screen-75": "75vh",
             },
@@ -67,20 +66,7 @@ module.exports = {
             },
         },
     },
-    variants: [
-        "responsive",
-        "group-hover",
-        "focus-within",
-        "first",
-        "last",
-        "odd",
-        "even",
-        "hover",
-        "focus",
-        "active",
-        "visited",
-        "disabled",
-    ],
+    variants: ["responsive", "group-hover", "focus-within", "first", "last", "odd", "even", "hover", "focus", "active", "visited", "disabled"],
     plugins: [
         require("@tailwindcss/forms"),
         plugin(function ({ addComponents, theme }) {

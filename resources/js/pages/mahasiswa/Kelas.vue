@@ -88,15 +88,18 @@
                                             <i class="fas fa-exclamation-circle mr-3"></i>
                                             <p>Belum Ada Data Materi</p>
                                         </div>
-                                        <div v-else class="bg-red-100 px-6 py-4 rounded text-gray-600 flex items-center">
-                                            <i class="fas fa-exclamation-circle mr-6 text-4xl"></i>
-                                            <div>
-                                                <p class="text-xl font-medium">Semua materi sudah anda selesaikan, anda sudah bisa mengambil tes formatif</p>
-                                                <router-link :to="'/u/kelas/' + route.params.id + '/formatif'">
-                                                    <button class="px-3 py-3 font-bold text-lg bg-red-500 hover:bg-red-600 text-white rounded mt-3 text-right">Lanjutkan</button>
-                                                </router-link>
+
+                                        <template v-else>
+                                            <div class="bg-green-50 shadow px-6 py-4 rounded text-gray-600 flex items-center">
+                                                <i class="fas fa-check-circle top-4 left-3 text-4xl text-emerald-500 opacity-50"></i>
+                                                <div class="ml-10 relative">
+                                                    <p class="text-lg font-light italic">Semua materi sudah anda selesaikan, anda sudah bisa mengambil tes formatif</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <router-link :to="'/u/kelas/' + route.params.id + '/formatif'">
+                                                <button class="px-3 py-1.5 font-bold italic text-lg bg-red-500 hover:bg-red-600 text-white rounded mt-3 text-right">Lanjutkan</button>
+                                            </router-link>
+                                        </template>
                                     </template>
                                     <div v-if="selectedMateri.currentMateri?.id_indikator == currentMateri?.id_indikator && materiExits" class="mt-6">
                                         <button @click.prevent="nextMateri()" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 rounded text-white">Materi Selanjutnya</button>
@@ -353,11 +356,9 @@ const goToMateri = (id_matakuliah, dataMateri) => {
             selectedMateri.value.id_subCPMK = id_matakuliah;
             materiExits.value = true;
         } else {
-            console.log("test2");
             Swal.fire("Materi Non-Aktif", "<p>Silakan lanjutkan belajar anda, pada materi terakhir yang terbuka</p>", "warning");
         }
     } else {
-        console.log("test1");
         Swal.fire("Materi Non-Aktif", "<p>Silakan lanjutkan belajar anda, pada materi terakhir yang terbuka</p>", "warning");
     }
 };

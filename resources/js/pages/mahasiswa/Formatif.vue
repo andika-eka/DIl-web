@@ -1,6 +1,21 @@
 <template>
     <div>
-        <index-navbar />
+        <nav class="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
+            <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
+                <div class="w-full relative flex items-center justify-between">
+                    <router-link :to="'/u/kelas/' + route.params.id">
+                        <div class="bg-gray-100 hover:bg-gray-200 shadow-md px-4 py-2.5 rounded flex items-center">
+                            <i class="fas fa-chevron-left mr-2 p-1 rounded"></i>
+                            <span class="font-quick text-sm"> Materi Belajar </span>
+                        </div>
+                    </router-link>
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900 uppercase">
+                        {{ kelas?.matakuliah.nama_mataKuliah }} -
+                        {{ kelas?.matakuliah.kode_mataKuliah }}
+                    </h1>
+                </div>
+            </div>
+        </nav>
         <section class="px-4 sm:px-8 lg:px-16 pb-8">
             <div class="bg-white pb-24">
                 <div>
@@ -58,11 +73,7 @@
 
                     <main class="mx-auto max-w-7xl">
                         <div class="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
-                            <h1 class="text-4xl font-bold tracking-tight text-gray-900">
-                                <span class="uppercase">{{ kelas?.matakuliah.nama_mataKuliah }}</span> -
-                                {{ kelas?.matakuliah.kode_mataKuliah }}
-                            </h1>
-
+                            <p class="font-bold text-2xl">Sesi Tes Formatif</p>
                             <div class="flex items-center">
                                 <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden" @click="mobileFiltersOpen = true">
                                     <span class="sr-only">Materi</span>
@@ -74,8 +85,7 @@
                         <section aria-labelledby="products-heading" class="py-6">
                             <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                                 <div :class="formatif?.current ? 'col-span-4' : 'col-span-3'" class="grid gap-x-8 gap-y-10 lg:grid-cols-4">
-                                    <section v-if="formatif?.current === null" aria-labelledby="products-heading" class="col-span-4 pt-6 pb-24">
-                                        <p class="font-bold text-2xl mb-3">Sesi Tes Formatif</p>
+                                    <section v-if="formatif?.current === null" aria-labelledby="products-heading" class="col-span-4 pb-24">
                                         <h1 class="text-xl font-medium mb-5">
                                             <span class="capitalize"> Tes Formatif Sub-CPMK "{{ currentUnit?.current.narasi_subCpmk }}" </span>
                                             <ul class="text-md italic font-light">
@@ -84,7 +94,7 @@
                                                 <li class="text-md">
                                                     - Anda mempunyai kesempatan <strong>{{ kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length }} kali</strong> untuk melakukan tes formatif.
                                                 </li>
-                                                <li v-if="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0" class="text-md">
+                                                <li v-if="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0 && remidiTimestamp.h >= 0" class="text-md">
                                                     - Anda bisa melakukan tes formatif (remidi) berikutnya pada <strong>{{ waktuTungguRemidi }}</strong>
                                                 </li>
                                                 <li>
@@ -93,16 +103,10 @@
                                             </ul>
                                         </h1>
                                         <div class="mt-3 flex justify-start items-center">
-                                            <button @click.prevent="createFormatif()" :class="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0 ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'" class="text-xl font-bold px-6 py-3 rounded text-white">Mulai Tes Formatif</button>
-                                            <div v-if="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0" class="ml-3 bg-gray-200 px-6 py-3 text-xl rounded">
+                                            <button @click.prevent="createFormatif()" :class="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0 && remidiTimestamp.h >= 0 ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'" class="text-xl font-bold px-6 py-3 rounded text-white">Mulai Tes Formatif</button>
+                                            <div v-if="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0 && remidiTimestamp.h >= 0" class="ml-3 bg-gray-200 px-6 py-3 text-xl rounded">
                                                 {{ `${remidiTimestamp.h < 10 ? "0" + remidiTimestamp.h : remidiTimestamp.h}:${remidiTimestamp.m < 10 ? "0" + remidiTimestamp.m : remidiTimestamp.m}:${remidiTimestamp.s < 10 ? "0" + remidiTimestamp.s : remidiTimestamp.s}` }}
                                             </div>
-                                        </div>
-                                        <div class="fixed right-5 bottom-5 z-50 mt-3 flex justify-end items-center">
-                                            <button @click.prevent="goToMateri()" class="bg-red-500 hover:bg-red-600 text-xl font-bold px-6 py-3 rounded text-white">
-                                                <i class="fas fa-back"></i>
-                                                Halaman Materi
-                                            </button>
                                         </div>
                                     </section>
                                     <template v-else>
@@ -357,8 +361,10 @@ watch(formatif, () => {
     if (formatif.value?.completed.length != 0 && formatif.value?.completed.at(-1).status_TesFormatif == 2) {
         let end = new Date(formatif.value?.completed.at(-1).waktuSelesai_tesFormatif);
         end.setHours(end.getHours() + kelas.value?.settings.waktu_tunggu_formatif);
+
         let convert_to_utc = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate(), end.getHours(), end.getMinutes(), end.getSeconds());
         waktuTungguRemidi.value = new Date(convert_to_utc);
+
         let remidiTimer = setInterval(() => {
             let localnow = new Date();
             let utcnow = new Date(localnow.getUTCFullYear(), localnow.getUTCMonth(), localnow.getUTCDate(), localnow.getUTCHours(), localnow.getUTCMinutes(), localnow.getUTCSeconds());
@@ -393,11 +399,11 @@ const getSoal = (no_urut_soal = 1) => {
 
 // Count Down Soal
 const soalTimer = async (usedDate, countSoal) => {
+    console.log("test");
     const count = new Date(usedDate);
     let end = new Date(usedDate);
-    console.log(end);
     end.setMinutes(end.getMinutes() + kelas.value?.settings.waktu_per_soal_formatif * countSoal);
-    // console.log(end, end.getMinutes(), kelas.value?.settings.waktu_per_soal_formatif, countSoal);
+    console.log(end, end.getMinutes(), kelas.value?.settings.waktu_per_soal_formatif, countSoal);
     let timer = setInterval(() => {
         let localnow = new Date();
         let utcnow = new Date(localnow.getUTCFullYear(), localnow.getUTCMonth(), localnow.getUTCDate(), localnow.getUTCHours(), localnow.getUTCMinutes(), localnow.getUTCSeconds());
