@@ -102,6 +102,27 @@ class UserController extends Controller
             ], 422);
         }
     }
+
+    public function updatePassword(Request $request){
+        try
+        {
+            $user = Auth::user();
+            $user->newPassword($request->newPassword);
+            
+            return response()->json([
+                'data' => $user,
+                'success' => true,
+                'notif'=>'password has been changed',     
+            ],200);
+            
+        }
+        catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
     
     public function destroy($id)
     {

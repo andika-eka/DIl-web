@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/siswa/update',[SiswaController::class, 'update']);
     Route::post('user/pengajar/update',[PengajarController::class, 'update']);
+    Route::post('user/updatePassword',[UserController::class, 'updatePassword']);
     
     Route::resources([
         'Matakuliah' => MataKuliahController::class,
