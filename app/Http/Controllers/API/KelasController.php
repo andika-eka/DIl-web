@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
-use App\Models\Pengajar;
 use App\Models\Pengampuan;
 use App\Models\PengambilanKelas;
 use App\Models\SettingKelas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File; 
 
 class KelasController extends Controller
 {
@@ -347,6 +347,55 @@ class KelasController extends Controller
             $setting->waktu_per_soal_formatif = 2;
             $setting->waktu_per_soal_sumatif = 2;
             $setting->batas_pengulangan_remidi  = 3;
+            $setting->save();
+            return response()->json([
+                'kelas' =>$setting,
+                'success' => true,
+                'notif'=>'settings has updated successfully',
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function addPicture(Request $request, $id){
+        try {
+            $this->checkAccessToKelas($id);
+            $setting = SettingKelas::find($id);
+            $filePath = $setting->path_gambar;
+            File::delete($filePath);
+            $file = $request->file('gambar');
+            $fileName = time().'.'.$file->extension();
+            
+            $filePath = public_path(). '\\files\\kelas\\';
+            $file->move($filePath, $fileName);
+            $setting->path_gambar = $filePath.$fileName;
+            $setting->save();
+            return response()->json([
+                'kelas' =>$setting,
+                'success' => true,
+                'notif'=>'settings has updated successfully',
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function removePicture($id){
+        try {
+            $this->checkAccessToKelas($id);
+            $setting = SettingKelas::find($id);
+            $filePath = $setting->path_gambar;
+            File::delete($filePath);
+            $setting->path_gambar = NULL;
             $setting->save();
             return response()->json([
                 'kelas' =>$setting,

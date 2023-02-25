@@ -34,9 +34,9 @@ class MatkulWithKelasSeeder extends Seeder
                 $kelas->tahun_kelas = $faker->year();
                 $kelas->semester_kelas = rand(1,8);
                 $kelas->nama_kelas = $faker->bothify('???#');
-                $kelas->tanggalBuat_kelas = $faker->date();
-                $kelas->tanggalMulai_kelas = $faker->date();
-                $kelas->tanggalSelesai_kelas = $faker->date();
+                $kelas->tanggalBuat_kelas = date('Y-m-d',strtotime(date("Y-m-d H:i:s").'-'.rand(1,2).' months'));
+                $kelas->tanggalMulai_kelas = $kelas->tanggalBuat_kelas;
+                $kelas->tanggalSelesai_kelas = date('Y-m-d',strtotime($kelas->tanggalBuat_kelas.'+'.rand(5,6).' months'));
                 $kelas->status_kelas = rand(1,3);
                 $kelas->jenis_kelas = 1;
                 $kelas->save();

@@ -26,6 +26,7 @@ class SettingKelas extends Model
         "waktu_per_soal_formatif",
         'batas_pengulangan_remidi',
         "waktu_per_soal_sumatif", 
+        'path_gambar',
     ];
 
     public function getBobotArray(){

@@ -148,7 +148,7 @@ class TesFormatif extends Model
         }
         else if($this->pengulangan_tesFormatif >= $settings->batas_pengulangan_remidi){
             // there is a possibility that previous attempts is passed
-            $passed = $this->subcpmkPengambilan->tesFormatif->where('status_TesFormatif',3);
+            $passed = $this->subcpmkPengambilan->tesFormatif->where('status_TesFormatif',3)->first();
             if (!$passed){
                 $sub = $this->subcpmkPengambilan;
                 $sub->status_subcpmkpengambilan = 3;

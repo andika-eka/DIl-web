@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('user/siswa/update',[SiswaController::class, 'update']);
     Route::post('user/pengajar/update',[PengajarController::class, 'update']);
+    Route::post('user/updatePassword',[UserController::class, 'updatePassword']);
     
     Route::resources([
         'Matakuliah' => MataKuliahController::class,
@@ -56,6 +57,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     ],['only' => ['index', 'show',]]);
     Route::post('Matakuliah/{id}',[MataKuliahController::class, 'update']);
     Route::post('Kelas/{id}',[KelasController::class, 'update']);
+    Route::post('Kelas/{id}/addPic',[KelasController::class, 'addPicture']);
+    Route::patch('Kelas/{id}/removePic',[KelasController::class, 'removePicture']);
     
     Route::patch('applykelas/{id_kelas}', [SiswaController::class, 'applyKelas']);
     Route::delete('leavekelas/{id_kelas}', [SiswaController::class, 'leaveKelas']);
