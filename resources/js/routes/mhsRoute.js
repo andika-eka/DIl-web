@@ -1,8 +1,11 @@
+// import global variable
+import globalVar from "@/variable.js";
+
 // Route untuk mahasiswa
 const routes = [
     {
-        path: "/u",
-        redirect: "/u/dashboard",
+        path: `${globalVar.base_url}/u`,
+        redirect: `${globalVar.base_url}/u/dashboard`,
         component: () => import("@/pages/layouts/Mahasiswa.vue"),
         meta: {
             role: "mahasiswa",
@@ -10,16 +13,24 @@ const routes = [
         },
         children: [
             {
-                path: "/u/dashboard",
+                path: `${globalVar.base_url}/u/dashboard`,
+                name: "mahasiswa.dashboard",
                 component: () => import("@/pages/mahasiswa/Dashboard.vue"),
             },
             {
-                path: "/u/kelas/:id",
+                path: `${globalVar.base_url}/u/kelas/:id`,
+                name: "mahasiswa.kelas",
                 component: () => import("@/pages/mahasiswa/Kelas.vue"),
             },
             {
-                path: "/u/kelas/:id/formatif",
+                path: `${globalVar.base_url}/u/kelas/:id/formatif`,
+                name: "mahasiswa.formatif",
                 component: () => import("@/pages/mahasiswa/Formatif.vue"),
+            },
+            {
+                path: `${globalVar.base_url}/u/kelas/:id/sumatif`,
+                name: "mahasiswa.sumatif",
+                component: () => import("@/pages/mahasiswa/Sumatif.vue"),
             },
         ],
     },

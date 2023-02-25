@@ -1,8 +1,11 @@
+// import global variable
+import globalVar from "@/variable.js";
+
 // Route untuk Role Dosen
 const routes = [
     {
-        path: "/d",
-        redirect: "/d/dashboard",
+        path: `${globalVar.base_url}/d`,
+        redirect: `${globalVar.base_url}/d/dashboard`,
         component: () => import("@/pages/layouts/Dosen.vue"),
         meta: {
             role: "dosen",
@@ -10,44 +13,59 @@ const routes = [
         },
         children: [
             {
-                path: "/d/dashboard",
-                name: "/d/dashboard",
+                path: `${globalVar.base_url}/d/dashboard`,
+                name: "dosen.dashboard",
                 component: () => import("@/pages/dosen/Dashboard.vue"),
             },
             {
-                path: "/d/kelas/:id_kelas",
-                name: "/d/kelas",
+                path: `${globalVar.base_url}/d/kelas/:id_kelas`,
+                name: "dosen.kelas",
                 component: () => import("@/pages/dosen/Kelas.vue"),
             },
             {
-                path: "/d/p-kelas/:id",
-                name: "/d/p-kelas",
+                path: `${globalVar.base_url}/d/p-kelas/:id_kelas`,
+                name: "dosen.kelas.pengaturan",
                 component: () => import("@/pages/dosen/pengaturan-kelas/SettingKelas.vue"),
             },
             {
-                path: "/d/p-matakuliah/:idmatakuliah/sub-cpmk",
-                name: "/d/p-matakuliah/sub-cpmk",
-                component: () => import("@/pages/dosen/pengaturan/SubCPMK.vue"),
+                path: `${globalVar.base_url}/d/p-matkul/:id_matakuliah/sub-cpmk`,
+                name: "dosen.matakuliah.pengaturan.subcpmk",
+                component: () => import("@/pages/dosen/pengaturan-matakuliah/SubCPMK.vue"),
             },
             {
-                path: "/d/p-matkul/indikator",
-                name: "/d/indikator",
-                component: () => import("@/pages/dosen/pengaturan/Indikator.vue"),
+                path: `${globalVar.base_url}/d/p-matkul/:id_matakuliah/indikator`,
+                name: "dosen.matakuliah.pengaturan.indikator",
+                component: () => import("@/pages/dosen/pengaturan-matakuliah/Indikator.vue"),
             },
             {
-                path: "/d/test-sumatif/:idKelas",
-                name: "/d/test-sumatif",
-                component: () => import("@/pages/dosen/daftar-mahasiswa/TestSumatif.vue"),
+                path: `${globalVar.base_url}/d/p-matkul/:id_matakuliah/materi`,
+                name: "dosen.matakuliah.pengaturan.materi",
+                component: () => import("@/pages/dosen/pengaturan-matakuliah/Materi.vue"),
             },
             {
-                path: "/d/test-formatif/:idKelas",
-                name: "/d/test-formatif",
-                component: () => import("@/pages/dosen/daftar-mahasiswa/TestFormatif.vue"),
+                path: `${globalVar.base_url}/d/tes-sumatif/:id_kelas`,
+                name: "dosen.tes.sumatif",
+                component: () => import("@/pages/dosen/kelas/TesSumatif.vue"),
             },
             {
-                path: "/d/list-mahasiswa/:idKelas",
-                name: "/d/list-mahasiswa",
-                component: () => import("@/pages/dosen/daftar-mahasiswa/ListMahasiswa.vue"),
+                path: `${globalVar.base_url}/d/tes-formatif/:id_kelas`,
+                name: "dosen.tes.formatif",
+                component: () => import("@/pages/dosen/kelas/TesFormatif.vue"),
+            },
+            {
+                path: `${globalVar.base_url}/d/list-mahasiswa/:id_kelas`,
+                name: "dosen.mahasiswa.list",
+                component: () => import("@/pages/dosen/kelas/ListMahasiswa.vue"),
+            },
+            {
+                path: `${globalVar.base_url}/d/apply-mahasiswa/:id_kelas`,
+                name: "dosen.mahasiswa.apply",
+                component: () => import("@/pages/dosen/kelas/Applying.vue"),
+            },
+            {
+                path: `${globalVar.base_url}/d/unlock-mahasiswa/:id_kelas`,
+                name: "dosen.mahasiswa.unlock",
+                component: () => import("@/pages/dosen/kelas/Unlock.vue"),
             },
         ],
     },

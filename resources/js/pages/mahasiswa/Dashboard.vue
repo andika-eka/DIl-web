@@ -5,51 +5,26 @@
             <!-- Welcome -->
             <div class="bg-gray-100 px-5 py-3 mt-3">
                 <span class="text-2xl mr-2">Selamat Datang</span>
-                <span class="text-xl uppercase italic font-bold"
-                    >"{{ authStore.authUser.name }}" 👋</span
-                >
-                <div class="text-sm font-light italic">
-                    Jaga selalu kerahasiaan username dan password anda.
-                </div>
+                <span class="text-xl uppercase italic font-bold">"{{ authStore.authUser.name }}" 👋</span>
+                <div class="text-sm font-light italic">Jaga selalu kerahasiaan username dan password anda.</div>
             </div>
 
             <!-- Kelas Saya -->
             <div class="mt-5">
                 <div class="bg-gray-100 w-full py-3 px-6 rounded-sm shadow-sm">
-                    <h1 class="text-xl font-medium text-emerald-700">
-                        Daftar Kelas Kuliah Saya
-                    </h1>
+                    <h1 class="text-xl font-medium text-emerald-700">Daftar Kelas Kuliah Saya</h1>
                 </div>
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 md:gap-3 lg:grid-cols-3"
-                >
-                    <div
-                        v-for="(kls, index) in kelas"
-                        :key="index"
-                        class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500"
-                    >
-                        <img
-                            alt="..."
-                            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
-                            class="w-full align-middle rounded-t-lg"
-                        />
+                <div class="grid grid-cols-1 md:grid-cols-2 md:gap-3 lg:grid-cols-3">
+                    <div v-for="(kls, index) in kelas" :key="index" class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500">
+                        <img alt="..." src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80" class="w-full align-middle rounded-t-lg" />
                         <blockquote class="relative p-4">
                             <h4 class="text-xl font-bold text-white uppercase">
-                                {{ kls.nama_kelas }} - [ SMT{{
-                                    kls.semester_kelas
-                                }}
-                                - {{ kls.tahun_kelas }}/{{
-                                    parseInt(kls.tahun_kelas) + 1
-                                }}
+                                {{ kls.nama_kelas }} - [ SMT{{ kls.semester_kelas }} - {{ kls.tahun_kelas }}/{{ parseInt(kls.tahun_kelas) + 1 }}
                                 ]
                             </h4>
                         </blockquote>
                         <div class="px-4 pb-2">
-                            <button
-                                @click.prevent="masukKelas(kls.id_kelas, index)"
-                                type="button"
-                                class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                            >
+                            <button @click.prevent="masukKelas(kls.id_kelas, index)" type="button" class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
                                 <i class="fas fa-sign-in-alt mr-3"></i>
                                 Masuk Kelas
                             </button>
@@ -120,7 +95,7 @@ const kelas = ref(null);
 
 const masukKelas = async (id_kelas, idx_kelas) => {
     kelasStore.kelas = kelas.value[idx_kelas];
-    router.push("/u/kelas/" + id_kelas);
+    router.push({ name: "mahasiswa.kelas", params: { id: id_kelas } });
 };
 const getAprovedClass = async () => {
     await axios

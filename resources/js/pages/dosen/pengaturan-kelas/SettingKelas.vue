@@ -5,12 +5,7 @@
             <span class="uppercase">{{ matakuliah.nama_mataKuliah }} ({{ matakuliah.kode_mataKuliah }})</span>
         </h3>
         <div class="flex bg-gray-100 rounded-md pt-3 px-3 gap-2">
-            <router-link :to="`/d/setting/${$route.params.id}`">
-                <div :class="[$router.currentRoute.value.name == '/d/setting' ? 'bg-emerald-700' : 'bg-emerald-500', 'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase']">Pengaturan Kelas</div>
-            </router-link>
-            <router-link :to="`/d/sub-cpmk/${kelasStore.kelas.id_matakuliah}`">
-                <div :class="[$router.currentRoute.value.name != '/d/setting' ? 'bg-emerald-700' : 'bg-emerald-500', 'text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase']">Pengaturan Matakuliah</div>
-            </router-link>
+            <div class="bg-emerald-500 text-white sahdow rounded-t-lg py-3 px-6 font-bold text-xs uppercase">Pengaturan Kelas</div>
         </div>
         <div class="my-3 p-4 text-3xl font-normal leading-normal text-emerald-800 mb-28">
             <div>
@@ -29,13 +24,13 @@
                                         <div class="col-span-2">
                                             <label for="company-website" class="block text-sm font-medium text-gray-700">Mulai</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <input v-model="formdata.Mulai" type="date" name="kode-matakuliah" id="kode-matakuliah" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
+                                                <input v-model="kelas.tanggalMulai_kelas" type="date" name="kode-matakuliah" id="kode-matakuliah" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
                                             </div>
                                         </div>
                                         <div class="col-span-2">
                                             <label for="company-website" class="block text-sm font-medium text-gray-700">Berakhir</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <input v-model="formdata.Berakhir" type="date" name="kode-matakuliah" id="kode-matakuliah" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
+                                                <input v-model="kelas.tanggalSelesai_kelas" type="date" name="kode-matakuliah" id="kode-matakuliah" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +56,7 @@
                                         <div class="col-span-1">
                                             <label class="block text-sm font-medium text-gray-700">Tahun</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <select v-model="tahun_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
+                                                <select v-model="kelas.tahun_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
                                                     <option v-for="(item, index) in yearlist" :key="index" :value="item">
                                                         {{ item }}
                                                     </option>
@@ -71,16 +66,22 @@
                                         <div class="col-span-2">
                                             <label class="block text-sm font-medium text-gray-700">Semester</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <select v-model="semester_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
-                                                    <option value="1">Ganjil</option>
-                                                    <option value="2">Genap</option>
+                                                <select v-model="kelas.semester_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-span-1">
                                             <label class="block text-sm font-medium text-gray-700">Nama Kelas</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <select v-model="nama_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
+                                                <select v-model="kelas.nama_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
                                                     <option value="A">A</option>
                                                     <option value="B">B</option>
                                                     <option value="IKI">IKI</option>
@@ -90,7 +91,7 @@
                                         <div class="col-span-1">
                                             <label class="block text-sm font-medium text-gray-700">Jenis Kelas</label>
                                             <div class="mt-1 flex rounded-md shadow-sm">
-                                                <select v-model="jenis_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
+                                                <select v-model="kelas.jenis_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
                                                     <option value="1">Reguler</option>
                                                     <option value="2">International</option>
                                                 </select>
@@ -101,7 +102,7 @@
                                             <div class="mt-1 flex rounded-md shadow-sm">
                                                 <!-- Select -->
                                                 <!-- Aktif / Tidak Aktif -->
-                                                <select v-model="status_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
+                                                <select v-model="kelas.status_kelas" class="block w-full flex-1 rounded-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm">
                                                     <option value="1">Aktif</option>
                                                     <option value="2">Non-Aktif</option>
                                                 </select>
@@ -222,7 +223,7 @@
                                     <div>
                                         <label for="about" class="block text-sm font-medium text-gray-700">Maksimal Jumlah Tes Formatif</label>
                                         <div class="mt-1 flex rounded-md">
-                                            <input v-model="maximalUjiFormatif" type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
+                                            <input v-model="formdata.batas_pengulangan_remidi" type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
                                             <span class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white">Kali</span>
                                         </div>
                                     </div>
@@ -230,14 +231,14 @@
                                         <div class="col-span-2">
                                             <label for="about" class="block text-sm font-medium text-gray-700">Waktu per-Soal untuk Tes Formatif</label>
                                             <div class="mt-1 flex rounded-md">
-                                                <input type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
+                                                <input v-model="formdata.waktu_per_soal_formatif" type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
                                                 <span class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white">Menit</span>
                                             </div>
                                         </div>
                                         <div class="col-span-2">
                                             <label for="about" class="block text-sm font-medium text-gray-700"> Waktu per-Soal untuk Tes Sumatif</label>
                                             <div class="mt-1 flex rounded-md">
-                                                <input type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
+                                                <input v-model="formdata.waktu_per_soal_sumatif" type="number" class="block w-full flex-1 rounded-l-md border-gray-300 focus:border-emerald-400 focus:ring-emerald-400 sm:text-sm" />
                                                 <span class="inline-flex items-center rounded-r-md border border-l-0 border-emerald-300 bg-emerald-500 px-3 text-sm text-white">Menit</span>
                                             </div>
                                         </div>
@@ -249,10 +250,10 @@
                 </div>
             </div>
             <div class="flex justify-between items-center bg-gray-100 mt-5 px-4 pt-2 pb-4">
-                <router-link to="/d/dashboard">
+                <router-link :to="{ name: 'dosen.kelas', params: { id_kelas: route.params.id_kelas } }">
                     <button type="submit" class="justify-center rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">Kembali</button>
                 </router-link>
-                <button @click="applySetting" type="button" class="justify-center mt-2 rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">Simpan Perubahan</button>
+                <button @click="saveSetting" type="button" class="justify-center mt-2 rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2">Simpan Perubahan</button>
             </div>
         </div>
     </section>
@@ -273,6 +274,13 @@ const route = useRoute();
 const authStore = useAuthStore();
 const kelasStore = useKelasStore();
 
+// Untuk tampilan
+const matakuliah = ref({
+    id_matakuliah: "",
+    kode_matakuliah: "",
+    nama_matakuliah: "",
+    cpmk: "",
+});
 const yearlist = ref([]);
 const makeTahunList = () => {
     const date = new Date(Date.now());
@@ -281,20 +289,21 @@ const makeTahunList = () => {
         yearlist.value[i] = yearnow - i;
     }
 };
-const tahun_kelas = ref();
-const semester_kelas = ref();
-const nama_kelas = ref();
-const status_kelas = ref();
-const jenis_kelas = ref();
-const matakuliah = ref({
+
+// Identitas Kelas
+const kelas = ref({
     id_matakuliah: "",
-    kode_matakuliah: "",
-    nama_matakuliah: "",
-    cpmk: "",
+    tanggalMulai_kelas: "",
+    tanggalSelesai_kelas: "",
+    jenis_kelas: "",
+    nama_kelas: "",
+    status_kelas: "",
+    tahun_kelas: "",
+    semester_kelas: "",
 });
+
+// Pengaturan Kelas
 const formdata = ref({
-    Mulai: "",
-    Berakhir: "",
     bobotC1: "",
     bobotC2: "",
     bobotC3: "",
@@ -303,48 +312,59 @@ const formdata = ref({
     bobotC6: "",
     KKM: "",
     waktu_tunggu_formatif: "",
-    tgl_sumatif: "",
+    waktu_per_soal_formatif: "",
+    waktu_per_soal_sumatif: "",
     soal_formatif_per_indikator: 1,
     soal_sumatif_per_indikator: 1,
+    batas_pengulangan_remidi: "",
+    tgl_sumatif: "",
 });
-
-const maximalUjiFormatif = ref(1);
 
 const getKelas = async () => {
     await axios
-        .get(`/api/Kelas/${route.params.id}`, {
+        .get(`/api/Kelas/${route.params.id_kelas}`, {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
             },
         })
         .then((res) => {
-            formdata.value = res.data.kelas.settings;
             matakuliah.value = res.data.kelas.matakuliah;
-            tahun_kelas.value = res.data.kelas.tahun_kelas;
-            semester_kelas.value = res.data.kelas.semester_kelas;
-            nama_kelas.value = res.data.kelas.nama_kelas;
-            jenis_kelas.value = res.data.kelas.jenis_kelas;
-            status_kelas.value = res.data.kelas.status_kelas;
-            kelasStore.kelas.id_matakuliah = res.data.kelas.matakuliah.id_matakuliah;
+            // identitas kelas
+            kelas.value.id_matakuliah = res.data.kelas.id_matakuliah;
+            kelas.value.tanggalMulai_kelas = res.data.kelas.tanggalMulai_kelas;
+            kelas.value.tanggalSelesai_kelas = res.data.kelas.tanggalSelesai_kelas;
+            kelas.value.tahun_kelas = res.data.kelas.tahun_kelas;
+            kelas.value.semester_kelas = res.data.kelas.semester_kelas;
+            kelas.value.nama_kelas = res.data.kelas.nama_kelas;
+            kelas.value.jenis_kelas = res.data.kelas.jenis_kelas;
+            kelas.value.status_kelas = res.data.kelas.status_kelas;
+
+            console.log(res.data);
+            formdata.value = res.data.kelas.settings;
         });
 };
 
+const applyIdentitasKelas = async () => {
+    await authAxios.post(`/api/Kelas/${route.params.id_kelas}`, kelas.value);
+};
+
 const applySetting = async () => {
+    await authAxios.post(`/api/Kelas/${route.params.id_kelas}/applySettings`, formdata.value);
+};
+
+const saveSetting = () => {
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Apakah kamu yakin?",
+        text: "Semua data yang telah diubah akan disimpan!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
+        confirmButtonText: "Ya, simpan pengaturan!",
+        cancelButtonText: "Batal!",
     }).then(async (result) => {
         if (result.isConfirmed) {
-            await authAxios.post(`/api/Kelas/${route.params.id}/applySettings`, formdata.value).then((res) => {
-                Swal.fire("Deleted!", "Your file has been deleted.", "success").then(() => {
-                    router.push("/d/dashboard");
-                });
-            });
+            applyIdentitasKelas();
+            applySetting();
+            Swal.fire("Berhasil", "Pengaturan disimpan", "success");
         }
     });
 };

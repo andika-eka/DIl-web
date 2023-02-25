@@ -10,7 +10,10 @@ window._ = _;
 import axios from "axios";
 window.axios = axios;
 
+import globalVar from "./variable.js";
+
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.default.baseUrl = globalVar.full_path;
 
 import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;

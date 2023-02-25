@@ -1,164 +1,114 @@
 <template>
-    <section class="px-4 mb-6 sm:px-16 lg:px-32 pt-16 pb-8 my-6">
+    <section class="px-4 mb-6 sm:px-16 pt-16 pb-8 my-6 font-quick">
         <div class="bg-gray-200 px-5 py-3 rounded-sm">
-            <div class="flex justify-between">
-                <h1 class="text-lg font-extrabold">
-                    {{ data?.kelas.nama_kelas }} -
+            <div class="">
+                <h1 class="text-xl font-extrabold">
+                    {{ kelas?.kelas.nama_kelas }} -
                     <span class="uppercase">
-                        {{ data?.kelas.matakuliah.nama_mataKuliah }}
+                        {{ kelas?.kelas.matakuliah.nama_mataKuliah }}
                     </span>
-                    ({{ data?.kelas.matakuliah.kode_mataKuliah }})
+                    ({{ kelas?.kelas.matakuliah.kode_mataKuliah }})
                 </h1>
-                <button
-                    class="bg-emerald-500 px-2 py-1 rounded-md text-white text-sm"
-                >
-                    <i class="fas fa-sliders-h"></i>
-                </button>
+                <div class="flex gap-3 mt-3">
+                    <router-link :to="{ name: 'dosen.kelas.pengaturan', params: { id_kelas: route.params.id_kelas } }">
+                        <button class="bg-emerald-500 px-2 py-1 rounded-md text-white col-span-1">
+                            <i class="fas fa-sliders-h"></i>
+                            Pengaturan Kelas
+                        </button>
+                    </router-link>
+                    <button @click="goToPengaturanMatakuliah(kelas?.kelas.id_matakuliah)" class="bg-emerald-500 px-2 py-1 rounded-md text-white col-span-1">
+                        <i class="fas fa-sliders-h"></i>
+                        Pengaturan Matakuliah
+                    </button>
+                </div>
             </div>
-            <p class="text-xs italic">
-                Dosen Pengampu:
-                {{ data?.kelas.pengajar.identitas_pengajar ?? "Nama Pengajar" }}
-            </p>
         </div>
 
-        <div class="mt-3 bg-gray-200 rounded-sm">
-            <div class="px-5 py-3">
-                <h1 class="text-md font-bold uppercase">Daftar Mahasiswa</h1>
-                <p class="text-xs italic">
-                    Daftar mahasiswa yang mengikuti kelas
-                    <span class="font-bold">
-                        {{ data?.kelas.matakuliah.nama_mataKuliah }}</span
-                    >
-                    ini.
-                </p>
-            </div>
-            <div class="h-1 bg-gray-500" />
-            <div class="px-5 py-3 overflow-x-scroll">
-                <table id="kelas_table" class="display w-full">
-                    <thead>
-                        <tr>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Nama Kelas
-                            </th>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Semester Kelas
-                            </th>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Tahun Kelas
-                            </th>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Jenis Kelas
-                            </th>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Status Kelas
-                            </th>
-                            <th
-                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-                            >
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, index) in data.enrolled" :key="index">
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                {{ item.nama_kelas }}
-                            </td>
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                <span v-if="item.semester_kelas == 1"
-                                    >Ganjil</span
-                                >
-                                <span v-else>Genap</span>
-                            </td>
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                {{ item.tahun_kelas }}
-                            </td>
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                <span v-if="item.jenis_kelas == 1"
-                                    >Reguler</span
-                                >
-                                <span v-else>International</span>
-                            </td>
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                <span v-if="item.status_kelas == 1">
-                                    <i
-                                        class="fas fa-circle text-emerald-500 mr-2"
-                                    ></i>
-                                    Aktif
-                                </span>
-                                <span v-else>
-                                    <i
-                                        class="fas fa-circle text-orange-500 mr-2"
-                                    ></i>
-                                    Non-Aktif
-                                </span>
-                            </td>
-                            <td
-                                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                            >
-                                <div class="space-x-2">
-                                    <button
-                                        class="px-3 py-2 bg-orange-500 rounded hover:bg-orange-600"
-                                    >
-                                        <i class="fas fa-pen text-white"></i>
-                                    </button>
-                                    <button
-                                        class="px-3 py-2 bg-red-500 rounded hover:bg-red-600"
-                                    >
-                                        <i class="fas fa-trash text-white"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+            <router-link :to="{ name: 'dosen.mahasiswa.list', params: { id_kelas: route.params.id_kelas } }">
+                <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                    <p>List Mahasiswa</p>
+                    <div class="text-7xl">{{ kelas?.enrolled.length }}</div>
+                    <i class="fas fa-user-friends text-7xl text-gray-400 opacity-30 absolute right-5 top-7"></i>
+                </div>
+            </router-link>
+            <router-link :to="{ name: 'dosen.mahasiswa.apply', params: { id_kelas: route.params.id_kelas } }">
+                <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                    <p>Apply Mahasiswa</p>
+                    <div class="text-7xl">{{ kelas?.applying.length }}</div>
+                    <i class="fas fa-user-check text-7xl text-gray-400 opacity-30 absolute right-5 top-7"></i>
+                </div>
+            </router-link>
+            <router-link :to="{ name: 'dosen.mahasiswa.unlock', params: { id_kelas: route.params.id_kelas } }">
+                <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                    <p>Unlock Mahasiswa</p>
+                    <div class="text-7xl">{{ needUnlock?.length }}</div>
+                    <i class="fas fa-user-lock text-7xl text-gray-400 opacity-30 absolute right-5 top-7"></i>
+                </div>
+            </router-link>
+            <router-link :to="{ name: 'dosen.tes.formatif', params: { id_kelas: route.params.id_kelas } }">
+                <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                    <p>Tes Formatif</p>
+                    <i class="fas fa-calendar text-3xl text-gray-400 opacity-30 absolute right-5 top-4"></i>
+                </div>
+            </router-link>
+            <router-link :to="{ name: 'dosen.tes.sumatif', params: { id_kelas: route.params.id_kelas } }">
+                <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                    <p>Tes Sumatif</p>
+                    <i class="fas fa-feather-alt text-3xl text-gray-400 opacity-30 absolute right-5 top-4"></i>
+                </div>
+            </router-link>
         </div>
     </section>
 </template>
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "@vue/runtime-core";
+import { onBeforeMount, onMounted, ref } from "@vue/runtime-core";
+import axios from "axios";
 
+// dependensi penting
 const authStore = useAuthStore();
-const routes = useRoute();
-const data = ref();
+const route = useRoute();
+const router = useRouter();
 
-onMounted(async () => {
-    await getKelas();
+onMounted(() => {
+    getKelas();
+    getLocked();
 });
 
-const getKelas = async () => {
-    await axios
-        .get(`/api/Kelas/${routes.params.id_kelas}`, {
+// Untuk Data Kelas
+const kelas = ref();
+const getKelas = () => {
+    axios
+        .get(`/api/Kelas/${route.params.id_kelas}`, {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
             },
         })
         .then((res) => {
-            data.value = res.data;
-            console.log(res.data);
+            kelas.value = res.data;
+            console.log("Kelas :", res.data);
         });
+};
+
+// Untuk Data Unlock
+const needUnlock = ref();
+const getLocked = () => {
+    axios
+        .get(`/api/SiswaManagementController/${route.params.id_kelas}/Locked/`, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            needUnlock.value = res.data;
+            console.log("Need Unlock : ", res.data);
+        });
+};
+
+// Route error fix here
+const goToPengaturanMatakuliah = (id_matakuliah) => {
+    router.push({ name: "dosen.matakuliah.pengaturan.subcpmk", params: { id_matakuliah: id_matakuliah } });
 };
 </script>

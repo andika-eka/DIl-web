@@ -1,22 +1,17 @@
-// route untuk auth pages
+// Import global
+import globalVar from "@/variable.js";
 
+// route untuk auth pages
 const routes = [
     {
-        path: "/",
-        redirect: "/login",
+        path: `${globalVar.base_url}/`,
+        redirect: `${globalVar.base_url}/login`,
         component: () => import("@/pages/layouts/Auth.vue"),
         children: [
             {
-                path: "/login",
+                path: `${globalVar.base_url}/login`,
                 name: "login",
                 component: () => import("@/pages/auth/Login.vue"),
-                meta: {
-                    authRoute: true,
-                },
-            },
-            {
-                path: "/register",
-                component: () => import("@/pages/auth/Register.vue"),
                 meta: {
                     authRoute: true,
                 },
