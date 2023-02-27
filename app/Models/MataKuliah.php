@@ -15,6 +15,7 @@ class MataKuliah extends Model
         "kode_mataKuliah",
         "nama_mataKuliah",
         "cpmk",
+        "semester_matkul"
     ];
     public $timestamps = false;
 
