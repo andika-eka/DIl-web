@@ -365,7 +365,8 @@ class Siswa extends Model
         if(!$lastTest){
             throw new \Exception('only acceesable by failed student');
         }
-        if(($settings->canStartFormatif($lastTest->waktuSelesai_tesFormatif)) and $currentSubcpmk->status_subcpmkpengambilan != 3){
+        if((!$settings->canStartFormatif($lastTest->waktuSelesai_tesFormatif)) or $currentSubcpmk->status_subcpmkpengambilan == 3){
+            throw new \Exception('only acceesable by failed student');
             
         }
             $siswa = DB::table('siswa')
@@ -384,8 +385,15 @@ class Siswa extends Model
 
     public function topSiswa($id_kelas, $number){
         $currentSubcpmk = $this->getCurrentSubCpmk($id_kelas);
-        if ($currentSubcpmk->status_subcpmkpengambilan != 3) {
-            throw new \Exception('only acceesable by locked student');
+        $subcpmkPengambilan = SubcpmkPengambilan::find($currentSubcpmk->id_subcpmkpengambilan);
+        $lastTest = $subcpmkPengambilan->completedTesFormatif()->sortByDesc("pengulangan_tesFormatif")->first();
+        $settings = $subcpmkPengambilan->settingKelas();
+        if(!$lastTest){
+            throw new \Exception('only acceesable by failed student');
+        }
+        if((!$settings->canStartFormatif($lastTest->waktuSelesai_tesFormatif)) or $currentSubcpmk->status_subcpmkpengambilan == 3){
+            throw new \Exception('only acceesable by failed student');
+            
         }
         $siswa = DB::table('siswa')
                 ->join('pengambilankelas', 'siswa.id_siswa', '=', 'pengambilankelas.id_siswa')
