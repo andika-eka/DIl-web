@@ -79,7 +79,7 @@
                                                     - Anda mempunyai kesempatan <strong>{{ kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length }} kali</strong> untuk melakukan tes formatif.
                                                 </li>
                                                 <li v-if="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0" class="text-md">
-                                                    - Anda bisa melakukan tes formatif (remidi) berikutnya pada <strong>{{ waktuTungguRemidi }}</strong>
+                                                    - Anda bisa melakukan tes formatif (remidi) berikutnya pada <strong>{{ waktuTungguRemidi }}</strong> Jam <strong>{{ arrayTimeRemidi[0].split(":")[0] }}:{{ arrayTimeRemidi[0].split(":")[1] }}</strong> {{ `${arrayTimeRemidi[2]} ${arrayTimeRemidi[3]}  ${arrayTimeRemidi[4]}` }}
                                                 </li>
                                                 <li>
                                                     - Kriteria Ketuntasan Minimum (KKM) pada Tes Formatif ini adalah <strong>{{ kelas?.settings.KKM }}%</strong>.
@@ -193,6 +193,7 @@ const selectedMateri = ref({
     id_subCPMK: null,
 });
 const waktuTungguRemidi = ref();
+const arrayTimeRemidi = ref();
 
 const soalTime = ref({
     h: 0,
@@ -237,9 +238,6 @@ const getCurrUnit = () => {
         .then((res) => {
             console.log("Curr Unit:", res.data);
             currentUnit.value = res.data;
-            if (res.data.current.status_subcpmkpengambilan == 3) {
-                getFailedInfo();
-            }
             if (res.data.current.status_subcpmkpengambilan == 2) {
                 formatifAttemp();
             }
@@ -304,16 +302,14 @@ const createFormatif = () => {
             startFormatif();
         })
         .catch((err) => {
-            if (err.response.status == 422) {
-                if (err.response.data.message == "current unit is not finished") {
-                    // Pop up peringantan jika mengambil formatif sebelum boleh mengambil
-                    Swal.fire("Peringatan", `Silakan baca materi terlebuh dahulu sebelum mengerjakan tes formatif`, "warning");
-                } else if (err.response.data.message == "current test is not finished") {
-                    startFormatif();
-                }
+            if (err.response.data.message == "current unit is not finished") {
+                // Pop up peringantan jika mengambil formatif sebelum boleh mengambil
+                Swal.fire("Peringatan", `Silakan baca materi terlebuh dahulu sebelum mengerjakan tes formatif`, "warning");
+            } else if (err.response.data.message == "current test is not finished") {
+                startFormatif();
             } else {
                 // Pop up peringantan menunggu jika mengulang
-                Swal.fire("Peringatan", `Anda belum bisa melakukan tes formatif ulang`, "warning");
+                Swal.fire("Peringatan", `Anda belum bisa melakukan tes formatif ulang, Silakan tunggu hingga waktu yang ditentukan`, "warning");
             }
         });
 };
@@ -375,7 +371,8 @@ watch(formatif, () => {
         end.setHours(end.getHours() + kelas.value?.settings.waktu_tunggu_formatif);
 
         let convert_to_utc = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate(), end.getHours(), end.getMinutes(), end.getSeconds());
-        waktuTungguRemidi.value = new Date(convert_to_utc);
+        waktuTungguRemidi.value = new Date(convert_to_utc).toDateString();
+        arrayTimeRemidi.value = new Date(convert_to_utc).toTimeString().split(" ");
     }
 });
 
@@ -575,6 +572,7 @@ onMounted(() => {
     getKelas();
     formatifAttemp();
     getCurrUnit();
+    getFailedInfo();
 });
 
 const mobileFiltersOpen = ref(false);
