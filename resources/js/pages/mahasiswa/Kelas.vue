@@ -1,6 +1,9 @@
 <template>
     <div>
         <index-navbar />
+        <div class="fixed bottom-6 right-6">
+            <button class="bg-red-500 text-xl text-white z-50 px-4 py-2 rounded-md hover:bg-red-600">Kembali</button>
+        </div>
         <section class="px-4 sm:px-8 lg:px-16 pb-8">
             <div class="bg-white pb-24">
                 <div>
@@ -115,9 +118,9 @@
                                         </div>
                                     </template>
                                     <template v-else>
-                                        <div v-if="sesiFormatif == false" class="bg-red-100 px-6 py-3 rounded text-gray-600 flex items-center">
-                                            <div>
-                                                <EclamationCirleIcon class="w-10 h-10" />
+                                        <div v-if="sesiFormatif == false && currentUnit?.current.status_subcpmkpengambilan != 3" class="bg-red-100 px-6 py-3 rounded text-gray-600 flex items-center">
+                                            <div class="mr-6">
+                                                <ExclamationTriangleIcon class="w-10 h-10" />
                                             </div>
                                             <p>Belum Ada Data Materi</p>
                                         </div>
@@ -128,7 +131,7 @@
                                                     <CheckCircleIcon class="h-10 w-10 top-4 left-3 text-4xl text-emerald-500 opacity-50" />
                                                     <div class="ml-10 relative">
                                                         <p class="text-lg font-light italic">
-                                                            Semua materi disetiap Sub-CPMK sudah anda selesaikan, Tes Sumatif akan diadakan serentak pada <strong>{{ kelas?.settings.tgl_sumatif ? new Date(kelas?.settings.tgl_sumatif) : "waktu yang belum ditentukan." }}</strong>
+                                                            Semua materi Sub-CPMK sudah Anda selesaikan, Tes Sumatif akan diadakan serentak pada <strong>{{ kelas?.settings.tgl_sumatif ? new Date(kelas?.settings.tgl_sumatif).toDateString() : "waktu yang belum ditentukan." }}</strong>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -287,7 +290,7 @@
 <script setup>
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon, CheckCircleIcon, LockClosedIcon, ExclamationCircleIcon } from "@heroicons/vue/20/solid";
+import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon, CheckCircleIcon, LockClosedIcon, ExclamationTriangleIcon } from "@heroicons/vue/20/solid";
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
 import { useAuthStore } from "@/stores/auth";

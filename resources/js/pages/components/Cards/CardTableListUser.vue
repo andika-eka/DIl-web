@@ -3,7 +3,7 @@
         <div class="rounded-t mb-0 px-4 py-3 border-0">
             <div class="flex flex-wrap items-center">
                 <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-slate-700' : 'text-white']">List User</h3>
+                    <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-slate-700' : 'text-white']">Daftar User</h3>
                 </div>
                 <!-- Add Button -->
                 <router-link :to="{ name: 'admin.user.add' }">
@@ -16,18 +16,61 @@
         </div>
         <div class="block w-full overflow-x-auto relative p-8">
             <!-- Projects table -->
-            <DataTable :data="users" :columns="columns" class="w-full">
+            <table id="user-table" class="w-full">
                 <thead>
                     <tr>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Nama User</th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Email</th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Tipe Pengguna</th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Status</th>
-                        <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']"></th>
+                        <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Aksi</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
-            </DataTable>
+                <tbody>
+                    <tr v-for="(item, index) in users" :key="index">
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{ item.name }}
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{ item.email }}
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <span v-if="item.tipe_pengguna == 1">
+                                <i class="fas fa-circle text-red-500 mr-2"></i>
+                                Admin
+                            </span>
+                            <span v-else-if="item.tipe_pengguna == 2">
+                                <i class="fas fa-circle text-blue-500 mr-2"></i>
+                                Pengajar
+                            </span>
+                            <span v-else>
+                                <i class="fas fa-circle text-yellow-500 mr-2"></i>
+                                Mahasiswa
+                            </span>
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <span v-if="item.status_pengguna == 1">
+                                <i class="fas fa-circle text-emerald-500 mr-2"></i>
+                                Aktif
+                            </span>
+                            <span v-else>
+                                <i class="fas fa-circle text-orange-500 mr-2"></i>
+                                Non-Aktif
+                            </span>
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <div class="space-x-2">
+                                <button class="px-3 py-2 bg-orange-500 rounded hover:bg-orange-600">
+                                    <i class="fas fa-pen text-white"></i>
+                                </button>
+                                <button class="px-3 py-2 bg-red-500 rounded hover:bg-red-600">
+                                    <i class="fas fa-trash text-white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -41,32 +84,6 @@ DataTable.use(DataTablesLib);
 
 const authStore = useAuthStore();
 const users = ref(null);
-const columns = ref([
-    { data: "name" },
-    { data: "email" },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            switch (data.tipe_pengguna) {
-                case 1:
-                    return "Admin";
-                    break;
-                case 2:
-                    return "Pengajar";
-                    break;
-                case 3:
-                    return "Mahasiswa";
-                    break;
-            }
-        },
-    },
-    {
-        data: null,
-        render: function (data, type, row, meta) {
-            return data.status_pengguna == 1 ? "Aktif" : "Non-Aktif";
-        },
-    },
-]);
 
 const props = defineProps({
     color: {
@@ -80,6 +97,13 @@ const props = defineProps({
 
 onMounted(async () => {
     await getUser();
+    await $(document).ready(function () {
+        $("#user-table").DataTable({
+            paging: true,
+            ordering: true,
+            info: false,
+        });
+    });
 });
 
 const getUser = async () => {
@@ -91,6 +115,7 @@ const getUser = async () => {
         })
         .then((res) => {
             users.value = res.data;
+            console.log("test", res.data);
         });
 };
 </script>

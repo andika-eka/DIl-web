@@ -1,35 +1,24 @@
 <template>
-    <div>
-        <div class="flex flex-wrap">
-            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-                <card-line-chart />
+    <div class="font-quick h-screen">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+            <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                <p>Jumlah User</p>
+                <div class="text-5xl">10</div>
+                <UserIcon class="fas fa-user-friends w-16 text-gray-400 opacity-30 absolute right-4 top-7"></UserIcon>
             </div>
-            <div class="w-full xl:w-4/12 px-4">
-                <card-bar-chart />
+            <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                <p>Jumlah Matakuliah</p>
+                <div class="text-5xl">10</div>
+                <BookOpenIcon class="fas fa-user-friends w-16 text-gray-400 opacity-30 absolute right-4 top-7"></BookOpenIcon>
             </div>
-        </div>
-        <div class="flex flex-wrap mt-4">
-            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
-                <card-page-visits />
-            </div>
-            <div class="w-full xl:w-4/12 px-4">
-                <card-social-traffic />
+            <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
+                <p>Jumlah Kelas</p>
+                <div class="text-5xl">10</div>
+                <ArchiveBoxIcon class="fas fa-user-friends w-16 text-gray-400 opacity-30 absolute right-4 top-7"></ArchiveBoxIcon>
             </div>
         </div>
     </div>
 </template>
-<script>
-import CardLineChart from "@/pages/components/Cards/CardLineChart.vue";
-import CardBarChart from "@/pages/components/Cards/CardBarChart.vue";
-import CardPageVisits from "@/pages/components/Cards/CardPageVisits.vue";
-import CardSocialTraffic from "@/pages/components/Cards/CardSocialTraffic.vue";
-export default {
-    name: "dashboard-page",
-    components: {
-        CardLineChart,
-        CardBarChart,
-        CardPageVisits,
-        CardSocialTraffic,
-    },
-};
+<script setup>
+import { UserIcon, ArchiveBoxIcon, BookOpenIcon } from "@heroicons/vue/20/solid";
 </script>

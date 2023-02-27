@@ -3,7 +3,7 @@
         <div class="rounded-t mb-0 px-4 py-3 border-0">
             <div class="flex flex-wrap items-center">
                 <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-slate-700' : 'text-white']">List Matakuliah</h3>
+                    <h3 class="font-semibold text-lg" :class="[color === 'light' ? 'text-slate-700' : 'text-white']">Daftar Matakuliah</h3>
                 </div>
                 <!-- Add Button -->
                 <router-link :to="{ name: 'admin.matakuliah.add' }">
@@ -16,17 +16,39 @@
         </div>
         <div class="block w-full overflow-x-auto relative p-8">
             <!-- Projects table -->
-            <DataTable :data="matakuliah" :columns="columns" class="w-full">
+            <table id="matakuliah_table" class="w-full">
                 <thead>
                     <tr>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Kode Matakuliah</th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Nama Matakuliah</th>
                         <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">CPMK</th>
-                        <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']"></th>
+                        <th class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-right" :class="[color === 'light' ? 'bg-slate-50 text-slate-500 border-slate-100' : 'bg-emerald-800 text-emerald-300 border-emerald-700']">Aksi</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
-            </DataTable>
+                <tbody>
+                    <tr v-for="(item, index) in matakuliah" :key="index">
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{ item.kode_mataKuliah }}
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{ item.nama_mataKuliah }}
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs p-4">
+                            {{ item.cpmk }}
+                        </td>
+                        <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            <div class="space-x-2">
+                                <button class="px-3 py-2 bg-orange-500 rounded hover:bg-orange-600">
+                                    <i class="fas fa-pen text-white"></i>
+                                </button>
+                                <button class="px-3 py-2 bg-red-500 rounded hover:bg-red-600">
+                                    <i class="fas fa-trash text-white"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -40,7 +62,6 @@ DataTable.use(DataTablesLib);
 
 const authStore = useAuthStore();
 const matakuliah = ref(null);
-const columns = ref([{ data: "kode_mataKuliah" }, { data: "nama_mataKuliah" }, { data: "cpmk", width: "50%" }]);
 
 const props = defineProps({
     color: {
@@ -54,6 +75,13 @@ const props = defineProps({
 
 onMounted(async () => {
     await getMatakuliah();
+    await $(document).ready(function () {
+        $("#matakuliah_table").DataTable({
+            paging: true,
+            ordering: true,
+            info: false,
+        });
+    });
 });
 
 const getMatakuliah = async () => {

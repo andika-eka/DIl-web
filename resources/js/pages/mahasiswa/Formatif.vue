@@ -1,11 +1,13 @@
 <template>
-    <div>
+    <div class="font-quick">
         <nav class="top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white shadow">
             <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div class="w-full relative flex items-center justify-between">
                     <router-link :to="{ name: 'mahasiswa.kelas', params: { id: route.params.id } }" v-if="formatif?.current === null">
-                        <div class="bg-gray-100 hover:bg-gray-200 shadow-md px-4 py-2.5 rounded flex items-center">
-                            <i class="fas fa-chevron-left mr-2 p-1 rounded"></i>
+                        <div class="bg-red-500 hover:bg-red-600 text-white tex-lg font-black shadow-md px-4 py-2.5 rounded flex items-center">
+                            <div class="mr-2 p-1 rounded">
+                                <ArrowLeftIcon class="h-5 w-5" />
+                            </div>
                             <span class="font-quick text-sm"> Materi Belajar </span>
                         </div>
                     </router-link>
@@ -68,9 +70,11 @@
                                     <section v-if="formatif?.current === null || formatif?.current.waktuMulai_TesFormatif === null" aria-labelledby="products-heading" class="col-span-4 pb-24">
                                         <h1 class="text-xl font-medium mb-5">
                                             <span class="capitalize"> Tes Formatif Sub-CPMK "{{ currentUnit?.current.narasi_subCpmk }}" </span>
-                                            <ul class="text-md italic font-light">
+                                            <ul v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0" class="text-md italic font-light">
                                                 <span class="font-bold"> Perhatian: </span>
-                                                <li class="text-md">- Semua materi pada Sub-CPMK ini sudah anda lalui, silakan mulai mengerjakan tes formatif untuk mengukur tingkat penguasaan Anda.</li>
+                                                <li class="text-md" v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length == kelas?.settings.batas_pengulangan_remidi">- Semua materi pada Sub-CPMK ini sudah anda lalui, silakan mulai mengerjakan tes formatif untuk mengukur tingkat penguasaan Anda.</li>
+                                                <li class="text-md" v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length != kelas?.settings.batas_pengulangan_remidi">- Skor Anda belum memenuhi ketuntasan minimum dalam sub-CPMK ini.</li>
+                                                <li class="text-md" v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length != kelas?.settings.batas_pengulangan_remidi">- Silakan Anda mengikuti tahap remidi melalui belajar kelompok dengan teknik “Tutor Sebaya” di luar sistem.</li>
                                                 <li class="text-md">
                                                     - Anda mempunyai kesempatan <strong>{{ kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length }} kali</strong> untuk melakukan tes formatif.
                                                 </li>
@@ -81,9 +85,27 @@
                                                     - Kriteria Ketuntasan Minimum (KKM) pada Tes Formatif ini adalah <strong>{{ kelas?.settings.KKM }}%</strong>.
                                                 </li>
                                             </ul>
+                                            <ul v-else class="text-md italic font-light">
+                                                <span class="font-bold"> Perhatian: </span>
+                                                <li class="text-md">- Skor Anda tetap belum memenuhi ketuntasan minimum dalam sub-CPMK ini.</li>
+                                                <li class="text-md">- Anda tidak memiliki kesempatan untuk mengikuti tes formatif ulang kembali.</li>
+                                                <li class="text-md">- Silakan Anda segera menghubungi dosen pengajar untuk melakukan proses pendampingan.</li>
+                                            </ul>
                                         </h1>
-                                        <div class="mt-3 flex justify-start items-center">
+                                        <div v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0" class="mt-3 flex justify-start items-center">
                                             <button @click.prevent="createFormatif()" :class="formatif?.completed.length != 0 && formatif?.completed.at(-1).status_TesFormatif == 2 && kelas.settings.waktu_tunggu_formatif > 0 ? 'bg-red-500 hover:bg-red-600' : 'bg-emerald-500 hover:bg-emerald-600'" class="text-xl font-bold px-6 py-3 rounded text-white">Mulai Tes Formatif</button>
+                                        </div>
+                                        <div v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length < kelas?.settings.batas_pengulangan_remidi && kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0 && failedInfo?.top" class="mt-12">
+                                            <h1 class="font-black text-lg">Teman Anda yang telah tuntas dan direkomendasikan menjadi tutor sebaya</h1>
+                                            <ul>
+                                                <li v-for="(item, index) in failedInfo?.top" :key="index">- {{ item.email_siswa }}</li>
+                                            </ul>
+                                        </div>
+                                        <div v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length < kelas?.settings.batas_pengulangan_remidi && kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0 && failedInfo?.failed" class="mt-6">
+                                            <h1 class="font-black text-lg">Daftar mahasiswa yang mengikuti remidi pada sub-CPMK ini</h1>
+                                            <ul>
+                                                <li v-for="(item, index) in failedInfo?.failed" :key="index">- {{ item.email_siswa }}</li>
+                                            </ul>
                                         </div>
                                     </section>
                                     <template v-else>
@@ -141,7 +163,7 @@
 <script setup>
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon } from "@heroicons/vue/20/solid";
+import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon, ArrowLeftIcon } from "@heroicons/vue/20/solid";
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -215,6 +237,9 @@ const getCurrUnit = () => {
         .then((res) => {
             console.log("Curr Unit:", res.data);
             currentUnit.value = res.data;
+            if (res.data.current.status_subcpmkpengambilan == 3) {
+                getFailedInfo();
+            }
             if (res.data.current.status_subcpmkpengambilan == 2) {
                 formatifAttemp();
             }
@@ -326,6 +351,20 @@ const formatifAttemp = async () => {
             if (res.data.current !== null) {
                 getSoal();
             }
+        });
+};
+
+const failedInfo = ref();
+const getFailedInfo = () => {
+    axios
+        .get(`/api/getFailedInfo/${route.params.id}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            failedInfo.value = res.data;
+            console.log("failed Info", res.data);
         });
 };
 
@@ -457,8 +496,8 @@ const finishFormatif = async () => {
                                     <p>Nilai minimum adalah <strong>${kelas.value?.settings.KKM}</strong></p>
                                 </div>
                                 <div class="text-white mt-3">
-                                    <span class="px-3 py-1.5 bg-emerald-500 rounded shadow">
-                                        LULUS
+                                    <span class="px-3 py-1.5 bg-emerald-500 text-xl font-black rounded shadow">
+                                        LULUS/TUNTAS
                                     </span>
                                 </div>
                             </div>`,

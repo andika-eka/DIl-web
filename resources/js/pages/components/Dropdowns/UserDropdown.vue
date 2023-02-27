@@ -3,7 +3,7 @@
         <a class="text-slate-500 block" href="#pablo" ref="btnDropdownRef" v-on:click="toggleDropdown($event)">
             <div class="items-center flex">
                 <span class="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full">
-                    <img alt="..." class="w-full rounded-full align-middle border-none shadow-lg" src="" />
+                    <img alt="Profile" class="w-full rounded-full align-middle border-none shadow-lg" :src="getProfile()" />
                 </span>
             </div>
         </a>
@@ -25,6 +25,7 @@
 <script>
 import { createPopper } from "@popperjs/core";
 import { useAuthStore } from "@/stores/auth";
+import globalVar from "@/variable.js";
 
 export default {
     data() {
@@ -37,6 +38,9 @@ export default {
         logout: async function () {
             await this.authStore.logout();
             this.$router.push({ name: "login" });
+        },
+        getProfile: function () {
+            return `${globalVar.full_path}/img/team-4-470x470.png`;
         },
         toggleDropdown: function (event) {
             event.preventDefault();

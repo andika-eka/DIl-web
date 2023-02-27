@@ -16,12 +16,10 @@
                             <a href="#" class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"> Halaman Utama </a>
                         </router-link>
                     </li>
-                    <!-- <li class="flex items-center">
-                        <router-link to="/u/dashboard">
-                            <a href="#" class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"> Petunjuk </a>
-                        </router-link>
-                    </li>
                     <li class="flex items-center">
+                        <a :href="getPedoman()" target="_blank" download="" class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"> Pedoman Sistem </a>
+                    </li>
+                    <!-- <li class="flex items-center">
                         <router-link to="/u/dashboard">
                             <a href="#" class="hover:text-blueGray-500 text-blueGray-700 px-3 py-2 flex items-center text-xs uppercase font-bold"> Tentang </a>
                         </router-link>
@@ -54,5 +52,11 @@ const setNavbarOpen = function () {
 const logout = async () => {
     await auth.logout();
     router.push({ name: "login" });
+};
+
+// Pedoman
+import globalVar from "@/variable.js";
+const getPedoman = () => {
+    return `${globalVar.full_path}/pedoman/Pedoman Penggunaan Sistem DIL-ML.pdf`;
 };
 </script>

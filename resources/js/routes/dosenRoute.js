@@ -50,8 +50,18 @@ const routes = [
             {
                 path: `${globalVar.base_url}/d/tes-formatif/:id_kelas`,
                 name: "dosen.tes.formatif",
+                component: () => import("@/pages/dosen/kelas/TesFormatifPilihSubCPMK.vue"),
+            },
+            {
+                path: `${globalVar.base_url}/d/tes-formatif/:id_kelas/:id_sub_cpmk`,
+                name: "dosen.tes.formatif.detail",
                 component: () => import("@/pages/dosen/kelas/TesFormatif.vue"),
             },
+            // {
+            //     path: `${globalVar.base_url}/d/tes-formatif/:id_kelas`,
+            //     name: "dosen.tes.formatif.detail.soal",
+            //     component: () => import("@/pages/dosen/kelas/TesFormatif.vue"),
+            // },
             {
                 path: `${globalVar.base_url}/d/list-mahasiswa/:id_kelas`,
                 name: "dosen.mahasiswa.list",

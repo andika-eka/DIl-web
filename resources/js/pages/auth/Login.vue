@@ -4,8 +4,9 @@
             <div class="w-full lg:w-5/12 px-4">
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-slate-200 border-0">
                     <div class="rounded-t mb-0 px-6 py-6">
-                        <div class="text-center mb-3">
-                            <h6 class="text-slate-500 text-sm font-bold">LOGIN FORM</h6>
+                        <div class="text-center mb-3 flex flex-col justify-center items-center">
+                            <img :src="getLogo()" class="w-16" alt="Logo Undiksha" />
+                            <h6 class="text-slate-500 text-lg uppercase font-quick font-black mt-3">Tampilan Login Sistem DIL-ML</h6>
                         </div>
                         <hr class="mt-6 border-b-1 border-slate-300" />
                     </div>
@@ -27,13 +28,13 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex flex-wrap mt-6 relative">
+                <!-- <div class="flex flex-wrap mt-6 relative">
                     <div class="w-1/2">
                         <a href="javascript:void(0)" class="text-slate-200">
                             <small>Forgot password?</small>
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -54,5 +55,11 @@ const form = ref({
 
 const handleLogin = async () => {
     authStore.login(form.value);
+};
+
+// Assets Fix
+import globalVar from "@/variable.js";
+const getLogo = () => {
+    return `${globalVar.full_path}/img/Logo_undiksha.png`;
 };
 </script>

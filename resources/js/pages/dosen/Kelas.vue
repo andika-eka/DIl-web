@@ -34,27 +34,27 @@
             </router-link>
             <router-link :to="{ name: 'dosen.mahasiswa.apply', params: { id_kelas: route.params.id_kelas } }">
                 <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
-                    <p>Apply Mahasiswa</p>
+                    <p>Validasi Join Kelas</p>
                     <div class="text-7xl">{{ kelas?.applying.length }}</div>
                     <i class="fas fa-user-check text-7xl text-gray-400 opacity-30 absolute right-5 top-7"></i>
                 </div>
             </router-link>
             <router-link :to="{ name: 'dosen.mahasiswa.unlock', params: { id_kelas: route.params.id_kelas } }">
                 <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
-                    <p>Unlock Mahasiswa</p>
+                    <p>Buka Kunci Mahasiswa</p>
                     <div class="text-7xl">{{ needUnlock?.length }}</div>
                     <i class="fas fa-user-lock text-7xl text-gray-400 opacity-30 absolute right-5 top-7"></i>
                 </div>
             </router-link>
             <router-link :to="{ name: 'dosen.tes.formatif', params: { id_kelas: route.params.id_kelas } }">
                 <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
-                    <p>Tes Formatif</p>
+                    <p>Kontrol Proses Pembelajaran</p>
                     <i class="fas fa-calendar text-3xl text-gray-400 opacity-30 absolute right-5 top-4"></i>
                 </div>
             </router-link>
             <router-link :to="{ name: 'dosen.tes.sumatif', params: { id_kelas: route.params.id_kelas } }">
                 <div class="col-span-1 bg-gray-200 hover:bg-gray-300 p-4 rounded-lg relative">
-                    <p>Tes Sumatif</p>
+                    <p>Informasi Tes Sumatif</p>
                     <i class="fas fa-feather-alt text-3xl text-gray-400 opacity-30 absolute right-5 top-4"></i>
                 </div>
             </router-link>

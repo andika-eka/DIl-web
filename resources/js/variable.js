@@ -5,7 +5,7 @@ const variable = {
      ** contoh: http://localhost/dilml/
      * maka tulis : /dilml
      */
-    base_url: "/dil.web/public", // ini untuk route
-    full_path: "http://localhost/dil.web/public/", // ini untuk api
+    base_url: "/dilml/public", // ini untuk route
+    full_path: "http://localhost/dilml/public/", // ini untuk api
 };
 export default variable;

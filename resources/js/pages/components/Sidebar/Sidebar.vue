@@ -3,7 +3,7 @@
         <div class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
             <!-- Toggler -->
             <button class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent" type="button" v-on:click="toggleCollapseShow('bg-white m-2 py-3 px-6')">
-                <i class="fas fa-bars"></i>
+                <Bars3BottomLeftIcon class="h-5 w-5" />
             </button>
             <!-- Brand -->
             <router-link class="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" :to="{ name: 'admin.dashboard' }"> Admin Page </router-link>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="w-6/12 flex justify-end">
                             <button type="button" class="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent" v-on:click="toggleCollapseShow('hidden')">
-                                <i class="fas fa-times"></i>
+                                <XMarkIcon class="h-5 w-5" />
                             </button>
                         </div>
                     </div>
@@ -36,8 +36,10 @@
                     <li class="items-center">
                         <router-link :to="{ name: 'admin.dashboard' }" v-slot="{ href, navigate, isActive }">
                             <a :href="href" @click="navigate" class="text-xs uppercase py-3 font-bold block" :class="[isActive ? 'text-emerald-500 hover:text-emerald-600' : 'text-slate-700 hover:text-slate-500']">
-                                <i class="fas fa-tv mr-2 text-sm" :class="[isActive ? 'opacity-75' : 'text-slate-300']"></i>
-                                Dashboard
+                                <div class="flex items-center">
+                                    <ViewfinderCircleIcon class="h-5 w-5 mr-3" :class="[isActive ? 'opacity-75' : 'text-slate-300']" />
+                                    Dashboard
+                                </div>
                             </a>
                         </router-link>
                     </li>
@@ -53,8 +55,10 @@
                     <li class="items-center">
                         <router-link :to="{ name: 'admin.user.list' }" v-slot="{ href, navigate, isActive }">
                             <a :href="href" @click="navigate" class="text-xs uppercase py-3 font-bold block" :class="[isActive ? 'text-emerald-500 hover:text-emerald-600' : 'text-slate-700 hover:text-slate-500']">
-                                <i class="fas fa-users mr-2 text-sm" :class="[isActive ? 'opacity-75' : 'text-slate-300']"></i>
-                                List User
+                                <div class="flex items-center">
+                                    <UsersIcon class="h-5 w-5 mr-3" :class="[isActive ? 'opacity-75' : 'text-slate-300']" />
+                                    Daftar User
+                                </div>
                             </a>
                         </router-link>
                     </li>
@@ -69,14 +73,18 @@
                 <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
                     <li class="items-center">
                         <router-link class="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block" :to="{ name: 'admin.matakuliah.list' }">
-                            <i class="fas fa-book text-slate-300 mr-2 text-sm"></i>
-                            List Matakuliah
+                            <div class="flex items-center">
+                                <BookOpenIcon class="h-5 w-5 mr-3" :class="[isActive ? 'opacity-75' : 'text-slate-300']" />
+                                Daftar Matakuliah
+                            </div>
                         </router-link>
                     </li>
                     <li class="items-center">
                         <router-link class="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block" :to="{ name: 'admin.kelas.list' }">
-                            <i class="fas fa-book text-slate-300 mr-2 text-sm"></i>
-                            List Kelas
+                            <div class="flex items-center">
+                                <ArchiveBoxIcon class="h-5 w-5 mr-3" :class="[isActive ? 'opacity-75' : 'text-slate-300']" />
+                                Daftar Kelas
+                            </div>
                         </router-link>
                     </li>
                 </ul>
@@ -87,6 +95,7 @@
 
 <script>
 import UserDropdown from "@/pages/components/Dropdowns/UserDropdown.vue";
+import { BookOpenIcon, ViewfinderCircleIcon, UsersIcon, ArchiveBoxIcon, XMarkIcon, Bars3BottomLeftIcon } from "@heroicons/vue/20/solid";
 
 export default {
     data() {
@@ -101,6 +110,12 @@ export default {
     },
     components: {
         UserDropdown,
+        BookOpenIcon,
+        ViewfinderCircleIcon,
+        UsersIcon,
+        XMarkIcon,
+        ArchiveBoxIcon,
+        Bars3BottomLeftIcon,
     },
 };
 </script>
