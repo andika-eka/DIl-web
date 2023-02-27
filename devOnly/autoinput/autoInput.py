@@ -62,7 +62,7 @@ def parse_materi(file_path):
         csv_reader = csv.reader(file, delimiter='\t', )
         data = list()
         for row in csv_reader:
-            print(row)
+            # print(row)
 
             materi = {
                 "indikator" : row[0],
@@ -71,7 +71,7 @@ def parse_materi(file_path):
                 'title': row[3]
             }
             data.append(materi);
-        pp.pprint(data)
+        # pp.pprint(data)
         return data
     
 def register_student(student, url_register, token, url_assign):
@@ -137,7 +137,7 @@ def import_content(url, data, file_path, token):
             indikator_url = url['indikator'].replace('{{subcpmk_id}}',str(subcpmk_id))
 
             response = requests.post(indikator_url, data=indikator_form, headers=hed)
-            print(response)
+            # print(response)
             # pp.pprint(response.json())
             json_data = response.json()
             indikator_id =json_data['indikator']['id_indikator']
@@ -206,7 +206,7 @@ if __name__ == '__main__':
     id_kelas = '1'
     id_matkul = '1'
     token_dosen = 'FmSrNTHSnhitVq1GT5QDCzeYMlfo58uIebw9B066u9OF3v1aP09RXirT4F5N'
-    token_admin = 'HUIz5WgpypjEHdCIvfguVjzAIpdez3U5UFhqgjzacDxFna8H8EEvLrDt3D0q'
+    token_admin = 'QBV2tff9up2PGgmSNGurFJ4hragmrIu2YVUSwVOKZRHRkNLijoY31GDIcN4e'
     url = {
         'subcpmk' : 'http://127.0.0.1:8000/api/Matakuliah/'+id_matkul+'/subcpmk',
         'indikator' : 'http://127.0.0.1:8000/api/subcpmk/{{subcpmk_id}}/indikator',
