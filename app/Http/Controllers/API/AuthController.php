@@ -27,8 +27,8 @@ class AuthController extends Controller
 
         if (Auth::guard('web')->attempt($credentials)) {
             $user = Auth::guard('web')
-                        ->user()
-                        ->makeAuthApiToken();
+                ->user()
+                ->makeAuthApiToken();
 
             return $user;
         }

@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
                     this.authUser = res.data;
                     this.cookie.setCookie("user", res.data);
                     if (this.cookie.getCookie("user").tipe_pengguna == 1) {
+                        // if ()
                         this.$router.push({ name: "admin.dashboard" });
                     } else if (this.cookie.getCookie("user").tipe_pengguna == 2) {
                         this.$router.push({ name: "dosen.dashboard" });
@@ -30,8 +31,6 @@ export const useAuthStore = defineStore("auth", {
                     }
                 })
                 .catch(() => {
-                    // const Toast = Swal.mixin({});
-
                     Swal.fire({
                         icon: "error",
                         title: "Password atau Email salah",

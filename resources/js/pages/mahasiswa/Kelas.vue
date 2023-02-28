@@ -126,7 +126,7 @@
                                         </div>
 
                                         <template v-else>
-                                            <template v-if="currentUnit?.completed.length === matakuliah?.sub_cpmk.length">
+                                            <template v-if="currentUnit?.completed.length === matakuliah?.sub_cpmk.length && formatif?.completed.at(-1).status_TesFormatif == 3">
                                                 <div class="bg-green-50 shadow px-6 py-4 rounded text-gray-600 flex items-center">
                                                     <CheckCircleIcon class="h-10 w-10 top-4 left-3 text-4xl text-emerald-500 opacity-50" />
                                                     <div class="ml-10 relative">
@@ -448,10 +448,25 @@ const parseMateriTeks = (materi_link) => {
     return `${globalVar.full_path}/files/${parsedLink}`;
 };
 
+const formatif = ref();
+const formatifAttemp = () => {
+    axios
+        .get(`/api/TesFormatif/${route.params.id}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            formatif.value = res.data;
+            console.log("formatif", res.data);
+        });
+};
+
 onMounted(() => {
     getKelas();
     getCurrUnit();
     getCurrMateri();
+    formatifAttemp();
 });
 
 const mobileFiltersOpen = ref(false);

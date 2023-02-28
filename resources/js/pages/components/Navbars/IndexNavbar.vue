@@ -43,6 +43,6 @@ const setNavbarOpen = function () {
 
 const logout = async () => {
     await auth.logout();
-    router.push("/login");
+    router.push({ name: "login" });
 };
 </script>

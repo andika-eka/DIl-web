@@ -144,8 +144,9 @@ const unlockMahasiswa = (id_pengambilan_kelas) => {
                     }
                 )
                 .then(() => {
-                    Swal.fire("Berhasil!", "Penguncian berhasil dibuka", "success");
-                    router.go(0);
+                    Swal.fire("Berhasil!", "Penguncian berhasil dibuka", "success").then(() => {
+                        router.go(0);
+                    });
                 });
         }
     });

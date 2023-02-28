@@ -27,19 +27,35 @@
             </div>
             <div class="block w-full overflow-x-auto relative p-8">
                 <!-- Projects table -->
-                <table id="mahasiswa_table" class="display w-full">
+                <table id="apply_mahasiswa_table" class="display w-full">
                     <thead>
                         <tr>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Email Siswa</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Identitas Siswa</th>
+                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">No</th>
+                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nim</th>
+                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nama</th>
+                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Email</th>
+                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in kelas?.applying" :key="index">
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm p-4">
+                                {{ index + 1 }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm p-4">
+                                {{ item.identitas_siswa }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm p-4">
+                                {{ item.nama_siswa }}
+                            </td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm p-4">
                                 {{ item.email_siswa }}
                             </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ item.identitas_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                                <div>
+                                    <button @click="aproveMahasiswa(item.id_siswa)" class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md"><CheckIcon class="h-5 w-5" /></button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,7 +69,8 @@ import { ArrowLeftIcon } from "@heroicons/vue/20/solid";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { onMounted, ref } from "@vue/runtime-core";
-import axios from "axios";
+import { CheckIcon } from "@heroicons/vue/20/solid";
+import Swal from "sweetalert2";
 
 import DataTable from "datatables.net-vue3";
 import DataTablesLib from "datatables.net";
@@ -64,10 +81,10 @@ const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 
-onMounted(() => {
-    getKelas();
-    $(document).ready(function () {
-        $("#mahasiswa_table").DataTable({
+onMounted(async () => {
+    await getKelas();
+    await $(document).ready(function () {
+        $("#apply_mahasiswa_table").DataTable({
             paging: true,
             ordering: true,
             info: false,
@@ -77,8 +94,8 @@ onMounted(() => {
 
 // Untuk Data Kelas
 const kelas = ref();
-const getKelas = () => {
-    axios
+const getKelas = async () => {
+    await axios
         .get(`/api/Kelas/${route.params.id_kelas}`, {
             headers: {
                 Authorization: `Bearer ${authStore.authUser.api_token}`,
@@ -88,6 +105,37 @@ const getKelas = () => {
             kelas.value = res.data;
             console.log("Kelas :", res.data);
         });
+};
+
+// aprove mahasiswa
+const aproveMahasiswa = (id_siswa) => {
+    Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Mahasiswa ini akan bisa mengakses matakuliah",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Buka",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios
+                .patch(
+                    `/api/SiswaManagementController/${route.params.id_kelas}/approveSiswa/${id_siswa}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${authStore.authUser.api_token}`,
+                        },
+                    }
+                )
+                .then(() => {
+                    Swal.fire("Berhasil!", "Mahasiswa berhasil join", "success").then(() => {
+                        router.go(0);
+                    });
+                });
+        }
+    });
 };
 </script>
 

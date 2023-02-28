@@ -98,13 +98,19 @@
                                         <div v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length < kelas?.settings.batas_pengulangan_remidi && kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0 && failedInfo?.top" class="mt-12">
                                             <h1 class="font-black text-lg">Teman Anda yang telah tuntas dan direkomendasikan menjadi tutor sebaya</h1>
                                             <ul>
-                                                <li v-for="(item, index) in failedInfo?.top" :key="index">- {{ item.email_siswa }}</li>
+                                                <li v-if="failedInfo?.top.length == 1">- Belum ada Rekomendasi Mahasiswa</li>
+                                                <template v-for="(item, index) in failedInfo?.top" :key="index">
+                                                    <li v-if="item.email_siswa != authStore.authUser.email">- {{ item.email_siswa }}</li>
+                                                </template>
                                             </ul>
                                         </div>
                                         <div v-if="kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length < kelas?.settings.batas_pengulangan_remidi && kelas?.settings.batas_pengulangan_remidi - formatif?.completed.length > 0 && failedInfo?.failed" class="mt-6">
                                             <h1 class="font-black text-lg">Daftar mahasiswa yang mengikuti remidi pada sub-CPMK ini</h1>
                                             <ul>
-                                                <li v-for="(item, index) in failedInfo?.failed" :key="index">- {{ item.email_siswa }}</li>
+                                                <li v-if="failedInfo?.failed.length == 1">- Belum ada Mahasiswa Remidi selain Anda</li>
+                                                <template v-for="(item, index) in failedInfo?.failed" :key="index">
+                                                    <li v-if="item.email_siswa != authStore.authUser.email">- {{ item.email_siswa }}</li>
+                                                </template>
                                             </ul>
                                         </div>
                                     </section>
@@ -404,7 +410,7 @@ const soalTimer = (usedDate, countSoal) => {
         end = new Date("1970-02-19");
     }
     end.setMinutes(end.getMinutes() + kelas.value?.settings.waktu_per_soal_formatif * countSoal);
-    const timer = setInterval(() => {
+    let timer = setInterval(() => {
         let localnow = new Date();
         let utcnow = new Date(localnow.getUTCFullYear(), localnow.getUTCMonth(), localnow.getUTCDate(), localnow.getUTCHours(), localnow.getUTCMinutes(), localnow.getUTCSeconds());
         let timeStampCountDown = Math.floor(new Date(end.getTime() - utcnow.getTime()).getTime() / 1000);
@@ -412,6 +418,7 @@ const soalTimer = (usedDate, countSoal) => {
             clearInterval(timer);
         }
         console.log(soalTime.value.h, soalTime.value.m, soalTime.value.s);
+        console.log(end);
         soalTime.value.h = Math.floor(timeStampCountDown / 3600);
         soalTime.value.m = Math.floor(timeStampCountDown / 60) % 60;
         soalTime.value.s = timeStampCountDown % 60;
@@ -501,7 +508,7 @@ const finishFormatif = async () => {
                             icon: "success",
                         }).then(() => {
                             nextUnit();
-                            router.push({ name: "mahasiswa.kelas", params: { id: route.params.id } });
+                            router.replace({ name: "mahasiswa.kelas", params: { id: route.params.id } });
                         });
                     } else {
                         console.log(res.data);
