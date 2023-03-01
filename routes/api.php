@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch("nextMateri/{id_kelas}", [LearningController::class,'nextMateri']);
     Route::patch("nextUnit/{id_kelas}", [LearningController::class,'nextUnit']);
     Route::get("getFailedInfo/{id_kelas}", [LearningController::class,'getFailedInfo']);
+    Route::get("getTopSiswa/{id_kelas}", [LearningController::class,'getTopSiswa']);
     
     
     Route::get("TesFormatif/{id_kelas}", [TesFormatifController::class, 'tesFormatif']);
