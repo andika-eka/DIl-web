@@ -137,12 +137,27 @@ class LearningController extends Controller
     public function getFailedInfo($id_kelas)
     {
         try {
+            $failed = $this->getSiswa()->fellowFailed($id_kelas);
             $top = $this->getSiswa()->topSiswa($id_kelas, 3);
 
-            $failed = $this->getSiswa()->fellowFailed($id_kelas);
             return response()->json([
                 'top' => $top,
                 'failed' => $failed,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'success' => false,
+            ], 422);
+        }
+    }
+
+    public function getTopSiswa($id_kelas)
+    {
+        try {
+            $top = $this->getSiswa()->topSiswa($id_kelas, 3);
+            return response()->json([
+                'top' => $top,
             ]);
         } catch (\Exception $e) {
             return response()->json([

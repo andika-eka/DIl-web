@@ -119,6 +119,8 @@ class SiswaManagementController extends Controller
             $subPengambilan = SubcpmkPengambilan::find($id_subcpmkpengambilan);
             $id_kelas = PengambilanKelas::find($subPengambilan->id_pengambilanKelas)->id_kelas;
             $this->checkAccessToKelas($id_kelas);
+            $subPengambilan->status_subcpmkpengambilan = 2;
+            $subPengambilan->save();
             TesFormatif::where('id_subCpmkPengambilan', $id_subcpmkpengambilan)->delete();
             $subPengambilan->status_subcpmkpengambilan = 2;
             return response()->json([
