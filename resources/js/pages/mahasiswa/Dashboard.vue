@@ -15,17 +15,22 @@
                     <h1 class="text-xl font-medium text-emerald-700">Daftar Kelas Kuliah Saya</h1>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 md:gap-3 lg:grid-cols-3">
-                    <div v-for="(kls, index) in kelas" :key="index" class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500">
-                        <img alt="..." src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80" class="w-full align-middle rounded-t-lg" />
+                    <div v-for="(kls, index) in kelas" :key="index"
+                        class="mt-4 relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-emerald-500">
+                        <img alt="..."
+                            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
+                            class="w-full align-middle rounded-t-lg" />
                         <blockquote class="relative p-4">
                             <h4 class="text-xl font-bold text-white uppercase">
-                                {{ kls.nama_kelas }} - [ SMT{{ kls.semester_kelas }} - {{ kls.tahun_kelas }}/{{ parseInt(kls.tahun_kelas) + 1 }}
+                                {{ kls.nama_kelas }} - [ SMT{{ kls.semester_kelas }} - {{ kls.tahun_kelas }}/{{
+                                    parseInt(kls.tahun_kelas) + 1 }}
                                 ]
                             </h4>
                         </blockquote>
                         <div class="px-4 pb-2">
-                            <button @click.prevent="masukKelas(kls.id_kelas, index)" type="button" class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                <i class="fas fa-sign-in-alt mr-3"></i>
+                            <button @click.prevent="masukKelas(kls.id_kelas, index)" type="button"
+                                class="bg-indigo-500 text-white active:bg-teal-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                                <ArrowLeftIcon class="w-5 mr-3 inline-block" />
                                 Masuk Kelas
                             </button>
                         </div>
@@ -81,22 +86,23 @@
 </template>
 
 <script setup>
-import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue";
-import FooterComponent from "@/pages/components/Footers/FooterDosen.vue";
-import { useAuthStore } from "@/stores/auth";
-import { useKelasStore } from "@/stores/kelas";
-import { onMounted, ref } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
+import { ArrowLeftIcon } from "@heroicons/vue/20/solid"
+import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue"
+import FooterComponent from "@/pages/components/Footers/FooterDosen.vue"
+import { useAuthStore } from "@/stores/auth"
+import { useKelasStore } from "@/stores/kelas"
+import { onMounted, ref } from "@vue/runtime-core"
+import { useRouter } from "vue-router"
 
-const authStore = useAuthStore();
-const kelasStore = useKelasStore();
-const router = useRouter();
-const kelas = ref(null);
+const authStore = useAuthStore()
+const kelasStore = useKelasStore()
+const router = useRouter()
+const kelas = ref(null)
 
 const masukKelas = async (id_kelas, idx_kelas) => {
-    kelasStore.kelas = kelas.value[idx_kelas];
-    router.push({ name: "mahasiswa.kelas", params: { id: id_kelas } });
-};
+    kelasStore.kelas = kelas.value[idx_kelas]
+    router.push({ name: "mahasiswa.kelas", params: { id: id_kelas } })
+}
 const getAprovedClass = async () => {
     await axios
         .get("/api/getApprovedKelas", {
@@ -105,11 +111,11 @@ const getAprovedClass = async () => {
             },
         })
         .then((res) => {
-            kelas.value = res.data.kelas;
-        });
-};
+            kelas.value = res.data.kelas
+        })
+}
 
 onMounted(async () => {
-    await getAprovedClass();
-});
+    await getAprovedClass()
+})
 </script>
