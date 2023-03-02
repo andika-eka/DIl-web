@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "../stores/auth";
+import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
 
 // import route
-import adminRoute from "./adminRoute";
-import authRoute from "./authRoute";
-import dosenRoute from "./dosenRoute";
-import mhsRoute from "./mhsRoute";
+import adminRoute from './adminRoute'
+import authRoute from './authRoute'
+import dosenRoute from './dosenRoute'
+import mhsRoute from './mhsRoute'
 
 const routes = [
     ...authRoute,
@@ -16,52 +16,61 @@ const routes = [
     //     path: "/:pathMatch(.*)*",
     //     component: () => import("@/pages/auth/Register.vue"),
     // },
-];
+]
 
 const router = createRouter({
     routes,
     history: createWebHistory(),
-});
+})
 
 // Middleware
 router.beforeEach((to, from, next) => {
-    const auth = useAuthStore();
+    const auth = useAuthStore()
     if (to.meta.requireAuth) {
         if (auth.user != null) {
             // check per role
-            if (to.meta.role == "admin") {
+            if (to.meta.role == 'admin') {
                 if (auth.user.tipe_pengguna == 1) {
-                    next();
+                    next()
                 } else {
-                    next(from);
+                    next(from)
                 }
             }
-            if (to.meta.role == "dosen") {
+            if (to.meta.role == 'dosen') {
                 if (auth.user.tipe_pengguna == 2) {
-                    next();
+                    next()
                 } else {
-                    next(from);
+                    next(from)
                 }
             }
-            if (to.meta.role == "mahasiswa") {
+            if (to.meta.role == 'mahasiswa') {
                 if (auth.user.tipe_pengguna == 3) {
-                    next();
+                    next()
                 } else {
-                    next(from);
+                    next(from)
                 }
             }
         } else {
-            next({ name: "login" });
+            next({ name: 'login' })
         }
     }
 
     if (to.meta.authRoute) {
         if (auth.user == null) {
-            next();
+            next()
         } else {
-            next(from);
+            if (auth.user.tipe_pengguna == 1) {
+                next({ name: 'admin.dashboard' })
+            }
+            if (auth.user.tipe_pengguna == 2) {
+                next({ name: 'dosen.dashboard' })
+            }
+            if (auth.user.tipe_pengguna == 3) {
+                next({ name: 'mahasiswa.dashboard' })
+            }
+            next(from)
         }
     }
-});
+})
 
-export default router;
+export default router
