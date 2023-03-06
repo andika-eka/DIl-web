@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetailTesFormatif extends Model
 {
     use HasFactory;
-    protected $table = 'detailTesFormatif';
+    protected $table = 'detailtesformatif';
     protected $primaryKey = 'id_detailTesFormatif';
     protected $fillable = [
         'id_detailTesFormatif',
@@ -17,18 +17,21 @@ class DetailTesFormatif extends Model
         'id_pilihanJawaban',
         'alasanJawaban',
         'id_soalPilihanGanda'
-        ];
+    ];
     public $timestamps = false;
-    
-    public function tesFormatif(){
-        return $this->belongsTo(TesFormatif::class,'id_tesFormatif', 'id_tesFormatif');
+
+    public function tesFormatif()
+    {
+        return $this->belongsTo(TesFormatif::class, 'id_tesFormatif', 'id_tesFormatif');
     }
 
-    public function jawaban(){
+    public function jawaban()
+    {
         return $this->belongsTo(Pilihanjawaban::class, 'id_pilihanJawaban', 'id_pilihanJawaban');
     }
 
-    public function soal(){
+    public function soal()
+    {
         return $this->belongsTo(Soalpilihanganda::class, 'id_soalPilihanGanda', 'id_soalPilihanGanda');
     }
 }
