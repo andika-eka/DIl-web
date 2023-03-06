@@ -1,9 +1,9 @@
 <template>
     <div>
         <index-navbar />
-        <div class="fixed bottom-6 right-6">
-            <button class="bg-red-500 text-xl text-white z-50 px-4 py-2 rounded-md hover:bg-red-600">
-                Kembali
+        <div class="fixed bottom-6 right-6 font-quick">
+            <button class="bg-red-500 text-xl text-white px-3 py-2 rounded-md hover:bg-red-600">
+                <HomeIcon class="w-5 h-5" />
             </button>
         </div>
         <section class="px-4 sm:px-8 lg:px-16 pb-8">
@@ -221,7 +221,7 @@
                                                     kelas?.settings.tgl_sumatif !== null &&
                                                     new Date() >= new Date(kelas?.settings.tgl_sumatif)
                                                 ">
-                                                    <router-link :to="{
+                                                    <!-- <router-link :to="{
                                                         name: 'mahasiswa.formatif',
                                                         params: {
                                                             id: route.params.id,
@@ -231,7 +231,7 @@
                                                             class="px-3 py-1.5 font-bold italic text-lg bg-red-500 hover:bg-red-600 text-white rounded mt-3 text-right">
                                                             Ke Halaman Tes Sumatif
                                                         </button>
-                                                    </router-link>
+                                                    </router-link> -->
                                                 </template>
                                             </template>
                                             <template v-else>
@@ -495,7 +495,7 @@ import {
     MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot
 } from "@headlessui/vue"
 import { XMarkIcon } from "@heroicons/vue/24/outline"
-import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon, CheckCircleIcon, LockClosedIcon, ExclamationTriangleIcon, } from "@heroicons/vue/20/solid"
+import { MinusIcon, PlusIcon, Squares2X2Icon, PaperClipIcon, CheckCircleIcon, LockClosedIcon, ExclamationTriangleIcon, HomeIcon } from "@heroicons/vue/20/solid"
 import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue"
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue"
 import { useAuthStore } from "@/stores/auth"

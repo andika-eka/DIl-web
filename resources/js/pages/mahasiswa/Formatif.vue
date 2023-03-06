@@ -272,6 +272,25 @@
                                                 </form>
                                             </div>
                                             <div class="mt-3 flex items-center justify-between">
+                                                <button v-if="selectedSoal != 1"
+                                                    class="rounded bg-red-500 hover:bg-red-600 px-4 py-3 text-white text-lg"
+                                                    @click="prevSoal(selectedSoal)">
+                                                    <ArrowLeftCircleIcon class="h-6 w-6" />
+                                                </button>
+                                                <button v-if="selectedSoal == 1">
+                                                </button>
+                                                <button v-if="soalCount != selectedSoal"
+                                                    class="rounded bg-red-500 hover:bg-red-600 px-4 py-3 text-white text-lg"
+                                                    @click="nextSoal(selectedSoal)">
+                                                    <ArrowRightCircleIcon class="h-6 w-6" />
+                                                </button>
+                                                <button v-if="soalCount == selectedSoal"
+                                                    class="rounded bg-red-500 hover:bg-red-600 px-6 py-3 text-white text-lg"
+                                                    @click="finishFormatif(selectedJawaban)">
+                                                    Selesai
+                                                </button>
+                                            </div>
+                                            <div class="mt-3 flex items-center justify-between">
                                                 <div class="bg-slate-800 text-white px-6 py-3 text-xl rounded">
                                                     {{ parseTime(soalTime.h) }}
                                                     :
@@ -279,11 +298,6 @@
                                                     :
                                                     {{ parseTime(soalTime.s) }}
                                                 </div>
-                                                <button
-                                                    class="rounded bg-red-500 hover:bg-red-600 px-6 py-3 text-white text-lg uppercase"
-                                                    @click="finishFormatif(selectedJawaban)">
-                                                    Selesai
-                                                </button>
                                             </div>
                                         </div>
 
@@ -318,36 +332,22 @@
 import {
     Dialog,
     DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
     TransitionChild,
     TransitionRoot,
 } from "@headlessui/vue"
 import { XMarkIcon } from "@heroicons/vue/24/outline"
 import {
-    MinusIcon,
-    PlusIcon,
     Squares2X2Icon,
-    PaperClipIcon,
     ArrowLeftIcon,
+    ArrowLeftCircleIcon,
+    ArrowRightCircleIcon
 } from "@heroicons/vue/20/solid"
-import IndexNavbar from "@/pages/components/Navbars/IndexNavbarMahasiswa.vue"
 import FooterComponent from "@/pages/components/Footers/FooterDosen.vue"
 import { useAuthStore } from "@/stores/auth"
 import {
-    onBeforeUnmount,
     onMounted,
-    onUnmounted,
-    onUpdated,
-    reactive,
     ref,
     watch,
-    watchEffect,
 } from "@vue/runtime-core"
 import { useRoute, useRouter } from "vue-router"
 import axios from "axios"
@@ -627,8 +627,6 @@ const soalTimer = (usedDate, countSoal) => {
         if (timeStampCountDown < 0) {
             clearInterval(timer)
         }
-        console.log(soalTime.value.h, soalTime.value.m, soalTime.value.s)
-        console.log(end)
         soalTime.value.h = Math.floor(timeStampCountDown / 3600)
         soalTime.value.m = Math.floor(timeStampCountDown / 60) % 60
         soalTime.value.s = timeStampCountDown % 60
@@ -732,11 +730,8 @@ const finishFormatif = async () => {
                             title: "Hasil Tes Formatif.",
                             html: `<div class="h-[100px]">
                                 <div class="font-quick">
-                                    <p>Skor anda adalah <strong>${res.data.nilai_tesFormatif.toFixed(
-                                2
-                            )}</strong>.</p>
-                                    <p>Skor minimum adalah <strong>${kelas.value?.settings.KKM
-                                }</strong>.</p>
+                                    <p>Skor anda adalah <strong>${res.data.nilai_tesFormatif.toFixed(2)}</strong>.</p>
+                                    <p>Skor minimum adalah <strong>${kelas.value?.settings.KKM}</strong>.</p>
                                 </div>
                                 <div class="text-white mt-3">
                                     <span class="px-3 py-1.5 bg-red-500 rounded shadow">
@@ -783,6 +778,15 @@ const parseTime = (time) => {
         return `00`
     }
     return time
+}
+
+const prevSoal = (currSoal) => {
+    selectedSoal.value = currSoal - 1
+}
+
+
+const nextSoal = (currSoal) => {
+    selectedSoal.value = currSoal + 1
 }
 
 watch(selectedSoal, () => {

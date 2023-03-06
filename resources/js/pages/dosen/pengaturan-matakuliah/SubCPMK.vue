@@ -1,5 +1,5 @@
 <template>
-    <section class="px-4 mb-6 sm:px-16 lg:px-32 pt-16 pb-8 my-6">
+    <section class="px-4 mb-6 sm:px-16 lg:px-32 pt-16 pb-8 my-6 font-quick">
         <h3 class="text-2xl font-medium leading-6 text-gray-900 mb-5">Pengaturan Matakuliah</h3>
         <!-- Start Redundant Section -->
         <div class="flex bg-gray-100 rounded-md pt-3 px-3 gap-2">
@@ -142,8 +142,11 @@ const updateChange = debounce(1000, () => {
     queue.add(() => {
         console.log(subCpmk)
         subCpmk.forEach((item, index) => {
-            let data = { nomorUrut_subCpmk: index + 1, narasi_subCpmk: item.narasi_subCpmk }
+            console.log(item)
+            let data = { nomorUrut_subCpmk: index + 1, narasi_subCpmk: item.narasi_subCpmk, item }
+            let file = { materiTeks: item.materiTeks }
             updateSubCPMK(item.id_subCpmk, data)
+            // updateSubCPMKFile(item.id_subCpmk, file)
         })
         Swal.fire({
             toast: true,
@@ -159,26 +162,43 @@ const updateChange = debounce(1000, () => {
 
 const addSubCPMK = () => {
     Swal.fire({
-        title: 'Tambah Data SubCPMK',
+        title: '<h1 class="font-quick">Tambah Data Sub-CPMK</h1>',
         html:
-            '<input id="swal-input1" class="swal2-input">' +
-            '<input id="swal-input2" class="swal2-input">',
+            `<div class="w-full flex flex-col justify-start font-quick">
+                <label for="narasi_subcpmk" class="text-left text-sm font-bold">Narasi Sub-CPMK</label>
+                <textarea class="rounded" id="narasi_subcpmk"></textarea>
+            </div>
+            <div class="w-full flex flex-col justify-start mt-3 font-quick">
+                <label for="file_materi" class="text-left text-sm font-bold">Bahan Ajar Berbasis Teks</label>
+                <input type="file" class="rounded" id="file_materi"/>
+            </div>`,
         showCancelButton: true,
         confirmButtonText: 'Look up',
         showLoaderOnConfirm: true,
-        preConfirm: (login) => {
-            return fetch(`//api.github.com/users/${login}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText)
-                    }
-                    return response.json()
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(
-                        `Request failed: ${error}`
-                    )
-                })
+        preConfirm: () => {
+            const narasiSubcpmk = Swal.getPopup().querySelector('#narasi_subcpmk').value
+            const fileMateri = Swal.getPopup().querySelector('#file_materi').value
+
+            const newSubCPMK = {
+                nomorUrut_subCpmk: 1,
+                narasi_subCpmk: subCpmk.at(-1).narasi_subCpmk,
+                materiTeks: subCpmk.at(-1).materiTeks,
+                taksonomi_bloom: 0
+            }
+            console.log(narasiSubcpmk, fileMateri)
+            // axios.post(`/api/Matakuliah/${route.params.id_matakuliah}/subcpmk`, newSubCPMK, {
+            //     headers: {
+            //         Authorization: `Bearer ${authStore.authUser.api_token}`,
+            //     },
+            // }).then(response => {
+            //     if (!response.ok) {
+            //         throw new Error(response.statusText)
+            //     }
+            // }).catch(error => {
+            //     Swal.showValidationMessage(
+            //         `Request failed: ${error}`
+            //     )
+            // })
         },
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
@@ -272,6 +292,14 @@ const getData = async () => {
 
 const updateSubCPMK = (id, data) => {
     axios.post(`/api/subcpmk/${id}`, data, {
+        headers: {
+            Authorization: `Bearer ${authStore.authUser.api_token}`,
+        },
+    })
+}
+
+const updateSubCPMKFile = (id, data) => {
+    axios.post(`/api/subcpmk/${id}/file`, data, {
         headers: {
             Authorization: `Bearer ${authStore.authUser.api_token}`,
         },

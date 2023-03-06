@@ -1,28 +1,14 @@
 <template>
-    <footer class="relative bg-slate-200 pt-8 pb-6">
-        <div
-            class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-            style="transform: translateZ(0)"
-        >
-            <svg
-                class="absolute bottom-0 overflow-hidden"
-                xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="none"
-                version="1.1"
-                viewBox="0 0 2560 100"
-                x="0"
-                y="0"
-            >
-                <polygon
-                    class="text-slate-200 fill-current"
-                    points="2560 0 2560 100 0 100"
-                ></polygon>
+    <footer class="relative bg-slate-200 pt-8 pb-6 -z-10">
+        <div class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
+            style="transform: translateZ(0)">
+            <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+                <polygon class="text-slate-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
             </svg>
         </div>
         <div class="container mx-auto px-4">
-            <div
-                class="flex flex-wrap items-center md:justify-between justify-center"
-            >
+            <div class="flex flex-wrap items-center md:justify-between justify-center">
                 <div class="w-full md:w-4/12 px-4 mx-auto text-center">
                     <div class="text-sm text-slate-500 font-semibold py-1">
                         Copyright © {{ date }}
@@ -38,7 +24,7 @@ export default {
     data() {
         return {
             date: new Date().getFullYear(),
-        };
+        }
     },
-};
+}
 </script>

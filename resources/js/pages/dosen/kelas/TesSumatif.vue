@@ -30,16 +30,40 @@
                 <table id="mahasiswa_table" class="display w-full">
                     <thead>
                         <tr>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Email Siswa</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Identitas Siswa</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                No</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nim</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nama</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Skor</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in kelas?.applying" :key="index">
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm p-4">
-                                {{ item.email_siswa }}
+                        <tr v-for="(item, index) in formatif" :key="index">
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                                {{ index + 1 }}
                             </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ item.identitas_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                item.identitas_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                item.nama_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                new Date(item.waktuMulai_TesFormatif).toDateString() }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
+                                <div>
+                                    <button @click="unlockMahasiswa(item.id_subCpmkPengambilan)"
+                                        class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md">Detail</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -49,34 +73,34 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon } from "@heroicons/vue/20/solid";
-import { useRoute, useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "@vue/runtime-core";
-import axios from "axios";
+import { ArrowLeftIcon } from "@heroicons/vue/20/solid"
+import { useRoute, useRouter } from "vue-router"
+import { useAuthStore } from "@/stores/auth"
+import { onMounted, ref } from "@vue/runtime-core"
+import axios from "axios"
 
-import DataTable from "datatables.net-vue3";
-import DataTablesLib from "datatables.net";
-DataTable.use(DataTablesLib);
+import DataTable from "datatables.net-vue3"
+import DataTablesLib from "datatables.net"
+DataTable.use(DataTablesLib)
 
 // dependensi penting
-const authStore = useAuthStore();
-const route = useRoute();
-const router = useRouter();
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 
 onMounted(() => {
-    getKelas();
+    getKelas()
     $(document).ready(function () {
         $("#mahasiswa_table").DataTable({
             paging: true,
             ordering: true,
             info: false,
-        });
-    });
-});
+        })
+    })
+})
 
 // Untuk Data Kelas
-const kelas = ref();
+const kelas = ref()
 const getKelas = () => {
     axios
         .get(`/api/Kelas/${route.params.id_kelas}`, {
@@ -85,10 +109,10 @@ const getKelas = () => {
             },
         })
         .then((res) => {
-            kelas.value = res.data;
-            console.log("Kelas :", res.data);
-        });
-};
+            kelas.value = res.data
+            console.log("Kelas :", res.data)
+        })
+}
 </script>
 
 <style>
