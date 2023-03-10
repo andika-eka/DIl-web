@@ -50,6 +50,7 @@ class MataKuliahController extends Controller
             $mataKuliah->nama_mataKuliah = $request->nama_mataKuliah;
             $mataKuliah->cpmk = $request->cpmk;
             $mataKuliah->semester_matkul = $request->semester_matkul;
+            $mataKuliah->deskripsi_matakuliah = $request->deskripsi_matakuliah;
 
             $mataKuliah->save();
             
@@ -111,7 +112,7 @@ class MataKuliahController extends Controller
             $mataKuliah->kode_mataKuliah = $request->kode_mataKuliah;
             $mataKuliah->nama_mataKuliah = $request->nama_mataKuliah;
             $mataKuliah->cpmk = $request->cpmk;
-            $mataKuliah->semester_matkul = $request->semester_matkul;
+            $mataKuliah->deskripsi_matakuliah = $request->deskripsi_matakuliah;
             $mataKuliah->save();
             return response()->json([
                 'mataKuliah' =>$mataKuliah,

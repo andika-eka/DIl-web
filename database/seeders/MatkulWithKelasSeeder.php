@@ -25,7 +25,8 @@ class MatkulWithKelasSeeder extends Seeder
             $mataKuliah = new MataKuliah;
             $mataKuliah->kode_mataKuliah = $faker->bothify('???#####');
             $mataKuliah->nama_mataKuliah = $faker->bs();
-            $mataKuliah->cpmk = $faker->text(rand(150,300));
+            $mataKuliah->cpmk = $faker->text(rand(150,300)); 
+            $mataKuliah->deskripsi_matakuliah = $faker->text(rand(150,300)); 
             $mataKuliah->semester_matkul = rand(1,8);
             $mataKuliah->save();
             for($j=0; $j<rand(1,8); $j++)

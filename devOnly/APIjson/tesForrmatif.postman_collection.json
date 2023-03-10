@@ -72,7 +72,7 @@
 							"const jsonData = pm.response.json();\r",
 							"const index = Math.trunc(Math.random() * jsonData.length);\r",
 							"const tesIndex = Math.trunc(Math.random() * jsonData[index].tes_formatif.length);\r",
-							"pm.collectionVariables.set(\"test_id\", jsonData[index].tes_formatif[tesIndex].id_tesFormatif);\r",
+							"pm.collectionVariables.set(\"test_id\", jsonData[index].tes_formatif[tesIndex].id_tesformatif);\r",
 							"// pm.collectionVariables.set(\"test_id\", 1743);\r",
 							""
 						],
@@ -544,7 +544,7 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"const jsonData = pm.response.json();\r",
-							"pm.collectionVariables.set(\"completedTestID\", jsonData.id_tesFormatif);\r",
+							"pm.collectionVariables.set(\"completedTestID\", jsonData.id_tesformatif);\r",
 							""
 						],
 						"type": "text/javascript"
@@ -656,7 +656,7 @@
 							"const jsonData = pm.response.json();\r",
 							"const index = jsonData.completed.length;\r",
 							"const item = jsonData.completed[index-1];\r",
-							"pm.collectionVariables.set(\"completedTestID\", item.id_tesFormatif);"
+							"pm.collectionVariables.set(\"completedTestID\", item.id_tesformatif);"
 						],
 						"type": "text/javascript"
 					}

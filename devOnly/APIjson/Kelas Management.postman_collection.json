@@ -357,7 +357,7 @@
 							"const jsonData = pm.response.json();\r",
 							"const index = Math.trunc(Math.random() * jsonData.length);\r",
 							"const item = jsonData[index];\r",
-							"pm.collectionVariables.set(\"test_id\", item.id_tesFormatif);"
+							"pm.collectionVariables.set(\"test_id\", item.id_tesformatif);"
 						],
 						"type": "text/javascript"
 					}

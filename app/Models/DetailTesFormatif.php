@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DetailTesFormatif extends Model
 {
     use HasFactory;
-    protected $table = 'detailTesFormatif';
-    protected $primaryKey = 'id_detailTesFormatif';
+    protected $table = 'detailtesformatif';
+    protected $primaryKey = 'id_detailtesformatif';
     protected $fillable = [
-        'id_detailTesFormatif',
+        'id_detailtesformatif',
         'id_tesFormatif',
         'nomorUrut_soal',
         'id_pilihanJawaban',

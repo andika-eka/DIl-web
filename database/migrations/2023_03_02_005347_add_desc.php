@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('detailtesformatif', function (Blueprint $table) {
+        Schema::table('matakuliah', function (Blueprint $table) {
             //
-            $table->dropIndex('index_pilSiswa');
-            
+            $table->text("deskripsi_matakuliah")->nullable();
         });
     }
 
@@ -27,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('detailtesformatif', function (Blueprint $table) {
+        Schema::table('matakuliah', function (Blueprint $table) {
             //
         });
     }
