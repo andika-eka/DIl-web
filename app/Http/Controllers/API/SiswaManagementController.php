@@ -165,4 +165,5 @@ class SiswaManagementController extends Controller
             ], 422);
         }
     }
+    
 }

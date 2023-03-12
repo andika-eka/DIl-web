@@ -157,7 +157,7 @@ def import_content(url, data, file_path, token):
                 }
 
                 materi_url = url['materi'].replace('{{indikator_id}}',str(indikator_id))
-                pp.pprint(materi_form)
+                # pp.pprint(materi_form)
                 # print(materi_url)
                 response = requests.post(materi_url, data=materi_form, headers=hed)
                 # print(response)

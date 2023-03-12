@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `detailtesformatif`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `detailtesformatif` (
-  `id_detailTesFormatif` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id_detailtesformatif` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_tesFormatif` bigint(20) unsigned NOT NULL,
   `nomorUrut_soal` tinyint(3) unsigned NOT NULL,
   `id_pilihanJawaban` bigint(20) unsigned NOT NULL,
   `alasanJawaban` text NOT NULL,
-  PRIMARY KEY (`id_detailTesFormatif`),
-  UNIQUE KEY `id_detailTesFormatif` (`id_detailTesFormatif`),
+  PRIMARY KEY (`id_detailtesformatif`),
+  UNIQUE KEY `id_detailtesformatif` (`id_detailtesformatif`),
   UNIQUE KEY `index_nomorUrutSoal` (`id_tesFormatif`,`nomorUrut_soal`),
   UNIQUE KEY `index_pilSiswa` (`id_pilihanJawaban`),
   CONSTRAINT `detailtesformatif_ibfk_1` FOREIGN KEY (`id_tesFormatif`) REFERENCES `tesformatif` (`id_tesFormatif`) ON UPDATE CASCADE,

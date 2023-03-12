@@ -32,12 +32,12 @@ class TesFormatif extends Model
     }
 
     public function veryDetail(){
-        $jawaban = DB::table('detailTesFormatif')
-                        ->join('soalpilihanganda', 'detailTesFormatif.id_soalPilihanGanda', '=', 'soalpilihanganda.id_soalPilihanGanda')
-                        ->join('pilihanjawaban', 'detailTesFormatif.id_pilihanJawaban', '=', 'pilihanjawaban.id_pilihanJawaban')
-                        ->select('detailTesFormatif.nomorUrut_soal','soalpilihanganda.soal', 'pilihanjawaban.noUrut_pilihan', 'pilihanjawaban.teks_pilihan')
-                        ->where('detailTesFormatif.id_tesFormatif', '=', $this->id_tesFormatif)
-                        ->orderBy('detailTesFormatif.nomorUrut_soal')
+        $jawaban = DB::table('detailtesformatif')
+                        ->join('soalpilihanganda', 'detailtesformatif.id_soalPilihanGanda', '=', 'soalpilihanganda.id_soalPilihanGanda')
+                        ->join('pilihanjawaban', 'detailtesformatif.id_pilihanJawaban', '=', 'pilihanjawaban.id_pilihanJawaban')
+                        ->select('detailtesformatif.nomorUrut_soal','soalpilihanganda.soal', 'pilihanjawaban.noUrut_pilihan', 'pilihanjawaban.teks_pilihan')
+                        ->where('detailtesformatif.id_tesFormatif', '=', $this->id_tesFormatif)
+                        ->orderBy('detailtesformatif.nomorUrut_soal')
                         ->get();
         return $jawaban;
     }
@@ -184,11 +184,11 @@ class TesFormatif extends Model
                     for ($i = 1; $i <= $maxNum ; $i++) {
                         $lastNum +=1;
                         $soal = $this->selectSoal($indikator, $i)->first();
-                        $detailTesFormatif = new DetailTesFormatif;
-                        $detailTesFormatif->id_tesFormatif = $this->id_tesFormatif;
-                        $detailTesFormatif->nomorUrut_soal = $lastNum;
-                        $detailTesFormatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
-                        $detailTesFormatif->save();
+                        $detailtesformatif = new DetailTesFormatif;
+                        $detailtesformatif->id_tesFormatif = $this->id_tesFormatif;
+                        $detailtesformatif->nomorUrut_soal = $lastNum;
+                        $detailtesformatif->id_soalPilihanGanda = $soal->id_soalPilihanGanda;
+                        $detailtesformatif->save();
                     }
                 }
                 DB::commit();
@@ -233,10 +233,10 @@ class TesFormatif extends Model
             ->nomorUrut_soal;
         }
 
-        $detailTesFormatif = DetailTesFormatif::where("nomorUrut_soal", $noSoal)
+        $detailtesformatif = DetailTesFormatif::where("nomorUrut_soal", $noSoal)
         ->where("id_tesFormatif", $this->id_tesFormatif)->first();
-        $detailTesFormatif->id_pilihanJawaban = $jawaban->id_pilihanJawaban;
-        $detailTesFormatif->save();
-        return $detailTesFormatif;
+        $detailtesformatif->id_pilihanJawaban = $jawaban->id_pilihanJawaban;
+        $detailtesformatif->save();
+        return $detailtesformatif;
     }
 }
