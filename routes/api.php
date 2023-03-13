@@ -20,9 +20,7 @@ use App\Http\Controllers\API\SiswaManagementController;
 use App\Http\Controllers\API\LearningController;
 use App\Http\Controllers\API\TesFormatifController;
 use App\Http\Controllers\API\SumatifController;
-
-
-
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +135,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('SiswaManagementController/unlock/{id_subcpmkpengambilan}', [SiswaManagementController::class, 'unlockSiswa']);
     Route::get('SiswaManagementController/{id_kelas}/Sumatif', [SiswaManagementController::class, 'getSumatifResult']);
     Route::get('SiswaManagementController/Sumatif/{id_sumatif}', [SiswaManagementController::class, 'SumatifDetail']);
+
+    // Export
+    Route::get('getExcel/formatif/{subcpmk}/{kelas}', [ExportController::class, 'passedTesFormatif']);
 });
 
 Route::group(['middleware' => ['admin:api']], function () {
@@ -162,6 +163,7 @@ Route::group(['middleware' => ['admin:api']], function () {
     Route::delete('Kelas/removesiswa/{id}/{id_siswa}', [KelasController::class, 'removeSiswa']);
     Route::delete('Kelas/removepengajar/{id}/{id_pengajar}', [KelasController::class, 'removePengajar']);
 });
+
 //Update route using post methods
 //patch or put won't take request
 //better solution maybe needed

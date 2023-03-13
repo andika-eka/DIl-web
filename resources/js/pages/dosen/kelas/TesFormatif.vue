@@ -23,6 +23,11 @@
                     <div class="relative w-full px-4 max-w-full flex-grow flex-1">
                         <h3 class="font-semibold text-lg">Daftar Tes Formatif</h3>
                     </div>
+
+                    <button @click="exportToXLS()"
+                        class="bg-emerald-500 hover:bg-emerald-600 text-white rounded flex justify-center items-center px-4 py-2">
+                        Export
+                    </button>
                 </div>
             </div>
             <div class="block w-full overflow-x-auto relative p-8">
@@ -30,13 +35,27 @@
                 <table id="formatif" class="display w-full">
                     <thead>
                         <tr>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">No</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nim</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nama</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Tanggal Tes</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Tes Ke-</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Skor</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Aksi</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                No</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nim</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nama</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Tanggal Tes</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Tes Ke-</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Skor</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,14 +63,20 @@
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                                 {{ index + 1 }}
                             </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ item.identitas_siswa }}</td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ item.nama_siswa }}</td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ new Date(item.waktuMulai_TesFormatif).toDateString() }}</td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ item.pengulangan_tesFormatif }}</td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{ parseFloat(item.nilai_tesFormatif).toFixed(2) }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                item.identitas_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                item.nama_siswa }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                new Date(item.waktuMulai_TesFormatif).toDateString() }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                item.pengulangan_tesFormatif }}</td>
+                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">{{
+                                parseFloat(item.nilai_tesFormatif).toFixed(2) }}</td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                                 <div>
-                                    <button @click="unlockMahasiswa(item.id_subCpmkPengambilan)" class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md">Detail</button>
+                                    <button @click="unlockMahasiswa(item.id_subCpmkPengambilan)"
+                                        class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md">Detail</button>
                                 </div>
                             </td>
                         </tr>
@@ -63,35 +88,35 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon } from "@heroicons/vue/20/solid";
-import { useRoute, useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "@vue/runtime-core";
-import axios from "axios";
+import { ArrowLeftIcon } from "@heroicons/vue/20/solid"
+import { useRoute, useRouter } from "vue-router"
+import { useAuthStore } from "@/stores/auth"
+import { onMounted, ref } from "@vue/runtime-core"
+import axios from "axios"
 
-import DataTable from "datatables.net-vue3";
-import DataTablesLib from "datatables.net";
-DataTable.use(DataTablesLib);
+import DataTable from "datatables.net-vue3"
+import DataTablesLib from "datatables.net"
+DataTable.use(DataTablesLib)
 
 // dependensi penting
-const authStore = useAuthStore();
-const route = useRoute();
-const router = useRouter();
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 
 onMounted(async () => {
-    getKelas();
-    await getFormatif();
+    getKelas()
+    await getFormatif()
     await $(document).ready(function () {
         $("#formatif").DataTable({
             paging: true,
             ordering: true,
             info: false,
-        });
-    });
-});
+        })
+    })
+})
 
 // Untuk Data Kelas
-const kelas = ref();
+const kelas = ref()
 const getKelas = () => {
     axios
         .get(`/api/Kelas/${route.params.id_kelas}`, {
@@ -100,13 +125,13 @@ const getKelas = () => {
             },
         })
         .then((res) => {
-            kelas.value = res.data;
-            console.log("Kelas :", res.data);
-        });
-};
+            kelas.value = res.data
+            console.log("Kelas :", res.data)
+        })
+}
 
 // Untuk Data Formatif
-const formatif = ref();
+const formatif = ref()
 const getFormatif = async () => {
     await axios
         .get(`/api/SiswaManagementController/${route.params.id_kelas}/Formatif/${route.params.id_sub_cpmk}`, {
@@ -115,10 +140,31 @@ const getFormatif = async () => {
             },
         })
         .then((res) => {
-            formatif.value = res.data;
-            console.log("Tes Formatif :", res.data);
-        });
-};
+            formatif.value = res.data
+            console.log("Tes Formatif :", res.data)
+        })
+}
+
+// Untuk Export
+const exportToXLS = () => {
+    axios.get(`/api/getExcel/formatif/${route.params.id_sub_cpmk}/${route.params.id_kelas}`, {
+        headers: {
+            Authorization: `Bearer ${authStore.authUser.api_token}`,
+        },
+        responseType: 'blob'
+    }).then(res => {
+        const csvHref = URL.createObjectURL(res.data)
+
+        const link = document.createElement('a')
+        link.href = csvHref
+        link.setAttribute('download', 'pass.xlsx')
+        document.body.appendChild(link)
+        link.click()
+
+        document.body.removeChild(link)
+        URL.revokeObjectURL(csvHref)
+    })
+}
 </script>
 
 <style>
