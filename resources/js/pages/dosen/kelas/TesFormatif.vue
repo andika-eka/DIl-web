@@ -21,7 +21,8 @@
             <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                     <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                        <h3 class="font-semibold text-lg">Daftar Tes Formatif</h3>
+                        <h3 class="font-semibold text-lg">Daftar Tes Formatif - Sub-CPMK Ke-{{ subcpmk?.nomorUrut_subCpmk }}
+                        </h3>
                     </div>
 
                     <button @click="exportToXLS()"
@@ -89,7 +90,7 @@
 
 <script setup>
 import { ArrowLeftIcon } from "@heroicons/vue/20/solid"
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
 import { useAuthStore } from "@/stores/auth"
 import { onMounted, ref } from "@vue/runtime-core"
 import axios from "axios"
@@ -101,10 +102,10 @@ DataTable.use(DataTablesLib)
 // dependensi penting
 const authStore = useAuthStore()
 const route = useRoute()
-const router = useRouter()
 
 onMounted(async () => {
     getKelas()
+    getSubCPMK()
     await getFormatif()
     await $(document).ready(function () {
         $("#formatif").DataTable({
@@ -128,6 +129,22 @@ const getKelas = () => {
             kelas.value = res.data
             console.log("Kelas :", res.data)
         })
+}
+
+// Untuk title subcpmk
+const subcpmk = ref()
+const getSubCPMK = () => {
+    axios
+        .get(`/api/subcpmk/${route.params.id_sub_cpmk}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.authUser.api_token}`,
+            },
+        })
+        .then((res) => {
+            subcpmk.value = res.data
+            console.log("SubCPMK :", res.data)
+        })
+
 }
 
 // Untuk Data Formatif
