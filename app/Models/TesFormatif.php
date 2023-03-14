@@ -35,7 +35,7 @@ class TesFormatif extends Model
         $jawaban = DB::table('detailtesformatif')
                         ->join('soalpilihanganda', 'detailtesformatif.id_soalPilihanGanda', '=', 'soalpilihanganda.id_soalPilihanGanda')
                         ->join('pilihanjawaban', 'detailtesformatif.id_pilihanJawaban', '=', 'pilihanjawaban.id_pilihanJawaban')
-                        ->select('detailtesformatif.nomorUrut_soal','soalpilihanganda.soal', 'pilihanjawaban.noUrut_pilihan', 'pilihanjawaban.teks_pilihan')
+                        ->select('detailtesformatif.id_tesFormatif','detailtesformatif.nomorUrut_soal','soalpilihanganda.soal', 'pilihanjawaban.noUrut_pilihan', 'pilihanjawaban.teks_pilihan')
                         ->where('detailtesformatif.id_tesFormatif', '=', $this->id_tesFormatif)
                         ->orderBy('detailtesformatif.nomorUrut_soal')
                         ->get();
@@ -223,16 +223,6 @@ class TesFormatif extends Model
         }
         $soal = $this->showSoal($noSoal);
         $jawaban = $soal->jawaban->where('noUrut_pilihan', '=', $noUrut_pilihan)->first();
-        
-        if(!$this->detail()->exists()){
-            $lastNum = 0;
-        }   
-        else{
-            $lastNum = $this->detail()->get()
-            ->sortByDesc('nomorUrut_soal')->first()
-            ->nomorUrut_soal;
-        }
-
         $detailtesformatif = DetailTesFormatif::where("nomorUrut_soal", $noSoal)
         ->where("id_tesFormatif", $this->id_tesFormatif)->first();
         $detailtesformatif->id_pilihanJawaban = $jawaban->id_pilihanJawaban;

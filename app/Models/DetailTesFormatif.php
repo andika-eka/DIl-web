@@ -9,9 +9,9 @@ class DetailTesFormatif extends Model
 {
     use HasFactory;
     protected $table = 'detailtesformatif';
-    protected $primaryKey = 'id_detailtesformatif';
+    protected $primaryKey = 'id_detailTesFormatif';
     protected $fillable = [
-        'id_detailtesformatif',
+        'id_detailTesFormatif',
         'id_tesFormatif',
         'nomorUrut_soal',
         'id_pilihanJawaban',
