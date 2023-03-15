@@ -84,8 +84,7 @@ class TesFormatif extends Model
 
         $settings = $this->subcpmkPengambilan->settingKelas();
         $id_subcpmk  = $this->subcpmkPengambilan->id_subCPMK;
-        $indikator = SubCpmk::find($id_subcpmk)->indikator->count();
-        $time  = $settings->waktu_per_soal_formatif * $indikator;
+        $time  = $settings->waktu_per_soal_formatif * $this->detail()->count();
         return $time;
     }
 
