@@ -65,7 +65,7 @@ class Sumatif extends Model
 
         $settings = $this->pengambilanKelas->kelas->settings;
         $indikator = $this->getIndikator()->count();
-        $time  = $settings->waktu_per_soal_sumatif * $indikator;
+        $time  = $settings->waktu_per_soal_sumatif * $this->detail()->count();
         return $time;
     }
 
