@@ -594,7 +594,7 @@ const getCurrMateri = () => {
 
 const nextMateri = async () => {
     await axios
-        .patch(
+        .post(
             "/api/nextMateri/" + route.params?.id,
             {},
             {
@@ -616,7 +616,7 @@ const nextMateri = async () => {
 }
 
 const nextUnit = () => {
-    axios.patch(
+    axios.post(
         `/api/nextUnit/${route.params.id}`,
         {},
         {

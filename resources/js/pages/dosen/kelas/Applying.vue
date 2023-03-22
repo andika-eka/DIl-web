@@ -30,11 +30,21 @@
                 <table id="apply_mahasiswa_table" class="display w-full">
                     <thead>
                         <tr>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">No</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nim</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Nama</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Email</th>
-                            <th class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Aksi</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                No</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nim</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Nama</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Email</th>
+                            <th
+                                class="bg-slate-50 text-slate-500 border-slate-100 px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +63,10 @@
                             </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-4">
                                 <div>
-                                    <button @click="aproveMahasiswa(item.id_siswa)" class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md"><CheckIcon class="h-5 w-5" /></button>
+                                    <button @click="aproveMahasiswa(item.id_siswa)"
+                                        class="bg-emerald-500 hover:bg-emerald-600 text-white p-2 rounded-md">
+                                        <CheckIcon class="h-5 w-5" />
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -65,35 +78,35 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon } from "@heroicons/vue/20/solid";
-import { useRoute, useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "@vue/runtime-core";
-import { CheckIcon } from "@heroicons/vue/20/solid";
-import Swal from "sweetalert2";
+import { ArrowLeftIcon } from "@heroicons/vue/20/solid"
+import { useRoute, useRouter } from "vue-router"
+import { useAuthStore } from "@/stores/auth"
+import { onMounted, ref } from "@vue/runtime-core"
+import { CheckIcon } from "@heroicons/vue/20/solid"
+import Swal from "sweetalert2"
 
-import DataTable from "datatables.net-vue3";
-import DataTablesLib from "datatables.net";
-DataTable.use(DataTablesLib);
+import DataTable from "datatables.net-vue3"
+import DataTablesLib from "datatables.net"
+DataTable.use(DataTablesLib)
 
 // dependensi penting
-const authStore = useAuthStore();
-const route = useRoute();
-const router = useRouter();
+const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 
 onMounted(async () => {
-    await getKelas();
+    await getKelas()
     await $(document).ready(function () {
         $("#apply_mahasiswa_table").DataTable({
             paging: true,
             ordering: true,
             info: false,
-        });
-    });
-});
+        })
+    })
+})
 
 // Untuk Data Kelas
-const kelas = ref();
+const kelas = ref()
 const getKelas = async () => {
     await axios
         .get(`/api/Kelas/${route.params.id_kelas}`, {
@@ -102,10 +115,10 @@ const getKelas = async () => {
             },
         })
         .then((res) => {
-            kelas.value = res.data;
-            console.log("Kelas :", res.data);
-        });
-};
+            kelas.value = res.data
+            console.log("Kelas :", res.data)
+        })
+}
 
 // aprove mahasiswa
 const aproveMahasiswa = (id_siswa) => {
@@ -120,7 +133,7 @@ const aproveMahasiswa = (id_siswa) => {
     }).then((result) => {
         if (result.isConfirmed) {
             axios
-                .patch(
+                .post(
                     `/api/SiswaManagementController/${route.params.id_kelas}/approveSiswa/${id_siswa}`,
                     {},
                     {
@@ -131,14 +144,13 @@ const aproveMahasiswa = (id_siswa) => {
                 )
                 .then(() => {
                     Swal.fire("Berhasil!", "Mahasiswa berhasil join", "success").then(() => {
-                        router.go(0);
-                    });
-                });
+                        router.go(0)
+                    })
+                })
         }
-    });
-};
+    })
+}
 </script>
 
-<style>
-@import "datatables.net-dt";
+<style>@import "datatables.net-dt";
 </style>

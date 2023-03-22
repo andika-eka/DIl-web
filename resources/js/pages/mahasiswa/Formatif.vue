@@ -447,7 +447,7 @@ const getCurrMateri = () => {
 
 const nextMateri = async () => {
     await axios
-        .patch(
+        .post(
             "/api/nextMateri/" + route.params?.id,
             {},
             {
@@ -470,7 +470,7 @@ const nextMateri = async () => {
 
 const createFormatif = () => {
     axios
-        .patch(
+        .post(
             `/api/createTestformatif/${route.params.id}`,
             {},
             {
@@ -505,7 +505,7 @@ const createFormatif = () => {
 
 const startFormatif = () => {
     axios
-        .patch(
+        .post(
             `/api/startTesFormatif/${route.params.id}`,
             {},
             {
@@ -689,7 +689,7 @@ const finishFormatif = async () => {
     }).then((result) => {
         if (result.isConfirmed) {
             axios
-                .patch(
+                .post(
                     `/api/finishTesFormatif/${route.params.id}`,
                     {},
                     {
@@ -750,7 +750,7 @@ const finishFormatif = async () => {
 }
 
 const nextUnit = () => {
-    axios.patch(
+    axios.post(
         `/api/nextUnit/${route.params.id}`,
         {},
         {
